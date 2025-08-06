@@ -1,7 +1,13 @@
 {
-  "name": "",
+  "name": "fec-tokyo.github.io",
+  "description": "FEC Tokyo Official Website",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fec-tokyo/fec-tokyo.github.io/issues"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
