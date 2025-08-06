@@ -1,0 +1,10 @@
+{
+	"speaker": [
+		{
+			"name": "John Doe",
+			"title": "The Web Developer",
+			"slide_url": "https://example.com/slides/john-doe/the-web-developer",
+			"image_url": "https://example.com/images/john-doe.jpg"
+		}
+	]
+}
