@@ -16,5 +16,8 @@
   },
   "dependencies": {
     "astro": "^5.12.8"
+  },
+  "volta": {
+    "node": "24.5.0"
   }
 }
