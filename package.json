@@ -1,23 +1,26 @@
 {
-  "name": "fec-tokyo.github.io",
-  "description": "FEC Tokyo Official Website",
-  "type": "module",
-  "version": "0.0.1",
-  "private": true,
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fec-tokyo/fec-tokyo.github.io/issues"
-  },
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^5.12.8"
-  },
-  "volta": {
-    "node": "24.5.0"
-  }
+	"name": "fec-tokyo.github.io",
+	"description": "FEC Tokyo Official Website",
+	"type": "module",
+	"version": "0.0.1",
+	"private": true,
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/fec-tokyo/fec-tokyo.github.io/issues"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"check": "biome check"
+	},
+	"dependencies": {
+		"astro": "^5.12.8"
+	},
+	"volta": {
+		"node": "24.5.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.3"
+	}
 }
