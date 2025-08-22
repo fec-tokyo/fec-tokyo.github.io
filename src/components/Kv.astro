@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import ApplyImage from "@/assets/kv-apply.svg";
+import EventNameImage from "@/assets/kv-event-name.svg";
+import LogoImage from "@/assets/kv-logo.svg";
+---
+
+<section id="kv" class="container" aria-label="KV">
+  <div class="content">
+    <Image src={LogoImage} width={200} height={200} alt="" />
+    <Image
+      src={EventNameImage}
+      width={172}
+      height={315}
+      class="eventName"
+      alt="フロントエンドカンファレンストウキョウ"
+    />
+    <div class="eventInfo">
+      <span class="location">In Shibuya, Tokyo - Abema Towers</span>
+      <span class="datetime">2025.09.21 SUN 12:00 - 19:00</span>
+    </div>
+  </div>
+  <a href="" class="apply">
+    <Image src={ApplyImage} width={200} height={200} alt="応募する" />
+  </a>
+</section>
+
+<style>
+  .container {
+    position: relative;
+    width: 100%;
+    height: 1842px;
+    margin: 0 auto;
+    overflow: hidden;
+
+    background: url("../assets/kv-background.png") center/cover no-repeat;
+    z-index: -1;
+  }
+  .content {
+    position: absolute;
+    left: 50%;
+    top: 160px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+  }
+  .eventName {
+    margin-top: 32px;
+  }
+  .eventInfo {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .eventInfo .location,
+  .eventInfo .datetime {
+    font-family:
+      "Barlow Condensed",
+      system-ui,
+      -apple-system,
+      Segoe UI,
+      Roboto,
+      Ubuntu,
+      Cantarell,
+      Noto Sans,
+      Helvetica Neue,
+      Arial,
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .apply {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 100;
+    display: inline-block;
+    cursor: pointer;
+  }
+</style>

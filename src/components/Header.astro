@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import LogoImage from "@/assets/header-logo.svg";
+---
+
+<header class="container">
+  <Image
+    src={LogoImage}
+    alt="フロントエンドカンファレンス東京"
+    width="175"
+    height="58"
+  />
+  <nav class="nav sp-hidden">
+    <a href="#timetable" class="navLink">Timetable</a>
+    <a href="#sponsors" class="navLink">Sponsors</a>
+    <a href="#faq" class="navLink">Faq</a>
+  </nav>
+</header>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 56px;
+    position: absolute;
+    width: 100%;
+    top: 48px;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 36px;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+  }
+
+  .navLink {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .navLink:hover {
+    opacity: 0.8;
+  }
+</style>

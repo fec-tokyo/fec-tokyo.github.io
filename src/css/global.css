@@ -22,6 +22,7 @@
 
 body {
 	color-scheme: dark;
+	margin: 0;
 }
 
 :where(h1),
@@ -51,4 +52,11 @@ body {
 :where(button, input, select, textarea) {
 	font-family: inherit;
 	font-size: inherit;
+}
+
+/* Utility class to hide elements on mobile */
+@media (max-width: 767px) {
+	.sp-hidden {
+		display: none;
+	}
 }
