@@ -21,6 +21,9 @@ import LogoImage from "@/assets/header-logo.svg";
 </header>
 
 <style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
   .container {
     position: fixed;
     z-index: var(--header-z-index);
@@ -45,7 +48,7 @@ import LogoImage from "@/assets/header-logo.svg";
     backdrop-filter: blur(8px);
   }
 
-  @media screen and (max-width: var(--breakpoint-sp)) {
+  @media (--breakpoint-sp) {
     .container {
       padding: 24px 16px 0;
     }

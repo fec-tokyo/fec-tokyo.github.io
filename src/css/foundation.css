@@ -1,33 +1,31 @@
-@import "./vars.css";
-
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-	}
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	:where(html:focus-within) {
-		scroll-behavior: smooth;
-	}
+  :where(html:focus-within) {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
-	margin: 0;
-	color: #fff;
-	color-scheme: dark;
-	background: #041f30;
+  margin: 0;
+  color: #fff;
+  color-scheme: dark;
+  background: #041f30;
 }
 
 :where(h1),
@@ -36,25 +34,25 @@ body {
 :where(h4),
 :where(h5),
 :where(h6) {
-	text-autospace: normal;
-	text-wrap: balance;
+  text-autospace: normal;
+  text-wrap: balance;
 }
 
 :where(p) {
-	text-autospace: normal;
+  text-autospace: normal;
 }
 
 :where(html) {
-	scrollbar-gutter: stable both-edges;
-	scrollbar-width: thin;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-width: thin;
 }
 
 :where(audio, iframe, img, svg, video) {
-	max-inline-size: 100%;
-	max-block-size: 100%;
+  max-inline-size: 100%;
+  max-block-size: 100%;
 }
 
 :where(button, input, select, textarea) {
-	font-family: inherit;
-	font-size: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }

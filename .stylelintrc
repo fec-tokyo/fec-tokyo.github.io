@@ -1,17 +1,13 @@
 {
 	"extends": [
-		"stylelint-config-standard-scss",
 		"stylelint-config-recess-order",
 		"stylelint-config-html"
 	],
-	"plugins": ["stylelint-scss", "stylelint-prettier"],
+	"plugins": ["stylelint-prettier"],
 	"rules": {
 		"at-rule-no-unknown": null,
-		"scss/at-rule-no-unknown": true,
 		"prettier/prettier": true,
 		"selector-class-pattern": null,
-		"scss/percent-placeholder-pattern": null,
-		"scss/dollar-variable-pattern": "[a-z][a-zA-Z]+"
 	},
-	"ignoreFiles": ["node_modules/**/*.{scss,css}", "dist/**/*.css"]
+	"ignoreFiles": ["node_modules/**/*.css", "dist/**/*.css"]
 }

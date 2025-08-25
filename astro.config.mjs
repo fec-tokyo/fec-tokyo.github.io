@@ -9,12 +9,10 @@ export default defineConfig({
 	},
 	vite: {
 		css: {
-			preprocessorOptions: {
-				scss: {
-					additionalData: `
-                    @use "@/css/mixins" as mixin;
-                    @use "@/css/vars" as var;
-                    `,
+			transformer: "lightningcss",
+			lightningcss: {
+				drafts: {
+					customMedia: true,
 				},
 			},
 		},

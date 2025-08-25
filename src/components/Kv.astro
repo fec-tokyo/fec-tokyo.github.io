@@ -8,7 +8,11 @@ import LogoImage from "@/assets/kv-logo.svg";
   <div class="content">
     <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
     <h1 class="eventName">
-      <span class="eventNameText">フロントエンドカンファレンストウキョウ</span>
+      <ol class="eventNameText">
+        <li class="eventNameColumn">フロントエンド</li>
+        <li class="eventNameColumn">カンファレンス</li>
+        <li class="eventNameColumn">トウキョウ</li>
+      </ol>
     </h1>
     <div class="eventInfo">
       <span class="location">In Shibuya, Tokyo - Abema Towers</span>
@@ -23,6 +27,9 @@ import LogoImage from "@/assets/kv-logo.svg";
 </section>
 
 <style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
   .container {
     position: relative;
     width: 100%;
@@ -52,14 +59,27 @@ import LogoImage from "@/assets/kv-logo.svg";
   }
 
   .eventNameText {
-    display: inline-block;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
     height: 315px;
-    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .eventNameColumn {
+    display: block;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 44px);
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1;
+    vertical-align: top;
     color: #fff;
+    text-align: start;
+    letter-spacing: 0.02em;
     text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
     writing-mode: vertical-rl;
     text-orientation: upright;
@@ -76,7 +96,7 @@ import LogoImage from "@/assets/kv-logo.svg";
   .eventInfo .location,
   .eventInfo .datetime {
     font-family: "Barlow Condensed", sans-serif;
-    font-size: clamp(16px, 4cqw, 20px);
+    font-size: clamp(16px, 4vw, 20px);
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.01em;
@@ -96,7 +116,7 @@ import LogoImage from "@/assets/kv-logo.svg";
       outline 0.2s ease;
   }
 
-  @media screen and (max-width: var(--breakpoint-sp)) {
+  @media (--breakpoint-sp) {
     .container {
       height: 1067px;
       background:
@@ -118,8 +138,8 @@ import LogoImage from "@/assets/kv-logo.svg";
     }
 
     .eventNameText {
+      gap: 16px;
       height: 220px;
-      font-size: 18px;
     }
 
     .eventInfo {
