@@ -7,7 +7,7 @@ import LogoImage from "@/assets/kv-logo.svg";
 
 <section id="kv" class="container" aria-label="KV">
   <div class="content">
-    <Image src={LogoImage} width={200} height={200} alt="" />
+    <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
     <Image
       src={EventNameImage}
       width={172}
@@ -25,7 +25,7 @@ import LogoImage from "@/assets/kv-logo.svg";
   </a>
 </section>
 
-<style>
+<style lang="scss">
   .container {
     position: relative;
     width: 100%;
@@ -35,6 +35,11 @@ import LogoImage from "@/assets/kv-logo.svg";
 
     background: url("../assets/kv-background.png") center/cover no-repeat;
     z-index: -1;
+
+    @include mixin.media-sp {
+      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
+      height: 1067px;
+    }
   }
   .content {
     position: absolute;
@@ -46,9 +51,23 @@ import LogoImage from "@/assets/kv-logo.svg";
     align-items: center;
     color: #fff;
     text-align: center;
+    @include mixin.media-sp {
+      top: 144px;
+    }
+  }
+  .logo {
+    @include mixin.media-sp {
+      width: 144px;
+      height: 144px;
+    }
   }
   .eventName {
     margin-top: 32px;
+    @include mixin.media-sp {
+      width: 120px;
+      height: 220px;
+      margin-top: 24px;
+    }
   }
   .eventInfo {
     margin-top: 64px;
@@ -56,6 +75,10 @@ import LogoImage from "@/assets/kv-logo.svg";
     flex-direction: column;
     align-items: center;
     gap: 12px;
+
+    @include mixin.media-sp {
+      margin-top: 48px;
+    }
   }
   .eventInfo .location,
   .eventInfo .datetime {
@@ -77,6 +100,10 @@ import LogoImage from "@/assets/kv-logo.svg";
     font-size: 20px;
     line-height: 1;
     letter-spacing: 0.01em;
+    text-wrap: nowrap;
+    @include mixin.media-sp {
+      letter-spacing: 0.001em;
+    }
   }
   .apply {
     position: fixed;
@@ -85,5 +112,9 @@ import LogoImage from "@/assets/kv-logo.svg";
     z-index: 100;
     display: inline-block;
     cursor: pointer;
+
+    @include mixin.media-sp {
+      display: none;
+    }
   }
 </style>

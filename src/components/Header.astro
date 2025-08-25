@@ -9,15 +9,16 @@ import LogoImage from "@/assets/header-logo.svg";
     alt="フロントエンドカンファレンス東京"
     width={175}
     height={58}
+    class="logo"
   />
-  <nav class="nav sp-hidden">
+  <nav class="nav">
     <a href="#timetable" class="navLink">Timetable</a>
     <a href="#sponsors" class="navLink">Sponsors</a>
     <a href="#faq" class="navLink">Faq</a>
   </nav>
 </header>
 
-<style>
+<style lang="scss">
   .container {
     display: flex;
     flex-direction: row;
@@ -27,6 +28,18 @@ import LogoImage from "@/assets/header-logo.svg";
     position: absolute;
     width: 100%;
     top: 48px;
+
+    @include mixin.media-sp {
+      top: 24px;
+      padding: 0 16px;
+    }
+  }
+
+  .logo {
+    @include mixin.media-sp {
+      width: 144px;
+      height: 47px;
+    }
   }
 
   .nav {
@@ -39,6 +52,10 @@ import LogoImage from "@/assets/header-logo.svg";
     border: 1px solid rgba(255, 255, 255, 0.32);
     border-radius: 9999px;
     backdrop-filter: blur(4px);
+
+    @include mixin.media-sp {
+      display: none;
+    }
   }
 
   .navLink {

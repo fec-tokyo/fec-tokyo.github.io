@@ -1,5 +1,5 @@
 ---
-import "../css/global.css";
+import GlobalStyles from "@/css/GlobalStyles.astro";
 ---
 
 <!doctype html>
@@ -11,13 +11,9 @@ import "../css/global.css";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>Frontend Conference Tokyo</title>
+    <GlobalStyles />
   </head>
   <body>
     <slot />
   </body>
 </html>
-<style>
-  body {
-    background: #041f30;
-  }
-</style>

@@ -1,0 +1,79 @@
+<style is:global lang="scss">
+  :root {
+    --breakpoint-sp: var(--breakpointSp);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :where(html:focus-within) {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    color-scheme: dark;
+    margin: 0;
+
+    background: #041f30;
+  }
+
+  :where(h1),
+  :where(h2),
+  :where(h3),
+  :where(h4),
+  :where(h5),
+  :where(h6) {
+    text-autospace: normal;
+    text-wrap: balance;
+  }
+
+  :where(p) {
+    text-autospace: normal;
+  }
+
+  :where(html) {
+    scrollbar-gutter: stable both-edges;
+    scrollbar-width: thin;
+  }
+
+  :where(audio, iframe, img, svg, video) {
+    max-block-size: 100%;
+    max-inline-size: 100%;
+  }
+
+  :where(button, input, select, textarea) {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .onlyPc {
+    display: block;
+
+    .inline {
+      display: inline;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    @include mixin.media-sp {
+      display: none;
+    }
+  }
+</style>
