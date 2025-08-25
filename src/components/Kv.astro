@@ -5,43 +5,34 @@ import EventNameImage from "@/assets/kv-event-name.svg";
 import LogoImage from "@/assets/kv-logo.svg";
 ---
 
-<section id="kv" class="container" aria-label="メインビジュアルとイベント情報">
+<section id="kv" class="container">
   <div class="content">
-    <h1 class="visually-hidden">Frontend Conference Tokyo 2025</h1>
-    <Image
-      src={LogoImage}
-      width={200}
-      height={200}
-      alt="Frontend Conference Tokyo ロゴ"
-      class="logo"
-    />
-    <Image
-      src={EventNameImage}
-      width={172}
-      height={315}
-      class="eventName"
-      alt="フロントエンドカンファレンストウキョウ"
-    />
+    <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
+    <h1>
+      <Image
+        src={EventNameImage}
+        width={172}
+        height={315}
+        class="eventName"
+        alt="フロントエンドカンファレンストウキョウ"
+      />
+    </h1>
     <div class="eventInfo">
       <span class="location">In Shibuya, Tokyo - Abema Towers</span>
       <span class="datetime">2025.09.21 SUN 12:00 - 19:00</span>
     </div>
   </div>
-  <a href="#apply" class="apply" aria-label="イベントに応募する">
-    <Image src={ApplyImage} width={200} height={200} alt="応募ボタン" />
+  <a href="#apply" class="apply">
+    <Image src={ApplyImage} width={200} height={200} alt="応募する" />
   </a>
 </section>
 
 <style lang="scss">
-  @use "@/scss/mixin" as mixin;
-
   .container {
     position: relative;
     width: 100%;
     height: 1842px;
-    margin: 0 auto;
     overflow: hidden;
-    z-index: -1;
     background: url("../assets/kv-background.png") center/cover no-repeat;
 
     @include mixin.media-sp {
@@ -57,7 +48,7 @@ import LogoImage from "@/assets/kv-logo.svg";
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #ffffff;
+    color: #fff;
     text-align: center;
     transform: translateX(-50%);
 
@@ -86,8 +77,8 @@ import LogoImage from "@/assets/kv-logo.svg";
   .eventInfo {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 12px;
+    align-items: center;
     margin-top: 64px;
 
     @include mixin.media-sp {
@@ -96,26 +87,13 @@ import LogoImage from "@/assets/kv-logo.svg";
 
     .location,
     .datetime {
-      font-family:
-        "Barlow Condensed",
-        system-ui,
-        -apple-system,
-        "Segoe UI",
-        Roboto,
-        Ubuntu,
-        Cantarell,
-        "Noto Sans",
-        "Helvetica Neue",
-        Arial,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol";
-      font-weight: bold;
+      font-family: "Barlow Condensed", sans-serif;
       font-size: 20px;
+      font-weight: bold;
       line-height: 1;
       letter-spacing: 0.01em;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
       text-wrap: nowrap;
+      text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
 
       @include mixin.media-sp {
         letter-spacing: 0.001em;
@@ -127,9 +105,8 @@ import LogoImage from "@/assets/kv-logo.svg";
     position: fixed;
     right: 40px;
     bottom: 40px;
-    z-index: 100;
+    z-index: var.$apply-button-z-index;
     display: inline-block;
-    cursor: pointer;
     border-radius: 50%;
     transition:
       transform 0.2s ease,
@@ -141,16 +118,6 @@ import LogoImage from "@/assets/kv-logo.svg";
 
     &:hover {
       transform: scale(1.05);
-    }
-
-    &:focus,
-    &:focus-visible {
-      outline: 3px solid #ffffff;
-      outline-offset: 4px;
-    }
-
-    &:focus-visible {
-      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 </style>

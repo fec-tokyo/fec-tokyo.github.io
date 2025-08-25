@@ -6,7 +6,7 @@ import LogoImage from "@/assets/header-logo.svg";
 <header class="container" role="banner">
   <Image
     src={LogoImage}
-    alt="Frontend Conference Tokyo ロゴ"
+    alt="Frontend Conference Tokyo"
     width={175}
     height={58}
     class="logo"
@@ -20,18 +20,17 @@ import LogoImage from "@/assets/header-logo.svg";
 
 <style lang="scss">
   .container {
+    position: fixed;
+    z-index: var.$header-z-index;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 56px;
-    position: absolute;
+    justify-content: space-between;
     width: 100%;
-    top: 48px;
+    padding: 48px 56px 0;
 
     @include mixin.media-sp {
-      top: 24px;
-      padding: 0 16px;
+      padding: 24px 16px 0;
     }
   }
 
@@ -45,14 +44,14 @@ import LogoImage from "@/assets/header-logo.svg";
   .nav {
     display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 36px;
+    align-items: center;
     padding: 16px 32px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgb(255 255 255 / 15%);
+    border: 1px solid rgb(255 255 255 / 40%);
     border-radius: 9999px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
     backdrop-filter: blur(8px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 
     @include mixin.media-sp {
       display: none;
@@ -61,16 +60,14 @@ import LogoImage from "@/assets/header-logo.svg";
 
   .navLink {
     font-family: "Barlow Condensed", sans-serif;
-    font-weight: bold;
     font-size: 20px;
+    font-weight: bold;
     line-height: 1em;
+    color: #fff;
     text-transform: uppercase;
-    color: #ffffff;
     text-decoration: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
     border-radius: 4px;
-    padding: 8px 12px;
-    margin: -8px -12px;
     transition:
       opacity 0.2s ease,
       outline 0.2s ease;
@@ -81,14 +78,14 @@ import LogoImage from "@/assets/header-logo.svg";
   }
 
   .navLink:focus {
-    outline: 2px solid #ffffff;
+    outline: 2px solid #fff;
     outline-offset: 2px;
     opacity: 1;
   }
 
   .navLink:focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid #fff;
     outline-offset: 2px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgb(255 255 255 / 10%);
   }
 </style>

@@ -1,4 +1,4 @@
-@use '@/css/_vars.scss' as var;
+@use "@/css/_vars.scss" as var;
 
 @mixin media-sp() {
   @media #{'screen and (max-width: #{var.$breakpoint-sp})'} {
