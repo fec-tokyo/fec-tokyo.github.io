@@ -5,9 +5,16 @@ import EventNameImage from "@/assets/kv-event-name.svg";
 import LogoImage from "@/assets/kv-logo.svg";
 ---
 
-<section id="kv" class="container" aria-label="KV">
+<section id="kv" class="container" aria-label="メインビジュアルとイベント情報">
   <div class="content">
-    <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
+    <h1 class="visually-hidden">Frontend Conference Tokyo 2025</h1>
+    <Image
+      src={LogoImage}
+      width={200}
+      height={200}
+      alt="Frontend Conference Tokyo ロゴ"
+      class="logo"
+    />
     <Image
       src={EventNameImage}
       width={172}
@@ -20,91 +27,102 @@ import LogoImage from "@/assets/kv-logo.svg";
       <span class="datetime">2025.09.21 SUN 12:00 - 19:00</span>
     </div>
   </div>
-  <a href="" class="apply">
-    <Image src={ApplyImage} width={200} height={200} alt="応募する" />
+  <a href="#apply" class="apply" aria-label="イベントに応募する">
+    <Image src={ApplyImage} width={200} height={200} alt="応募ボタン" />
   </a>
 </section>
 
 <style lang="scss">
+  @use "@/scss/mixin" as mixin;
+
   .container {
     position: relative;
     width: 100%;
     height: 1842px;
     margin: 0 auto;
     overflow: hidden;
-
-    background: url("../assets/kv-background.png") center/cover no-repeat;
     z-index: -1;
+    background: url("../assets/kv-background.png") center/cover no-repeat;
 
     @include mixin.media-sp {
-      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
       height: 1067px;
+      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
     }
   }
+
   .content {
     position: absolute;
-    left: 50%;
     top: 160px;
-    transform: translateX(-50%);
+    left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #fff;
+    color: #ffffff;
     text-align: center;
+    transform: translateX(-50%);
+
     @include mixin.media-sp {
       top: 144px;
     }
   }
+
   .logo {
     @include mixin.media-sp {
       width: 144px;
       height: 144px;
     }
   }
+
   .eventName {
     margin-top: 32px;
+
     @include mixin.media-sp {
       width: 120px;
       height: 220px;
       margin-top: 24px;
     }
   }
+
   .eventInfo {
-    margin-top: 64px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    margin-top: 64px;
 
     @include mixin.media-sp {
       margin-top: 48px;
     }
-  }
-  .eventInfo .location,
-  .eventInfo .datetime {
-    font-family:
-      "Barlow Condensed",
-      system-ui,
-      -apple-system,
-      Segoe UI,
-      Roboto,
-      Ubuntu,
-      Cantarell,
-      Noto Sans,
-      Helvetica Neue,
-      Arial,
-      "Apple Color Emoji",
-      "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 1;
-    letter-spacing: 0.01em;
-    text-wrap: nowrap;
-    @include mixin.media-sp {
-      letter-spacing: 0.001em;
+
+    .location,
+    .datetime {
+      font-family:
+        "Barlow Condensed",
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Ubuntu,
+        Cantarell,
+        "Noto Sans",
+        "Helvetica Neue",
+        Arial,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol";
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+      text-wrap: nowrap;
+
+      @include mixin.media-sp {
+        letter-spacing: 0.001em;
+      }
     }
   }
+
   .apply {
     position: fixed;
     right: 40px;
@@ -112,9 +130,27 @@ import LogoImage from "@/assets/kv-logo.svg";
     z-index: 100;
     display: inline-block;
     cursor: pointer;
+    border-radius: 50%;
+    transition:
+      transform 0.2s ease,
+      outline 0.2s ease;
 
     @include mixin.media-sp {
       display: none;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: 3px solid #ffffff;
+      outline-offset: 4px;
+    }
+
+    &:focus-visible {
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 </style>
