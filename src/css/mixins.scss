@@ -1,7 +1,0 @@
-@use "@/css/vars.scss" as var;
-
-@mixin media-sp() {
-  @media #{'screen and (max-width: #{var.$breakpoint-sp})'} {
-    @content;
-  }
-}

@@ -1,25 +1,20 @@
 ---
 import { Image } from "astro:assets";
 import ApplyImage from "@/assets/kv-apply.svg";
-import EventNameImage from "@/assets/kv-event-name.svg";
 import LogoImage from "@/assets/kv-logo.svg";
 ---
 
 <section id="kv" class="container">
   <div class="content">
     <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
-    <h1>
-      <Image
-        src={EventNameImage}
-        width={172}
-        height={315}
-        class="eventName"
-        alt="フロントエンドカンファレンストウキョウ"
-      />
+    <h1 class="eventName">
+      <span class="eventNameText">フロントエンドカンファレンストウキョウ</span>
     </h1>
     <div class="eventInfo">
       <span class="location">In Shibuya, Tokyo - Abema Towers</span>
-      <span class="datetime">2025.09.21 SUN 12:00 - 19:00</span>
+      <span class="datetime"
+        ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time> - 19:00</span
+      >
     </div>
   </div>
   <a href="#apply" class="apply">
@@ -27,18 +22,15 @@ import LogoImage from "@/assets/kv-logo.svg";
   </a>
 </section>
 
-<style lang="scss">
+<style>
   .container {
     position: relative;
     width: 100%;
     height: 1842px;
     overflow: hidden;
-    background: url("../assets/kv-background.png") center/cover no-repeat;
-
-    @include mixin.media-sp {
-      height: 1067px;
-      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
-    }
+    background:
+      url("../assets/kv-background.png") center/cover no-repeat,
+      #041f30;
   }
 
   .content {
@@ -51,27 +43,26 @@ import LogoImage from "@/assets/kv-logo.svg";
     color: #fff;
     text-align: center;
     transform: translateX(-50%);
-
-    @include mixin.media-sp {
-      top: 144px;
-    }
-  }
-
-  .logo {
-    @include mixin.media-sp {
-      width: 144px;
-      height: 144px;
-    }
   }
 
   .eventName {
     margin-top: 32px;
+    font-size: 0;
+    line-height: 1;
+  }
 
-    @include mixin.media-sp {
-      width: 120px;
-      height: 220px;
-      margin-top: 24px;
-    }
+  .eventNameText {
+    display: inline-block;
+    height: 315px;
+    overflow: hidden;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+    text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
   }
 
   .eventInfo {
@@ -80,43 +71,73 @@ import LogoImage from "@/assets/kv-logo.svg";
     gap: 12px;
     align-items: center;
     margin-top: 64px;
+  }
 
-    @include mixin.media-sp {
-      margin-top: 48px;
-    }
-
-    .location,
-    .datetime {
-      font-family: "Barlow Condensed", sans-serif;
-      font-size: 20px;
-      font-weight: bold;
-      line-height: 1;
-      letter-spacing: 0.01em;
-      text-wrap: nowrap;
-      text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
-
-      @include mixin.media-sp {
-        letter-spacing: 0.001em;
-      }
-    }
+  .eventInfo .location,
+  .eventInfo .datetime {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: clamp(16px, 4cqw, 20px);
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-wrap: nowrap;
+    text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
   }
 
   .apply {
     position: fixed;
     right: 40px;
     bottom: 40px;
-    z-index: var.$apply-button-z-index;
+    z-index: var(--apply-button-z-index);
     display: inline-block;
     border-radius: 50%;
     transition:
       transform 0.2s ease,
       outline 0.2s ease;
+  }
 
-    @include mixin.media-sp {
-      display: none;
+  @media screen and (max-width: var(--breakpoint-sp)) {
+    .container {
+      height: 1067px;
+      background:
+        url("../assets/kv-background-sp.png") center/cover no-repeat,
+        #041f30;
     }
 
-    &:hover {
+    .content {
+      top: 144px;
+    }
+
+    .logo {
+      width: 144px;
+      height: 144px;
+    }
+
+    .eventName {
+      margin-top: 24px;
+    }
+
+    .eventNameText {
+      height: 220px;
+      font-size: 18px;
+    }
+
+    .eventInfo {
+      margin-top: 48px;
+    }
+
+    .eventInfo .location,
+    .eventInfo .datetime {
+      letter-spacing: 0.001em;
+    }
+
+    .apply {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .apply:hover {
       transform: scale(1.05);
     }
   }

@@ -3,42 +3,33 @@ import { Image } from "astro:assets";
 import LogoImage from "@/assets/header-logo.svg";
 ---
 
-<header class="container" role="banner">
-  <Image
-    src={LogoImage}
-    alt="Frontend Conference Tokyo"
-    width={175}
-    height={58}
-    class="logo"
-  />
-  <nav class="nav" role="navigation" aria-label="メインナビゲーション">
+<header class="container">
+  <a href="/">
+    <Image
+      src={LogoImage}
+      alt="Frontend Conference Tokyo"
+      width={175}
+      height={58}
+      class="logo"
+    />
+  </a>
+  <nav class="nav" aria-label="メインナビゲーション">
     <a href="#timetable" class="navLink">Timetable</a>
     <a href="#sponsors" class="navLink">Sponsors</a>
     <a href="#faq" class="navLink">Faq</a>
   </nav>
 </header>
 
-<style lang="scss">
+<style>
   .container {
     position: fixed;
-    z-index: var.$header-z-index;
+    z-index: var(--header-z-index);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding: 48px 56px 0;
-
-    @include mixin.media-sp {
-      padding: 24px 16px 0;
-    }
-  }
-
-  .logo {
-    @include mixin.media-sp {
-      width: 144px;
-      height: 47px;
-    }
   }
 
   .nav {
@@ -49,11 +40,22 @@ import LogoImage from "@/assets/header-logo.svg";
     padding: 16px 32px;
     background: rgb(255 255 255 / 15%);
     border: 1px solid rgb(255 255 255 / 40%);
-    border-radius: 9999px;
+    border-radius: 100vh;
     box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
     backdrop-filter: blur(8px);
+  }
 
-    @include mixin.media-sp {
+  @media screen and (max-width: var(--breakpoint-sp)) {
+    .container {
+      padding: 24px 16px 0;
+    }
+
+    .logo {
+      width: 144px;
+      height: 47px;
+    }
+
+    .nav {
       display: none;
     }
   }
@@ -73,19 +75,14 @@ import LogoImage from "@/assets/header-logo.svg";
       outline 0.2s ease;
   }
 
-  .navLink:hover {
-    opacity: 0.8;
-  }
-
-  .navLink:focus {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-    opacity: 1;
+  @media (hover: hover) {
+    .navLink:hover {
+      opacity: 0.8;
+    }
   }
 
   .navLink:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 2px;
-    background-color: rgb(255 255 255 / 10%);
   }
 </style>

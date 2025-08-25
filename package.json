@@ -19,7 +19,7 @@
 		"screenshots": "playwright test",
 		"markuplint": "markuplint src/**/*.astro",
 		"markuplint:dist": "npm run build && markuplint 'dist/**/*.html'",
-		"stylelint": "stylelint --fix 'src/**/*.{astro,scss}'",
+		"stylelint": "stylelint --fix 'src/**/*.{astro,css}'",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -39,16 +39,13 @@
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.6.2",
 		"prettier-plugin-astro": "^0.14.1",
-		"sass": "^1.90.0",
 		"serve": "^14.2.4",
 		"stylelint": "^16.23.1",
 		"stylelint-config-html": "^1.1.0",
 		"stylelint-config-recess-order": "^7.2.0",
 		"stylelint-config-standard": "^39.0.0",
-		"stylelint-config-standard-scss": "^15.0.1",
 		"stylelint-order": "^7.0.0",
-		"stylelint-prettier": "^5.0.3",
-		"stylelint-scss": "^6.12.1"
+		"stylelint-prettier": "^5.0.3"
 	},
 	"lint-staged": {
 		"*.{js,ts,astro}": [
