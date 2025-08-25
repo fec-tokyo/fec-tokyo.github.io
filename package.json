@@ -12,7 +12,7 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"check": "biome check",
+		"check": "biome check --no-errors-on-unmatched",
 		"format": "prettier --write --ignore-unknown src/**/*.astro",
 		"serve": "serve dist -p 3000",
 		"prescreenshots": "astro build",

@@ -13,7 +13,8 @@
 			"!**/dist/**",
 			"!**/build/**",
 			"!**/.git/**",
-			"!**/.astro/**"
+			"!**/.astro/**",
+			"!**/.claude/utils/**"
 		]
 	},
 	"formatter": {
