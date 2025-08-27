@@ -8,16 +8,15 @@ import LogoImage from "@/assets/kv-logo.svg";
   <div class="content">
     <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
     <h1 class="eventName">
-      <ol class="eventNameText">
-        <li class="eventNameColumn">フロントエンド</li>
-        <li class="eventNameColumn">カンファレンス</li>
-        <li class="eventNameColumn">トウキョウ</li>
-      </ol>
+      <span class="eventNameColumn">フロントエンド</span>
+      <span class="eventNameColumn">カンファレンス</span>
+      <span class="eventNameColumn">トウキョウ</span>
     </h1>
     <div class="eventInfo">
       <span class="location">In Shibuya, Tokyo - Abema Towers</span>
       <span class="datetime"
-        ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time> - 19:00</span
+        ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time
+        ><span class="timeSeparator">–</span>19:00</span
       >
     </div>
   </div>
@@ -51,20 +50,15 @@ import LogoImage from "@/assets/kv-logo.svg";
   }
 
   .eventName {
-    margin-top: 32px;
-    font-size: 0;
-    line-height: 1;
-  }
-
-  .eventNameText {
     display: flex;
     flex-direction: row-reverse;
     gap: 24px;
     align-items: flex-start;
     justify-content: center;
     padding: 0;
-    margin: 0;
-    list-style: none;
+    margin-top: 32px;
+    font-size: 0;
+    line-height: 1;
   }
 
   .eventNameColumn {
@@ -98,6 +92,10 @@ import LogoImage from "@/assets/kv-logo.svg";
     text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
   }
 
+  .timeSeparator {
+    margin: 0 0.3em;
+  }
+
   .apply {
     position: fixed;
     right: 40px;
@@ -126,11 +124,8 @@ import LogoImage from "@/assets/kv-logo.svg";
     }
 
     .eventName {
-      margin-top: 20px;
-    }
-
-    .eventNameText {
       gap: 16px;
+      margin-top: 20px;
     }
 
     .eventInfo {

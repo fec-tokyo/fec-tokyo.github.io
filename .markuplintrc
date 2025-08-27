@@ -1,0 +1,28 @@
+{
+	"parser": {
+		".astro$": "@markuplint/astro-parser"
+	},
+	"extends": ["markuplint:recommended"],
+	"nodeRules": [
+		{
+			"regexSelector": {
+				"nodeName": "/^img$/",
+				"attrName": "/^decoding$/",
+				"attrValue": "/^(auto|sync|async)$/"
+			},
+			"rules": {
+				"required-attr": false
+			}
+		},
+		{
+			"regexSelector": {
+				"nodeName": "/^meta$/",
+				"attrName": "/^color-scheme$/"
+			},
+			"rules": {
+				"required-attr": false,
+				"invalid-attr": false
+			}
+		}
+	]
+}
