@@ -1,0 +1,5 @@
+:root {
+  /* z-index */
+  --header-z-index: 50;
+  --apply-button-z-index: 100;
+}

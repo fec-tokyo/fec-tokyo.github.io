@@ -1,0 +1,150 @@
+---
+import { Image } from "astro:assets";
+import ApplyImage from "@/assets/kv-apply.svg";
+import LogoImage from "@/assets/kv-logo.svg";
+---
+
+<section id="kv" class="container">
+  <div class="content">
+    <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
+    <h1 class="eventName">
+      <span class="eventNameColumn">フロントエンド</span>
+      <span class="eventNameColumn">カンファレンス</span>
+      <span class="eventNameColumn">トウキョウ</span>
+    </h1>
+    <div class="eventInfo">
+      <span class="location">In Shibuya, Tokyo - Abema Towers</span>
+      <span class="datetime"
+        ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time
+        ><span class="timeSeparator">–</span>19:00</span
+      >
+    </div>
+  </div>
+  <a href="#apply" class="apply">
+    <Image src={ApplyImage} width={200} height={200} alt="応募する" />
+  </a>
+</section>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+    width: 100%;
+    height: 1842px;
+    overflow: hidden;
+    background: url("../assets/kv-background.png") center/cover no-repeat;
+  }
+
+  .content {
+    position: absolute;
+    top: 160px;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .eventName {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin-top: 32px;
+    font-size: 0;
+    line-height: 1;
+  }
+
+  .eventNameColumn {
+    display: block;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: bold;
+    vertical-align: top;
+    text-align: start;
+    letter-spacing: 0.02em;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+
+  .eventInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 64px;
+  }
+
+  .eventInfo .location,
+  .eventInfo .datetime {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-wrap: nowrap;
+    text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  }
+
+  .timeSeparator {
+    margin: 0 0.3em;
+  }
+
+  .apply {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: var(--apply-button-z-index);
+    display: inline-block;
+    border-radius: 50%;
+    transition:
+      transform 0.2s ease,
+      outline 0.2s ease;
+  }
+
+  @media (--breakpoint-sp) {
+    .container {
+      height: 1067px;
+      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
+    }
+
+    .content {
+      top: 144px;
+    }
+
+    .logo {
+      width: 144px;
+      height: 144px;
+    }
+
+    .eventName {
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .eventInfo {
+      margin-top: 44px;
+    }
+
+    .eventInfo .location,
+    .eventInfo .datetime {
+      letter-spacing: 0.001em;
+    }
+
+    .apply {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) {
+    .apply:hover {
+      transform: scale(1.05);
+    }
+  }
+</style>

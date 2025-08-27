@@ -12,21 +12,50 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"check": "biome check",
+		"check": "biome check --no-errors-on-unmatched",
+		"format": "prettier --write --ignore-unknown src/**/*.astro",
 		"serve": "serve dist -p 3000",
 		"prescreenshots": "astro build",
-		"screenshots": "playwright test"
+		"screenshots": "playwright test",
+		"markuplint": "markuplint src/**/*.astro",
+		"markuplint:dist": "npm run build && markuplint 'dist/**/*.html'",
+		"stylelint": "stylelint --fix 'src/**/*.{astro,css}'",
+		"prepare": "husky"
 	},
 	"dependencies": {
-		"astro": "^5.12.8"
+		"astro": "^5.12.8",
+		"lightningcss": "^1.30.1"
 	},
 	"volta": {
 		"node": "24.5.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.3",
+		"@markuplint/astro-parser": "^4.6.21",
 		"@playwright/test": "^1.54.2",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.1.5",
+		"markuplint": "^4.13.1",
 		"playwright": "^1.54.2",
-		"serve": "^14.2.4"
+		"postcss-html": "^1.8.0",
+		"prettier": "^3.6.2",
+		"prettier-plugin-astro": "^0.14.1",
+		"serve": "^14.2.4",
+		"stylelint": "^16.23.1",
+		"stylelint-config-html": "^1.1.0",
+		"stylelint-config-recess-order": "^7.2.0",
+		"stylelint-config-standard": "^39.0.0",
+		"stylelint-order": "^7.0.0",
+		"stylelint-prettier": "^5.0.3"
+	},
+	"lint-staged": {
+		"*.{js,ts,astro}": [
+			"npm run check",
+			"prettier --write"
+		],
+		"*.astro": [
+			"markuplint",
+			"stylelint"
+		]
 	}
 }
