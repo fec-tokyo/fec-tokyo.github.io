@@ -1,1 +1,5 @@
 @custom-media --breakpoint-sp (max-width: 767px);
+
+.noBreak {
+  white-space: nowrap;
+}

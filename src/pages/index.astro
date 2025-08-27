@@ -1,12 +1,26 @@
 ---
+import Apply from "@/components/Apply.astro";
 import Header from "@/components/Header.astro";
+import Introduction from "@/components/Introduction.astro";
 import Kv from "@/components/Kv.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout>
   <Header />
-  <main>
+  <main class="main">
     <Kv />
+    <Introduction />
+    <Apply />
   </main>
 </Layout>
+<style>
+  .main {
+    /* z-index: -10;
+    background: var(--bg-light);
+    background-image: url("../assets/kv-tile-bg.png");
+    background-blend-mode: multiply;
+    mix-blend-mode: multiply;
+    isolation: isolate; */
+  }
+</style>

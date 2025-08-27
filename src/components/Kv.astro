@@ -1,10 +1,14 @@
 ---
 import { Image } from "astro:assets";
-import ApplyImage from "@/assets/kv-apply.svg";
 import LogoImage from "@/assets/kv-logo.svg";
 ---
 
 <section id="kv" class="container">
+  <div class="bg">
+    <div class="tile"></div>
+    <div class="traffic"></div>
+  </div>
+  <div class="people"></div>
   <div class="content">
     <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
     <h1 class="eventName">
@@ -20,9 +24,6 @@ import LogoImage from "@/assets/kv-logo.svg";
       >
     </div>
   </div>
-  <a href="#apply" class="apply">
-    <Image src={ApplyImage} width={200} height={200} alt="応募する" />
-  </a>
 </section>
 
 <style>
@@ -31,10 +32,38 @@ import LogoImage from "@/assets/kv-logo.svg";
 
   .container {
     position: relative;
+    z-index: var(--base-z-index);
     width: 100%;
-    height: 1842px;
-    overflow: hidden;
-    background: url("../assets/kv-background.png") center/cover no-repeat;
+    height: 100vh;
+  }
+
+  .bg {
+    position: relative;
+    isolation: isolate;
+  }
+  .traffic,
+  .tile,
+  .overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    mix-blend-mode: soft-light;
+  }
+  .traffic {
+    background: url("../assets/kv-traffic.png") center center / cover no-repeat;
+  }
+  .tile {
+    background:
+      linear-gradient(rgba(4, 31, 48, 0.9), rgba(4, 31, 48, 0.9)),
+      url("../assets/kv-tile-bg.png") center center / cover no-repeat;
+  }
+
+  .people {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    background: url("../assets/kv-pedestrian.png") center center / cover
+      no-repeat;
   }
 
   .content {
@@ -96,22 +125,15 @@ import LogoImage from "@/assets/kv-logo.svg";
     margin: 0 0.3em;
   }
 
-  .apply {
-    position: fixed;
-    right: 40px;
-    bottom: 40px;
-    z-index: var(--apply-button-z-index);
-    display: inline-block;
-    border-radius: 50%;
-    transition:
-      transform 0.2s ease,
-      outline 0.2s ease;
-  }
-
   @media (--breakpoint-sp) {
-    .container {
-      height: 1067px;
-      background: url("../assets/kv-background-sp.png") center/cover no-repeat;
+    .traffic {
+      background: url("../assets/kv-traffic-sp.png") center center / cover
+        no-repeat;
+    }
+
+    .people {
+      background: url("../assets/kv-pedestrian-sp.png") center center / cover
+        no-repeat;
     }
 
     .content {
@@ -135,16 +157,6 @@ import LogoImage from "@/assets/kv-logo.svg";
     .eventInfo .location,
     .eventInfo .datetime {
       letter-spacing: 0.001em;
-    }
-
-    .apply {
-      display: none;
-    }
-  }
-
-  @media (hover: hover) {
-    .apply:hover {
-      transform: scale(1.05);
     }
   }
 </style>

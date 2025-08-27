@@ -1,5 +1,13 @@
 :root {
   /* z-index */
+  --base-z-index: 0;
   --header-z-index: 50;
+  --kv-z-index: 40;
+  --intro-decoration-z-index: 20;
+  --intro-contents-z-index: 30;
   --apply-button-z-index: 100;
+
+  /* color */
+  --bg-light: #041f30;
+  --bg-dark: #030c12;
 }

@@ -1,0 +1,435 @@
+---
+
+---
+
+<section id="introduction" class="container">
+  <div class="backgroundTop"></div>
+  <div class="content">
+    <div class="info">
+      <h2 class="title">
+        <span class="emphasis">東京発、</span>
+        <span class="normal"
+          ><span class="noBreak">フロントエンド</span>の交差点。</span
+        >
+      </h2>
+      <p class="message">
+        ついに、フロントエンドのカンファレンスが東京にやってくる！<br
+        />現場で向き合ってきた技術、語り合いたかった問い<br
+        />それぞれの関心が交差し、新しいつながりが生まれる場所へようこそ！
+      </p>
+      <div class="datetime">
+        <div class="dateInfo">
+          <span class="dateLabel">DATE</span>
+          <span class="dateValue">2025.09.21 SUN</span>
+          <div class="dateLine"></div>
+        </div>
+        <div class="timeInfo">
+          <div class="doorOpen">
+            <span class="doorOpenText">DOOR OPEN</span>
+            <span class="doorOpenTime">10:00</span>
+          </div>
+          <div class="eventStart">
+            <span class="eventStartText">EVENT START</span>
+            <span class="eventStartTime">10:30</span>
+          </div>
+        </div>
+      </div>
+      <div class="location">
+        <p class="building">Abema Towers</p>
+        <p class="address">
+          〒150-0042<br />
+          東京都渋谷区宇田川町40番1号 10F
+        </p>
+      </div>
+      <a href="#apply" class="apply">
+        いますぐ参加申込する
+        <span class="arrow"></span>
+      </a>
+    </div>
+    <div class="map">
+      <iframe
+        title="Map"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12912.09909222013!2d139.7100532!3d35.6611749!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188cd0b4b7b3d1%3A0x3a8c7b3b7b3b3b3b!2z5pel5pys44Gu44Oq44O844Or44O8!5e0!3m2!1sja!2sjp!4v1693022400000!5m2!1sja!2sjp"
+        width="480"
+        height="480"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="embed"
+      >
+      </iframe>
+    </div>
+  </div>
+</section>
+<div class="" style="height: 1000px;">foo</div>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+    padding: 0 16px;
+    background-color: var(--bg-light);
+  }
+
+  .container::before,
+  .container::after {
+    position: absolute;
+    left: 50%;
+    z-index: var(--intro-decoration-z-index);
+    width: 100vw;
+    height: 10vw;
+    content: "";
+    background: var(--bg-light);
+    transform: translateX(-50%);
+  }
+
+  .container::before {
+    top: -5vw;
+    border-radius: 50% 50% 0 0;
+  }
+  .container::after {
+    bottom: -5vw;
+    border-radius: 0 0 50% 50%;
+  }
+
+  .content {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    align-self: stretch;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .info {
+    z-index: var(--intro-contents-z-index);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.4em;
+    text-align: left;
+  }
+
+  .emphasis {
+    /* FIXME: Figma側で指定されている background-blend-mode: plus-lighter が無効なため screen で代用しており若干色味が異なる状態  */
+    background:
+      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
+      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
+      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-blend-mode: hard-light, screen, normal;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
+
+  .message {
+    padding: 0;
+    margin-top: 24px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.8;
+    color: #ffffff;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .datetime {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .dateInfo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    align-self: stretch;
+  }
+
+  .dateLabel,
+  .dateValue {
+    font-family: "Avenir Next Condensed", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .dateLine {
+    flex: 1;
+    height: 1px;
+    background-color: #ffffff;
+  }
+
+  .timeInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 240px;
+  }
+
+  .doorOpen,
+  .eventStart {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .doorOpen {
+    gap: 54px;
+  }
+
+  .eventStart {
+    gap: 42px;
+  }
+
+  .doorOpenText,
+  .eventStartText,
+  .doorOpenTime,
+  .eventStartTime {
+    font-family: "Avenir Next Condensed", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .location {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 32px;
+  }
+
+  .building {
+    font-family: "Avenir Next Condensed", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .address {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.399999976158142em;
+    color: #ffffff;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .apply {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 48px;
+    margin-top: 32px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    /* FIXME: emphasis同様デザインと色味が異なる */
+    background:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
+      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
+      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
+    border-radius: 9999px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    background-blend-mode: normal, hard-light, screen, normal;
+    transition: all 0.3s ease;
+  }
+
+  .arrow {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    margin-top: 2px;
+    background-color: #ffffff;
+    border-radius: 9999px;
+  }
+
+  .arrow::before,
+  .arrow::after {
+    position: absolute;
+    top: calc(50% - 1px);
+    right: 0;
+    width: 8px;
+    height: 2px;
+    content: "";
+    background-color: #ffffff;
+    border-radius: 9999px;
+    transform-origin: calc(100% - 1px) 50%;
+  }
+
+  .arrow::before {
+    transform: rotate(45deg);
+  }
+
+  .arrow::after {
+    transform: rotate(-45deg);
+  }
+
+  .map {
+    position: relative;
+    z-index: var(--intro-contents-z-index);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 107, 107, 0.8),
+      rgba(74, 144, 226, 0.8)
+    );
+    background-clip: border-box;
+    background-origin: border-box;
+    border: 8px solid transparent;
+    border-radius: 32px;
+    box-shadow: inset 0 0 32px rgba(161, 161, 161, 1);
+    background-blend-mode: normal, screen, normal;
+  }
+  .embed {
+    border: 0;
+    border-radius: 24px;
+  }
+
+  @media (--breakpoint-sp) {
+    .introduction {
+      align-self: stretch;
+    }
+
+    .backgroundTop {
+      height: 20px;
+    }
+
+    .backgroundBottom {
+      height: 20px;
+    }
+
+    .content {
+      flex-direction: column;
+      gap: 64px;
+      align-self: stretch;
+    }
+
+    .info {
+      align-self: stretch;
+    }
+
+    .title {
+      gap: 8px;
+      align-self: stretch;
+    }
+
+    .emphasis {
+      line-height: 1em;
+    }
+
+    .message {
+      font-size: 14px;
+    }
+
+    .datetime {
+      gap: 8px;
+    }
+
+    .dateInfo {
+      gap: 8px;
+      align-self: stretch;
+    }
+
+    .dateLabel,
+    .dateValue {
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .timeInfo {
+      gap: 4px;
+      width: 240px;
+    }
+
+    .doorOpen {
+      gap: 54px;
+    }
+
+    .eventStart {
+      gap: 42px;
+    }
+
+    .doorOpenText,
+    .eventStartText,
+    .doorOpenTime,
+    .eventStartTime {
+      font-size: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .location {
+      gap: 4px;
+    }
+
+    .building {
+      font-size: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    .address {
+      font-size: 16px;
+      line-height: 1.399999976158142em;
+      letter-spacing: 0.02em;
+    }
+
+    .apply {
+      align-self: stretch;
+      padding: 16px 48px;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+    }
+    .map {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .embed {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  @media (hover: hover) {
+    .apply:hover {
+      transform: scale(1.05);
+    }
+  }
+</style>

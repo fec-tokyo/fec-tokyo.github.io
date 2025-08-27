@@ -40,6 +40,7 @@ body {
 
 :where(p) {
   text-autospace: normal;
+  margin: 0;
 }
 
 :where(html) {
