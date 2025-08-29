@@ -3,24 +3,16 @@ import Apply from "@/components/Apply.astro";
 import Header from "@/components/Header.astro";
 import Introduction from "@/components/Introduction.astro";
 import Kv from "@/components/Kv.astro";
+import Timetable from "@/components/Timetable.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout>
   <Header />
-  <main class="main">
+  <main>
     <Kv />
     <Introduction />
+    <Timetable />
     <Apply />
   </main>
 </Layout>
-<style>
-  .main {
-    /* z-index: -10;
-    background: var(--bg-light);
-    background-image: url("../assets/kv-tile-bg.png");
-    background-blend-mode: multiply;
-    mix-blend-mode: multiply;
-    isolation: isolate; */
-  }
-</style>

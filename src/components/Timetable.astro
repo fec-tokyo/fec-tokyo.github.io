@@ -1,0 +1,444 @@
+---
+import { Image } from "astro:assets";
+import DummySpeakerIconImage from "@/assets/dummy-speaker-icon.png";
+import { TIMETABLE_ROWS } from "@/data/timetable";
+---
+
+<section id="timetable" class="container">
+  <div class="bg"></div>
+  <div class="content">
+    <div class="sectionTitle">
+      <h2 class="title">Timetable</h2>
+      <p class="subtitle">当日のタイムテーブルをご紹介</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
+      <button class="tab isActive" role="tab" aria-selected="true" tabindex="0"
+        >SESSION ROOM</button
+      >
+      <button class="tab" role="tab" aria-selected="false" tabindex="-1"
+        >AMA ROOM</button
+      >
+    </div>
+
+    <div class="tableWrapper">
+      <table class="timetable" aria-label="タイムテーブル">
+        <tbody class="tableBody">
+          {
+            TIMETABLE_ROWS.map((row) => {
+              const isEvent = row.category === "event";
+
+              return (
+                <tr class="tableRow">
+                  <th
+                    scope="row"
+                    class:list={[
+                      "cell timeCell",
+                      {
+                        verticalMergeCell: !isEvent && row.list.length >= 2,
+                      },
+                    ]}
+                  >
+                    {isEvent ? (
+                      <span class="timeText">{row.time}</span>
+                    ) : (
+                      <div class="timeRange">
+                        <span class="timeText">{row.startAt}</span>
+                        <span class="timeDivider" aria-hidden="true" />
+                        <span class="timeText">{row.endAt}</span>
+                      </div>
+                    )}
+                  </th>
+                  {isEvent ? (
+                    <td class="cell eventCell horizontalMergeCell">
+                      {row.label}
+                    </td>
+                  ) : (
+                    row.list.map((cell) => (
+                      <td
+                        class:list={[
+                          "cell presentationCell",
+                          { horizontalMergeCell: row.list.length === 1 },
+                        ]}
+                      >
+                        <div class="cellBody">
+                          <div class="cellContents">
+                            <p
+                              class:list={[
+                                "cellTitle",
+                                { emphasized: cell.isEmphasized },
+                              ]}
+                            >
+                              {cell.title}
+                            </p>
+                            <div class="speakerInfo">
+                              <span class="speaker">{cell.speakerName}</span>
+                              <a
+                                class="slide"
+                                href={cell.slidesUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <span class="slidesText">登壇資料</span>
+                                <span
+                                  class="externalLinkIcon"
+                                  aria-hidden="true"
+                                >
+                                  <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"
+                                      fill="currentColor"
+                                    />
+                                    <path
+                                      d="M5 5h6v2H7v10h10v-4h2v6H5V5z"
+                                      fill="currentColor"
+                                    />
+                                  </svg>
+                                </span>
+                              </a>
+                            </div>
+                          </div>
+                          <Image
+                            src={DummySpeakerIconImage}
+                            class="speakerIcon"
+                            width={108}
+                            height={108}
+                            alt={cell.speakerName}
+                            data-astro-image="constrained"
+                          />
+                        </div>
+                      </td>
+                    ))
+                  )}
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.32)),
+      url("../assets/kv-shikxui-bg.png");
+
+    mix-blend-mode: overlay;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    max-width: 992px;
+    padding: 16vw 16px 0;
+    margin: 0 auto;
+    backdrop-filter: blur(0px);
+  }
+
+  .sectionTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    backdrop-filter: blur(16px);
+  }
+
+  .tab {
+    width: 50%;
+    padding: 12px 20px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    appearance: none;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    border-radius: 9999px;
+  }
+  .tab.isActive {
+    cursor: default;
+    background:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
+      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
+      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
+    border: 0;
+
+    background-blend-mode: normal, hard-light, screen, normal;
+  }
+  .tab:not(.isActive) {
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .tableWrapper {
+    align-self: stretch;
+    padding: 16px;
+    margin-top: 16px;
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+  }
+
+  .timetable {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+    border-spacing: 8px 8px;
+    border-collapse: separate;
+
+    thead,
+    tbody,
+    tfoot,
+    tr {
+      display: contents;
+    }
+  }
+
+  .horizontalMergeCell {
+    grid-column: auto / span 2;
+  }
+
+  .timeCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 21.5px 24px;
+  }
+  .eventCell,
+  .presentationCell {
+    padding: 24px;
+  }
+
+  .timeRange {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 8px;
+    align-items: center;
+    justify-items: center;
+    width: 120px;
+  }
+
+  .timeText {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .timeDivider {
+    width: 2px;
+    height: 16px;
+    background: #ffffff;
+  }
+
+  .cell {
+    vertical-align: top;
+    text-align: center;
+    background: var(--bg-dark);
+    border-radius: 8px;
+  }
+
+  .cellBody {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .cellContents {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cellTitle {
+    display: -webkit-box;
+    flex: 1;
+    max-height: calc(1.5em * 3);
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    line-height: 1.4;
+    line-height: 1.5;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    -webkit-box-orient: vertical;
+  }
+
+  .emphasized {
+    font-size: 20px;
+  }
+
+  .speakerInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .speakerIcon {
+    height: 108px;
+    border-radius: 12px;
+  }
+
+  .speaker {
+    font-family: var(--font-noto-sans-jp);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+
+  .slide {
+    color: #fff;
+    text-decoration: none;
+  }
+  .slidesText {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  @media (--breakpoint-sp) {
+    .content {
+      padding-top: 30vw;
+    }
+    .container {
+      padding: 60px 0;
+    }
+
+    .sectionTitle {
+      gap: 12px;
+    }
+    .title {
+      font-size: 48px;
+    }
+
+    .tabs {
+      width: 100%;
+      margin-top: 48px;
+    }
+    .tab {
+      padding: 12px 18px;
+      font-size: 22px;
+    }
+
+    .timetable {
+      grid-template-columns: 80px 1fr;
+      row-gap: 4px;
+    }
+    .cell {
+      padding: 16px;
+    }
+    .eventCell {
+      padding: 24px;
+    }
+    .presentationCell {
+      padding: 16px;
+    }
+    .colTime {
+      width: 140px;
+    }
+    .cellBody {
+      flex-direction: column;
+      align-items: unset;
+    }
+    .cellContents {
+      gap: 8px;
+    }
+    .timeText {
+      font-size: 20px;
+    }
+    .cellTitle,
+    .speaker,
+    .slidesText {
+      font-size: clamp(12px, 3vw, 16px);
+    }
+
+    .horizontalMergeCell {
+      grid-column: auto;
+    }
+    .verticalMergeCell {
+      grid-row: auto / span 2;
+    }
+    .speakerIcon {
+      width: 116px;
+      height: 116px;
+    }
+  }
+</style>
+
+<script>
+  // ROOMの表示切り替えは一旦classの付け替えで対応
+  const tabsContainer = document.querySelector(
+    '[role="tablist"]',
+  ) as HTMLElement;
+  const tabs = tabsContainer?.querySelectorAll(
+    '[role="tab"]',
+  ) as NodeListOf<HTMLButtonElement>;
+
+  if (tabsContainer && tabs) {
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((otherTab) => {
+          otherTab.classList.remove("isActive");
+          otherTab.setAttribute("aria-selected", "false");
+          otherTab.setAttribute("tabindex", "-1");
+        });
+
+        tab.classList.add("isActive");
+        tab.setAttribute("aria-selected", "true");
+        tab.removeAttribute("tabindex");
+      });
+    });
+  }
+</script>
