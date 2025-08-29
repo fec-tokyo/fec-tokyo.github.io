@@ -1,13 +1,8 @@
----
-
----
-
 <section id="introduction" class="container">
-  <div class="backgroundTop"></div>
   <div class="content">
     <div class="info">
       <h2 class="title">
-        <span class="emphasis">東京発、</span>
+        <span class="emphasis gradation">東京発、</span>
         <span class="normal"
           ><span class="noBreak">フロントエンド</span>の交差点。</span
         >
@@ -41,7 +36,7 @@
           東京都渋谷区宇田川町40番1号 10F
         </p>
       </div>
-      <a href="#apply" class="apply">
+      <a href="/" class="apply gradationDarkened">
         いますぐ参加申込する
         <span class="arrow"></span>
       </a>
@@ -60,7 +55,6 @@
     </div>
   </div>
 </section>
-<div class="" style="height: 1000px;">foo</div>
 
 <style>
   @import "../css/utils.css";
@@ -77,19 +71,19 @@
     position: absolute;
     left: 50%;
     z-index: var(--intro-decoration-z-index);
-    width: 100vw;
-    height: 10vw;
+    width: 120vw;
+    height: 30vw;
     content: "";
     background: var(--bg-light);
     transform: translateX(-50%);
   }
 
   .container::before {
-    top: -5vw;
+    top: -8vw;
     border-radius: 50% 50% 0 0;
   }
   .container::after {
-    bottom: -5vw;
+    bottom: -8vw;
     border-radius: 0 0 50% 50%;
   }
 
@@ -114,8 +108,6 @@
     flex-direction: column;
     gap: 8px;
     margin: 0;
-
-    font-family: "Noto Sans JP", sans-serif;
     font-size: 48px;
     font-weight: 900;
     line-height: 1.4em;
@@ -123,22 +115,15 @@
   }
 
   .emphasis {
-    /* FIXME: Figma側で指定されている background-blend-mode: plus-lighter が無効なため screen で代用しており若干色味が異なる状態  */
-    background:
-      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
-      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
-      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
     -webkit-background-clip: text;
-    background-clip: text;
-    background-blend-mode: hard-light, screen, normal;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     text-fill-color: transparent;
   }
 
   .message {
     padding: 0;
     margin-top: 24px;
-    font-family: "Noto Sans JP", sans-serif;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.8;
@@ -163,7 +148,7 @@
 
   .dateLabel,
   .dateValue {
-    font-family: "Avenir Next Condensed", sans-serif;
+    font-family: var(--font-avenir-next-condensed);
     font-size: 14px;
     font-weight: 700;
     line-height: 1em;
@@ -205,7 +190,7 @@
   .eventStartText,
   .doorOpenTime,
   .eventStartTime {
-    font-family: "Avenir Next Condensed", sans-serif;
+    font-family: var(--font-avenir-next-condensed);
     font-size: 20px;
     font-weight: 700;
     line-height: 1em;
@@ -222,7 +207,7 @@
   }
 
   .building {
-    font-family: "Avenir Next Condensed", sans-serif;
+    font-family: var(--font-avenir-next-condensed);
     font-size: 28px;
     font-weight: 700;
     line-height: 1em;
@@ -232,7 +217,7 @@
   }
 
   .address {
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-noto-sans-jp);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.399999976158142em;
@@ -248,22 +233,14 @@
     justify-content: center;
     padding: 16px 48px;
     margin-top: 32px;
-    font-family: "Noto Sans JP", sans-serif;
     font-size: 18px;
     font-weight: 700;
     line-height: 1em;
     color: #ffffff;
     letter-spacing: 0.02em;
     text-decoration: none;
-    /* FIXME: emphasis同様デザインと色味が異なる */
-    background:
-      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
-      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
-      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
     border-radius: 9999px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-    background-blend-mode: normal, hard-light, screen, normal;
     transition: all 0.3s ease;
   }
 
@@ -323,16 +300,8 @@
   }
 
   @media (--breakpoint-sp) {
-    .introduction {
-      align-self: stretch;
-    }
-
-    .backgroundTop {
-      height: 20px;
-    }
-
-    .backgroundBottom {
-      height: 20px;
+    .container::after {
+      bottom: -30vw;
     }
 
     .content {

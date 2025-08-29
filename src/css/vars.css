@@ -10,4 +10,9 @@
   /* color */
   --bg-light: #041f30;
   --bg-dark: #030c12;
+
+  /* font */
+  /* TODO: webフォント置き換え */
+  --font-avenir-next-condensed: "Avenir Next Condensed", sans-serif;
+  --font-noto-sans-jp: "Noto Sans JP", sans-serif;
 }

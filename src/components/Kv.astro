@@ -42,8 +42,7 @@ import LogoImage from "@/assets/kv-logo.svg";
     isolation: isolate;
   }
   .traffic,
-  .tile,
-  .overlay {
+  .tile {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -62,8 +61,7 @@ import LogoImage from "@/assets/kv-logo.svg";
     position: absolute;
     inset: 0;
     width: 100vw;
-    background: url("../assets/kv-pedestrian.png") center center / cover
-      no-repeat;
+    background: url("../assets/kv-people.png") center center / cover no-repeat;
   }
 
   .content {
@@ -92,7 +90,6 @@ import LogoImage from "@/assets/kv-logo.svg";
 
   .eventNameColumn {
     display: block;
-    font-family: "Noto Sans JP", sans-serif;
     font-size: clamp(32px, 4vw, 44px);
     font-weight: bold;
     vertical-align: top;
@@ -112,7 +109,6 @@ import LogoImage from "@/assets/kv-logo.svg";
 
   .eventInfo .location,
   .eventInfo .datetime {
-    font-family: "Barlow Condensed", sans-serif;
     font-size: 20px;
     font-weight: bold;
     line-height: 1;

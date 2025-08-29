@@ -3,6 +3,9 @@
 		".astro$": "@markuplint/astro-parser"
 	},
 	"extends": ["markuplint:recommended"],
+	"rules": {
+		"permitted-contents": false
+	},
 	"nodeRules": [
 		{
 			"regexSelector": {
