@@ -64,27 +64,6 @@
     background-color: var(--bg-light);
   }
 
-  .container::before,
-  .container::after {
-    position: absolute;
-    left: 50%;
-    z-index: var(--intro-decoration-z-index);
-    width: 120vw;
-    height: 30vw;
-    content: "";
-    background: var(--bg-light);
-    transform: translateX(-50%);
-  }
-
-  .container::before {
-    top: -8vw;
-    border-radius: 50% 50% 0 0;
-  }
-  .container::after {
-    bottom: -8vw;
-    border-radius: 0 0 50% 50%;
-  }
-
   .content {
     display: flex;
     gap: 20px;

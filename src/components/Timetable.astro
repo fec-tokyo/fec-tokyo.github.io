@@ -131,6 +131,21 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
   .container {
     position: relative;
+    overflow-y: hidden;
+  }
+
+  .container::before {
+    position: absolute;
+    top: -61vw;
+    left: 50%;
+    z-index: var(--intro-decoration-z-index);
+    width: 150vw;
+    height: 70vw;
+    content: "";
+    background: var(--bg-light);
+    border-radius: 0 0 50% 50%;
+    box-shadow: 0px 8px 64px 0px rgba(0, 0, 0, 0.16);
+    transform: translateX(-50%);
   }
 
   .bg {
@@ -138,7 +153,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
     width: 100%;
     height: 100%;
     background:
-      linear-gradient(rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0.32)),
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
       url("../assets/kv-shikxui-bg.png");
 
     mix-blend-mode: overlay;
@@ -149,7 +164,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
     flex-direction: column;
     align-self: stretch;
     max-width: 992px;
-    padding: 16vw 16px 0;
+    padding: 14vw 16px 0;
     margin: 0 auto;
     backdrop-filter: blur(0px);
   }
@@ -353,11 +368,15 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
   }
 
   @media (--breakpoint-sp) {
-    .content {
-      padding-top: 30vw;
-    }
     .container {
       padding: 60px 0;
+    }
+    .container::before {
+      top: -20vw;
+      height: 40vw;
+    }
+    .content {
+      padding-top: 27vw;
     }
 
     .sectionTitle {

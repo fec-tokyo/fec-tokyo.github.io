@@ -37,6 +37,20 @@ import LogoImage from "@/assets/kv-logo.svg";
     height: 100vh;
   }
 
+  .container::after {
+    position: absolute;
+    bottom: -61vw;
+    left: 50%;
+    z-index: var(--intro-decoration-z-index);
+    width: 150vw;
+    height: 70vw;
+    content: "";
+    background: var(--bg-light);
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0px -8px 64px 0px rgba(0, 0, 0, 0.16);
+    transform: translateX(-50%);
+  }
+
   .bg {
     position: relative;
     isolation: isolate;
