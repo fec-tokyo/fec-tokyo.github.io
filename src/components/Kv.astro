@@ -7,35 +7,37 @@ import TrafficImage from "@/assets/kv-traffic.png";
 ---
 
 <section id="kv" class="container">
-  <!-- <div class="bg"> -->
-  <Image src={TrafficImage} alt="" class="traffic" layout="full-width" />
-  <!-- <Image src={TileImage} width={1812} height={1812} alt="" class="tile" /> -->
-  <!-- <div class="tile"></div> -->
-  <!-- <div class="traffic"></div> -->
-  <!-- </div> -->
-  <!-- <div class="people"> -->
-  <Image
-    src={PeopleImage}
-    width={1812}
-    height={1812}
-    alt=""
-    class="people"
-    layout="full-width"
-  />
-  <!-- </div> -->
-  <div class="content">
-    <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
-    <h1 class="eventName">
-      <span class="eventNameColumn">フロントエンド</span>
-      <span class="eventNameColumn">カンファレンス</span>
-      <span class="eventNameColumn">トウキョウ</span>
-    </h1>
-    <div class="eventInfo">
-      <span class="location">In Shibuya, Tokyo - Abema Towers</span>
-      <span class="datetime"
-        ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time
-        ><span class="timeSeparator">–</span>19:00</span
-      >
+  <div class="contents">
+    <!-- <div class="bg"> -->
+    <Image src={TrafficImage} alt="" class="traffic" layout="full-width" />
+    <!-- <Image src={TileImage} width={1812} height={1812} alt="" class="tile" /> -->
+    <!-- <div class="tile"></div> -->
+    <!-- <div class="traffic"></div> -->
+    <!-- </div> -->
+    <!-- <div class="people"> -->
+    <Image
+      src={PeopleImage}
+      width={1812}
+      height={1812}
+      alt=""
+      class="people"
+      layout="full-width"
+    />
+    <!-- </div> -->
+    <div class="content">
+      <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
+      <h1 class="eventName">
+        <span class="eventNameColumn">フロントエンド</span>
+        <span class="eventNameColumn">カンファレンス</span>
+        <span class="eventNameColumn">トウキョウ</span>
+      </h1>
+      <div class="eventInfo">
+        <span class="location">In Shibuya, Tokyo - Abema Towers</span>
+        <span class="datetime"
+          ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time
+          ><span class="timeSeparator">–</span>19:00</span
+        >
+      </div>
     </div>
   </div>
 </section>
@@ -46,12 +48,9 @@ import TrafficImage from "@/assets/kv-traffic.png";
 
   .container {
     position: relative;
-    z-index: var(--base-z-index);
-    width: 100vw;
-    height: 100vh;
-    overflow: visible;
+    height: calc(100vh + 120px);
+    overflow: hidden;
   }
-
   .container::after {
     position: absolute;
     bottom: -61vw;
@@ -64,6 +63,12 @@ import TrafficImage from "@/assets/kv-traffic.png";
     border-radius: 50% 50% 0 0;
     box-shadow: 0px -8px 64px 0px rgba(0, 0, 0, 0.16);
     transform: translateX(-50%);
+  }
+  .contents {
+    position: relative;
+    z-index: var(--base-z-index);
+    width: 100vw;
+    height: 100vh;
   }
 
   .bg {

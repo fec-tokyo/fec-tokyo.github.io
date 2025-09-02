@@ -12,6 +12,7 @@ const { en, ja, sectionId } = Astro.props;
     "container",
     {
       notice: sectionId === "notice",
+      faq: sectionId === "faq",
     },
   ]}
 >
@@ -50,7 +51,7 @@ const { en, ja, sectionId } = Astro.props;
   .container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .container.notice {
     color: var(--bg-light);
@@ -91,7 +92,10 @@ const { en, ja, sectionId } = Astro.props;
 
   @media (--breakpoint-sp) {
     .container {
-      gap: 14px;
+      gap: 12px;
+    }
+    .container.faq {
+      gap: 16px;
     }
     .en.timetable {
       font-size: 48px;

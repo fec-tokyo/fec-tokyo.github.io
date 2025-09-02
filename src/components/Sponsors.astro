@@ -24,7 +24,7 @@ import { Image } from "astro:assets";
             src={SPONSORS.venue[0].image}
             alt={SPONSORS.venue[0].name}
             width={568}
-            height={355}
+            height={352}
             class="sponsorLogoImage"
           />
         </div>
@@ -42,7 +42,7 @@ import { Image } from "astro:assets";
                   src={sponsor.image}
                   alt={sponsor.name}
                   width={160}
-                  height={100}
+                  height={97}
                   class="sponsorLogoImage sponsorLogoImageSmall"
                 />
               </div>
@@ -63,7 +63,7 @@ import { Image } from "astro:assets";
                   src={sponsor.image}
                   alt={sponsor.name}
                   width={160}
-                  height={100}
+                  height={97}
                   class="sponsorLogoImage sponsorLogoImageSmall"
                 />
               </div>
@@ -91,7 +91,7 @@ import { Image } from "astro:assets";
     .sponsorCategories {
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 32px;
       justify-content: space-between;
       margin-top: 32px;
     }
@@ -129,7 +129,6 @@ import { Image } from "astro:assets";
     .sponsorLogoImage {
       width: 100%;
       height: 100%;
-      aspect-ratio: 16/10;
     }
 
     @media (--breakpoint-sp) {
@@ -142,8 +141,7 @@ import { Image } from "astro:assets";
       }
 
       .sponsorLogos {
-        row-gap: 6px;
-        column-gap: 8px;
+        gap: 8px;
       }
 
       .sponsorLogoImageSmall {

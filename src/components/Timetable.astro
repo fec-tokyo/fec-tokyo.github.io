@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import DummySpeakerIconImage from "@/assets/dummy-speaker-icon.png";
 import { TIMETABLE_ROWS } from "@/data/timetable";
 import SectionTitle from "@/components/SectionTitle.astro";
 import ShixkuiBg from "@/components/ShixkuiBg.astro";
@@ -59,7 +58,10 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
                       <td
                         class:list={[
                           "cell presentationCell",
-                          { horizontalMergeCell: row.list.length === 1 },
+                          {
+                            horizontalMergeCell: row.list.length === 1,
+                            shortTalk: !cell.isLongTalk,
+                          },
                         ]}
                       >
                         <div class="cellBody">
@@ -73,42 +75,54 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
                               {cell.title}
                             </p>
                             <div class="speakerInfo">
-                              <span class="speaker">{cell.speakerName}</span>
-                              <a
-                                class="slide"
-                                href={cell.slidesUrl}
-                                target="_blank"
-                                rel="noreferrer"
+                              <span
+                                class:list={[
+                                  "speaker",
+                                  { shortTalk: !cell.isLongTalk },
+                                ]}
                               >
-                                <span class="slidesText">登壇資料</span>
-                                <span
-                                  class="externalLinkIcon"
-                                  aria-hidden="true"
+                                {cell.speakerName}
+                              </span>
+                              {cell.hasSlides && (
+                                <a
+                                  class="slide"
+                                  href={cell.slidesUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
                                 >
-                                  <svg
-                                    width="12"
-                                    height="12"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
+                                  <span class="slidesText">登壇資料</span>
+                                  <span
+                                    class="externalLinkIcon"
+                                    aria-hidden="true"
                                   >
-                                    <path
-                                      d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"
-                                      fill="currentColor"
-                                    />
-                                    <path
-                                      d="M5 5h6v2H7v10h10v-4h2v6H5V5z"
-                                      fill="currentColor"
-                                    />
-                                  </svg>
-                                </span>
-                              </a>
+                                    <svg
+                                      width="12"
+                                      height="12"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"
+                                        fill="currentColor"
+                                      />
+                                      <path
+                                        d="M5 5h6v2H7v10h10v-4h2v6H5V5z"
+                                        fill="currentColor"
+                                      />
+                                    </svg>
+                                  </span>
+                                </a>
+                              )}
                             </div>
                           </div>
                           <Image
-                            src={DummySpeakerIconImage}
-                            class="speakerIcon"
-                            width={108}
-                            height={108}
+                            src={cell.thumbnailImage}
+                            class:list={[
+                              "speakerIcon",
+                              { shortTalk: !cell.isLongTalk },
+                            ]}
+                            width={cell.isLongTalk ? 108 : 80}
+                            height={cell.isLongTalk ? 108 : 80}
                             alt={cell.speakerName}
                             data-astro-image="constrained"
                           />
@@ -236,9 +250,14 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     justify-content: center;
     padding: 21.5px 24px;
   }
-  .eventCell,
-  .presentationCell {
+  .eventCell {
     padding: 24px;
+  }
+  .presentationCell {
+    padding: 26px 24px;
+  }
+  .presentationCell.shortTalk {
+    padding: 20px 24px;
   }
 
   .timeRange {
@@ -260,7 +279,7 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
 
   .timeDivider {
     width: 2px;
-    height: 16px;
+    height: 13px;
     background: #ffffff;
   }
 
@@ -291,8 +310,7 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     max-height: calc(1.5em * 3);
     overflow: hidden;
     -webkit-line-clamp: 3;
-    line-height: 1.4;
-    line-height: 1.5;
+    line-height: 1.3;
     color: #ffffff;
     letter-spacing: 0.02em;
     -webkit-box-orient: vertical;
@@ -310,7 +328,6 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
   }
 
   .speakerIcon {
-    height: 108px;
     border-radius: 12px;
   }
 
@@ -321,6 +338,9 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     line-height: 1.4;
     color: #ffffff;
     letter-spacing: 0.02em;
+  }
+  .speaker.shortTalk {
+    font-size: 12px;
   }
 
   .slide {
@@ -364,6 +384,7 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     }
     .eventCell {
       padding: 24px;
+      line-height: 1.35;
     }
     .presentationCell {
       padding: 16px;
@@ -396,6 +417,10 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     .speakerIcon {
       width: 116px;
       height: 116px;
+    }
+    .speakerIcon.shortTalk {
+      width: 80px;
+      height: 80px;
     }
   }
 </style>
