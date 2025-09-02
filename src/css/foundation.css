@@ -1,3 +1,5 @@
+@import "./vars.css";
+
 *,
 *::before,
 *::after {
@@ -23,9 +25,15 @@
 
 body {
   margin: 0;
+  font-family: "Barlow Condensed", "Noto Sans JP", sans-serif;
+  font-style: normal;
   color: #fff;
   color-scheme: dark;
-  background: #041f30;
+  background: var(--bg-light);
+}
+
+main {
+  overflow: hidden;
 }
 
 :where(h1),
@@ -40,6 +48,7 @@ body {
 
 :where(p) {
   text-autospace: normal;
+  margin: 0;
 }
 
 :where(html) {
