@@ -13,12 +13,10 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
     </div>
 
     <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
-      <button class="tab isActive" role="tab" aria-selected="true" tabindex="0"
+      <button class="tab isActive" role="tab" aria-selected="true"
         >SESSION ROOM</button
       >
-      <button class="tab" role="tab" aria-selected="false" tabindex="-1"
-        >AMA ROOM</button
-      >
+      <button class="tab" role="tab" aria-selected="false">AMA ROOM</button>
     </div>
 
     <div class="tableWrapper">
@@ -442,6 +440,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
 <script>
   // ROOMの表示切り替えは一旦classの付け替えで対応
+  // キーボード操作によるタブ切り替えは未対応
   const tabsContainer = document.querySelector(
     '[role="tablist"]',
   ) as HTMLElement;
@@ -450,6 +449,14 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
   ) as NodeListOf<HTMLButtonElement>;
 
   if (tabsContainer && tabs) {
+    tabs.forEach((tab, index) => {
+      if (index === 0) {
+        tab.setAttribute("tabindex", "0");
+      } else {
+        tab.setAttribute("tabindex", "-1");
+      }
+    });
+
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         tabs.forEach((otherTab) => {
@@ -460,7 +467,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
         tab.classList.add("isActive");
         tab.setAttribute("aria-selected", "true");
-        tab.removeAttribute("tabindex");
+        tab.setAttribute("tabindex", "0");
       });
     });
   }
