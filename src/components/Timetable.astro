@@ -14,11 +14,12 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
       sectionId="timetable"
     />
     <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
-      <!-- TODO: Buttonに置き換え -->
-      <button class="tab isActive" role="tab" aria-selected="true"
-        >SESSION ROOM</button
+      <button class="tab buttonBase isActive" role="tab" aria-selected="true">
+        SESSION ROOM
+      </button>
+      <button class="tab buttonBase" role="tab" aria-selected="false"
+        >AMA ROOM</button
       >
-      <button class="tab" role="tab" aria-selected="false">AMA ROOM</button>
     </div>
 
     <div class="tableWrapper">

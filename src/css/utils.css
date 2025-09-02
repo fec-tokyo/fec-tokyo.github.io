@@ -23,3 +23,20 @@
 
   background-blend-mode: normal, hard-light, screen, normal;
 }
+
+/* 共通のボタンスタイル */
+.buttonBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 100vh;
+  transition: all 0.3s ease;
+}
+
+.buttonBase:disabled {
+  cursor: default;
+}

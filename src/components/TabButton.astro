@@ -1,0 +1,66 @@
+---
+interface Props {
+  isActive: boolean;
+  children: string;
+}
+
+const { isActive, children } = Astro.props;
+---
+
+<button
+  class:list={["tab", { isActive }]}
+  role="tab"
+  aria-selected={isActive}
+  tabindex={isActive ? 0 : -1}
+  data-tab-button
+>
+  {children}
+</button>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .tab {
+    width: 50%;
+    padding: 12px 20px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    appearance: none;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+  }
+
+  .tab.isActive {
+    cursor: default;
+    background:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
+      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
+      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
+    border: 0;
+    background-blend-mode: normal, hard-light, screen, normal;
+  }
+
+  .tab:not(.isActive) {
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .tab:not(.isActive):hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (--breakpoint-sp) {
+    .tab {
+      padding: 12px 18px;
+      font-size: 22px;
+    }
+  }
+</style>
