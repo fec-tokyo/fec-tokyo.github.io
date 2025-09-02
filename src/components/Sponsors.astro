@@ -1,0 +1,154 @@
+---
+import SectionTitle from "@/components/SectionTitle.astro";
+import ShixkuiBg from "@/components/ShixkuiBg.astro";
+import { SPONSORS } from "@/data/sponsors";
+import { Image } from "astro:assets";
+---
+
+<section id="sponsors" class="sponsors">
+  <ShixkuiBg />
+  <div class="container">
+    <SectionTitle
+      en="Sponsors"
+      ja="スポンサーのみなさま"
+      sectionId="sponsors"
+    />
+
+    <div class="sponsorCategories">
+      <div class="sponsorCategory">
+        <div class="categoryInfo">
+          <p class="categoryName">Venue Sponsor</p>
+        </div>
+        <div class="sponsorLogo">
+          <Image
+            src={SPONSORS.venue[0].image}
+            alt={SPONSORS.venue[0].name}
+            width={568}
+            height={355}
+            class="sponsorLogoImage"
+          />
+        </div>
+      </div>
+      <div class="sponsorCategory">
+        <div class="categoryInfo">
+          <p class="categoryName">Food Sponsor</p>
+          <p class="categoryNote">※記載順は五十音順です</p>
+        </div>
+        <div class="sponsorLogos">
+          {
+            SPONSORS.food.map((sponsor) => (
+              <div class="sponsorLogo">
+                <Image
+                  src={sponsor.image}
+                  alt={sponsor.name}
+                  width={160}
+                  height={100}
+                  class="sponsorLogoImage sponsorLogoImageSmall"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="sponsorCategory">
+        <div class="categoryInfo">
+          <p class="categoryName">Drink Sponsor</p>
+          <p class="categoryNote">※記載順は五十音順です</p>
+        </div>
+        <div class="sponsorLogos">
+          {
+            SPONSORS.drink.map((sponsor) => (
+              <div class="sponsorLogo">
+                <Image
+                  src={sponsor.image}
+                  alt={sponsor.name}
+                  width={160}
+                  height={100}
+                  class="sponsorLogoImage sponsorLogoImageSmall"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @import "../css/vars.css";
+    @import "../css/utils.css";
+
+    .sponsors {
+      position: relative;
+    }
+
+    .container {
+      max-width: 992px;
+      padding: 120px 16px 0;
+      margin: 0 auto;
+    }
+
+    .sponsorCategories {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      justify-content: space-between;
+      margin-top: 32px;
+    }
+    .sponsorCategory {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    .categoryInfo {
+      flex-shrink: 0;
+      min-width: 200px;
+    }
+    .categoryName {
+      font-size: 32px;
+      font-weight: bold;
+    }
+    .categoryNote {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .sponsorLogos {
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 8px;
+      column-gap: 11px;
+      max-width: 600px;
+    }
+
+    .sponsorLogo {
+      border: 16px solid #ffffff;
+      border-radius: 9px;
+    }
+
+    .sponsorLogoImage {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 16/10;
+    }
+
+    @media (--breakpoint-sp) {
+      .sponsorCategories {
+        gap: 26px;
+      }
+      .sponsorCategory {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .sponsorLogos {
+        row-gap: 6px;
+        column-gap: 8px;
+      }
+
+      .sponsorLogoImageSmall {
+        width: 135.5px;
+      }
+    }
+  </style>
+</section>

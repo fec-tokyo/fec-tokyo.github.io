@@ -1,3 +1,7 @@
+---
+import Button from "@/components/Button.astro";
+---
+
 <section id="introduction" class="container">
   <div class="content">
     <div class="info">
@@ -34,10 +38,12 @@
           東京都渋谷区宇田川町40番1号 10F
         </p>
       </div>
-      <a href="/" class="apply gradationDarkened">
-        いますぐ参加申込する
-        <span class="arrow"></span>
-      </a>
+      <div class="apply">
+        <Button href="/">
+          いますぐ参加申込する
+          <span class="arrow"></span>
+        </Button>
+      </div>
     </div>
     <div class="map">
       <iframe
@@ -202,21 +208,7 @@
   }
 
   .apply {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 48px;
     margin-top: 32px;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1em;
-    color: #ffffff;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    border-radius: 9999px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
   }
 
   .arrow {
@@ -356,9 +348,6 @@
 
     .apply {
       align-self: stretch;
-      padding: 16px 48px;
-      font-size: 18px;
-      letter-spacing: 0.04em;
     }
     .map {
       width: 100%;
@@ -369,12 +358,6 @@
       width: 100%;
       height: auto;
       aspect-ratio: 1/1;
-    }
-  }
-
-  @media (hover: hover) {
-    .apply:hover {
-      transform: scale(1.05);
     }
   }
 </style>

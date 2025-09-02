@@ -1,14 +1,28 @@
 ---
 import { Image } from "astro:assets";
-import LogoImage from "@/assets/kv-logo.svg";
+import LogoImage from "@/assets/colored-logo.svg";
+import PeopleImage from "@/assets/kv-people.png";
+import TrafficImage from "@/assets/kv-traffic.png";
+// import TileImage from "@/assets/kv-shikxui-bg.png";
 ---
 
 <section id="kv" class="container">
-  <div class="bg">
-    <div class="tile"></div>
-    <div class="traffic"></div>
-  </div>
-  <div class="people"></div>
+  <!-- <div class="bg"> -->
+  <Image src={TrafficImage} alt="" class="traffic" layout="full-width" />
+  <!-- <Image src={TileImage} width={1812} height={1812} alt="" class="tile" /> -->
+  <!-- <div class="tile"></div> -->
+  <!-- <div class="traffic"></div> -->
+  <!-- </div> -->
+  <!-- <div class="people"> -->
+  <Image
+    src={PeopleImage}
+    width={1812}
+    height={1812}
+    alt=""
+    class="people"
+    layout="full-width"
+  />
+  <!-- </div> -->
   <div class="content">
     <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
     <h1 class="eventName">
@@ -33,8 +47,9 @@ import LogoImage from "@/assets/kv-logo.svg";
   .container {
     position: relative;
     z-index: var(--base-z-index);
-    width: 100%;
+    width: 100vw;
     height: 100vh;
+    overflow: visible;
   }
 
   .container::after {
@@ -58,24 +73,34 @@ import LogoImage from "@/assets/kv-logo.svg";
   .traffic,
   .tile {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
-    mix-blend-mode: soft-light;
+    top: 50%;
+    left: 50%;
+    width: calc(100vmax * 1.4142);
+    height: calc(100vmax * 1.4142);
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
-  .traffic {
-    background: url("../assets/kv-traffic.png") center center / cover no-repeat;
+  /* .traffic {
+    background: url("../assets/kv-traffic.png") center/ cover no-repeat;
+    transform: rotate(-45deg);
   }
   .tile {
     background:
       linear-gradient(rgba(4, 31, 48, 0.9), rgba(4, 31, 48, 0.9)),
-      url("../assets/kv-tile-bg.png") center center / cover no-repeat;
-  }
+      url("../assets/kv-shikxui-bg.png") center center / cover no-repeat;
+  } */
 
   .people {
+    /* transform: rotate(-45deg) scale(1.25); */
     position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100vmax * 1.4142);
+    height: calc(100vmax * 1.4142);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    /* position: absolute;
     inset: 0;
-    width: 100vw;
-    background: url("../assets/kv-people.png") center center / cover no-repeat;
+    width: 100vw; */
+    /* background: url("../assets/kv-people.png") center center / cover no-repeat; */
   }
 
   .content {

@@ -1,0 +1,62 @@
+---
+interface Props {
+  tag?: "a" | "button";
+  href?: string;
+  isOutlined?: boolean;
+}
+
+const { tag = "a", href, isOutlined = false } = Astro.props;
+---
+
+{
+  tag === "a" ? (
+    <a
+      href={href}
+      class:list={["button", isOutlined ? "outlined" : "gradationDarkened"]}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      class:list={["button", isOutlined ? "outlined" : "gradationDarkened"]}
+    >
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  @import "../css/utils.css";
+
+  .button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 48px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-radius: 100vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+  }
+
+  .outlined {
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    box-shadow: none;
+  }
+
+  @media (hover: hover) {
+    .button:hover {
+      transform: scale(1.05);
+    }
+  }
+</style>

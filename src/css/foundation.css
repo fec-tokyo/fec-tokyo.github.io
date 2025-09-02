@@ -42,8 +42,9 @@ main {
 :where(h4),
 :where(h5),
 :where(h6) {
-  text-autospace: normal;
+  margin: 0;
   text-wrap: balance;
+  text-autospace: normal;
 }
 
 :where(p) {
@@ -56,12 +57,13 @@ main {
   scrollbar-width: thin;
 }
 
-:where(audio, iframe, img, svg, video) {
-  max-inline-size: 100%;
-  max-block-size: 100%;
-}
-
 :where(button, input, select, textarea) {
   font-family: inherit;
   font-size: inherit;
+}
+
+:where(ul) {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
