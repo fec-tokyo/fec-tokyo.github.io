@@ -4,22 +4,19 @@
   white-space: nowrap;
 }
 
-.gradation {
-  /* FIXME: Figma側で指定されている background-blend-mode: plus-lighter が無効なため screen で代用しており若干色味が異なる状態  */
-  background:
-    linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
-    linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
-    linear-gradient(90deg, #041f30 0%, #ce0134 100%);
-  background-blend-mode: hard-light, screen, normal;
+/* 共通のボタンスタイル */
+.buttonBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 100vh;
+  transition: all 0.3s ease;
 }
 
-.gradationDarkened {
-  /* FIXME: gradation同様デザインと色味が異なる */
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
-    linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
-    linear-gradient(90deg, #041f30 0%, #ce0134 100%);
-
-  background-blend-mode: normal, hard-light, screen, normal;
+.buttonBase:disabled {
+  cursor: default;
 }

@@ -1,0 +1,333 @@
+---
+import SectionTitle from "@/components/SectionTitle.astro";
+import ShixkuiBg from "@/components/ShixkuiBg.astro";
+import { ORGANIZERS } from "@/data/organizers";
+import { Image } from "astro:assets";
+import GitHubLogoImage from "@/assets/github-logo.svg";
+import XLogoImage from "@/assets/x-logo.svg";
+---
+
+<section id="organizers" class="container">
+  <ShixkuiBg />
+  <div class="wrapper">
+    <SectionTitle en="Organizers" ja="スタッフ一覧" sectionId="organizers" />
+    <div class="organizerTypes">
+      <div class="authors">
+        <div class="organizerType">Author</div>
+        <div class="authorInfo">
+          <Image
+            src={ORGANIZERS.author[0].image}
+            alt={ORGANIZERS.author[0].name}
+            width={280}
+            height={280}
+            class="organizerImage"
+          />
+          <div class="authorDetail">
+            <p class="authorName">{ORGANIZERS.author[0].name}</p>
+            <div class="authorMessage">
+              <p class="messageTitle">Message</p>
+              <p class="messageDetail">
+                {
+                  ORGANIZERS.author[0].message?.map((message) => (
+                    <span class="messageDetailItem">{message}</span>
+                  ))
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="organizerType">
+          <div class="organizerTypeText">CFP Reviewers</div>
+        </div>
+        <div class="organizers">
+          {
+            ORGANIZERS.cfpReviews.map((organizer) => (
+              <div class="organizer">
+                <Image
+                  src={organizer.image}
+                  alt={organizer.name}
+                  width={120}
+                  height={120}
+                  class="organizerIcon"
+                />
+                <div class="organizerDetail">
+                  <p class="organizerName">{organizer.name}</p>
+                  <p class="organizerId">{organizer.id}</p>
+                  <ul class="organizerSocialLinks">
+                    {organizer.socialLinks.map((socialLink) => (
+                      <li>
+                        <a
+                          href={socialLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class:list={[
+                            "organizerSocialLink",
+                            {
+                              github: socialLink.type === "github",
+                              x: socialLink.type === "x",
+                            },
+                          ]}
+                        >
+                          {socialLink.type === "github" ? (
+                            <GitHubLogoImage />
+                          ) : (
+                            <XLogoImage />
+                          )}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <div class="organizerType">
+          <div class="organizerTypeText">Staff</div>
+        </div>
+        <div class="organizers">
+          {
+            ORGANIZERS.staff.map((organizer) => (
+              <div class="organizer">
+                <Image
+                  src={organizer.image}
+                  alt={organizer.name}
+                  width={120}
+                  height={120}
+                  class="organizerIcon"
+                />
+                <div class="organizerDetail">
+                  <p class="organizerName">{organizer.name}</p>
+                  <p class="organizerId">{organizer.id}</p>
+                  <ul class="organizerSocialLinks">
+                    {organizer.socialLinks.map((socialLink) => (
+                      <li>
+                        <a
+                          href={socialLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class:list={[
+                            "organizerSocialLink",
+                            {
+                              github: socialLink.type === "github",
+                              x: socialLink.type === "x",
+                            },
+                          ]}
+                        >
+                          {socialLink.type === "github" ? (
+                            <GitHubLogoImage />
+                          ) : (
+                            <XLogoImage />
+                          )}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <div class="organizerType">
+          <div class="organizerTypeText">Designer</div>
+        </div>
+        <div class="organizers">
+          {
+            ORGANIZERS.designer.map((organizer) => (
+              <div class="organizer">
+                <Image
+                  src={organizer.image}
+                  alt={organizer.name}
+                  width={120}
+                  height={120}
+                  class="organizerIcon"
+                />
+                <div class="organizerDetail">
+                  <p class="organizerName">{organizer.name}</p>
+                  <p class="organizerId">{organizer.id}</p>
+                  <ul class="organizerSocialLinks">
+                    {organizer.socialLinks.map((socialLink) => (
+                      <li>
+                        <a
+                          href={socialLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class:list={[
+                            "organizerSocialLink",
+                            {
+                              github: socialLink.type === "github",
+                              x: socialLink.type === "x",
+                            },
+                          ]}
+                        >
+                          {socialLink.type === "github" ? (
+                            <GitHubLogoImage />
+                          ) : (
+                            <XLogoImage />
+                          )}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
+  .container {
+    position: relative;
+  }
+  .wrapper {
+    max-width: 992px;
+    padding: 80px 16px 0;
+    margin: 0 auto;
+    isolation: isolate;
+  }
+  .authors {
+    margin-top: 8px;
+  }
+  .organizerTypes {
+    display: flex;
+    flex-direction: column;
+  }
+  .organizerType {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+  }
+  .organizerTypeText {
+    flex-shrink: 0;
+  }
+  .organizerType::after {
+    display: block;
+    width: 100%;
+    height: 1px;
+    content: "";
+    background-color: #fff;
+  }
+  .authorInfo {
+    display: flex;
+    gap: 30px;
+    align-items: end;
+    margin-top: 16px;
+  }
+  .organizerImage {
+    border-radius: 12px;
+  }
+  .authorDetail {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .authorName {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  .authorMessage {
+    padding: 16px 24px;
+    background-color: var(--bg-dark);
+    border-radius: 12px;
+  }
+  .messageTitle {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .messageDetail {
+    margin-top: 12px;
+    font-family: var(--font-noto-sans-jp);
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+  }
+  .messageDetailItem {
+    display: block;
+    margin-top: 4px;
+  }
+  .organizers {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .organizer {
+    display: flex;
+    flex: 0 0 calc(100% / 3 - 6px);
+    gap: 16px;
+    padding: 8;
+    background-color: var(--bg-dark);
+    border-radius: 12px;
+  }
+  .organizerIcon {
+    border-radius: 8px;
+  }
+  .organizerDetail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
+  .organizerName {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .organizerId {
+    font-family: var(--font-noto-sans-jp);
+    font-size: 12px;
+  }
+  .organizerSocialLinks {
+    display: flex;
+    gap: 4px;
+    padding: 0;
+    margin-top: 12px;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  .organizerSocialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  .github {
+    padding: 2px;
+  }
+
+  @media (--breakpoint-sp) {
+    .organizerType {
+      margin-top: 22px;
+    }
+    /* AuthorのPC表示でSNSリンク等はなくていい？を確認 */
+    .authorInfo {
+      flex-direction: column;
+      align-items: center;
+    }
+    .organizers {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .organizer {
+    }
+  }
+</style>

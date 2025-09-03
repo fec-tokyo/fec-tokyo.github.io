@@ -1,0 +1,111 @@
+---
+type Props = {
+  en: string;
+  ja: string;
+  sectionId: "timetable" | "sponsors" | "faq" | "organizers" | "notice";
+};
+const { en, ja, sectionId } = Astro.props;
+---
+
+<div
+  class:list={[
+    "container",
+    {
+      notice: sectionId === "notice",
+      faq: sectionId === "faq",
+    },
+  ]}
+>
+  <h2
+    class:list={[
+      "en",
+      {
+        timetable: sectionId === "timetable",
+        sponsors: sectionId === "sponsors",
+        faq: sectionId === "faq",
+        organizers: sectionId === "organizers",
+        notice: sectionId === "notice",
+      },
+    ]}
+  >
+    {en}
+  </h2>
+  {
+    sectionId === "organizers" ? (
+      <div class="jaContainer">
+        <p class="ja">{ja}</p>
+        <span class="note">
+          ※各項目の記載順は、五十音順を基準としております
+        </span>
+      </div>
+    ) : (
+      <p class="ja">{ja}</p>
+    )
+  }
+</div>
+
+<style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .container.notice {
+    color: var(--bg-light);
+  }
+
+  .en {
+    margin: 0;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1em;
+    color: inherit;
+  }
+  .en.notice {
+    font-size: 48px;
+  }
+
+  .en.organizers {
+    font-size: 48px;
+  }
+  .jaContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .note {
+    display: block;
+    font-size: 14px;
+  }
+
+  .ja {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1em;
+    color: inherit;
+    letter-spacing: 0.04em;
+  }
+
+  @media (--breakpoint-sp) {
+    .container {
+      gap: 12px;
+    }
+    .container.faq {
+      gap: 16px;
+    }
+    .en.timetable {
+      font-size: 48px;
+    }
+    .jaContainer {
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .note {
+    }
+  }
+</style>
