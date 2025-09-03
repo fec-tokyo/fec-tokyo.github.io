@@ -53,21 +53,6 @@ export const ORGANIZERS: Organizers = {
   ],
   cfpReviews: [
     {
-      name: "berlysia",
-      image: berlysia,
-      id: "@berlysia",
-      socialLinks: [
-        {
-          type: "x",
-          url: "https://twitter.com/berlysia",
-        },
-        {
-          type: "github",
-          url: "https://github.com/berlysia",
-        },
-      ],
-    },
-    {
       name: "sakito",
       image: sakito,
       id: "@sakito",
@@ -94,6 +79,21 @@ export const ORGANIZERS: Organizers = {
         {
           type: "github",
           url: "https://github.com/sosukesuzuki",
+        },
+      ],
+    },
+    {
+      name: "berlysia",
+      image: berlysia,
+      id: "@berlysia",
+      socialLinks: [
+        {
+          type: "x",
+          url: "https://twitter.com/berlysia",
+        },
+        {
+          type: "github",
+          url: "https://github.com/berlysia",
         },
       ],
     },
