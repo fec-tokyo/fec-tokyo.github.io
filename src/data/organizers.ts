@@ -1,6 +1,11 @@
 import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
 import type { ImageMetadata } from "astro";
 
+import did0es from "@/assets/staff/did0es.jpg";
+import ken7253 from "@/assets/staff/ken7253.jpg";
+import oyu from "@/assets/staff/0yu.jpg";
+import yossydev from "@/assets/staff/yossydev.jpg";
+
 type Organizer = {
   name: string;
   message?: string[];
@@ -28,7 +33,7 @@ export const ORGANIZERS: Organizers = {
         "また、開発現場で活躍するエンジニアが外部発信するきっかけを作るとともに、初心者が実践的なノウハウを学べる場となることを目指します。",
         "登壇やAMA、他の参加者との議論を通じて知識と繋がりを深め、これまでに築いたフロントエンドの技術と文化を未来へ伝えるためのカンファレンスです。",
       ],
-      image: dummySpeakerIcon,
+      image: did0es,
       id: "@lanberb",
       socialLinks: [
         {
@@ -91,54 +96,54 @@ export const ORGANIZERS: Organizers = {
   ],
   staff: [
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "0yu",
+      image: oyu,
+      id: "@0yu",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://x.com/yud0uhu",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/yud0uhu",
         },
       ],
     },
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "ken7253",
+      image: ken7253,
+      id: "@ken7253",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://x.com/ken7253_",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/ken7253",
         },
       ],
     },
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "yossydev",
+      image: yossydev,
+      id: "@yossydev",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://x.com/yossydev",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/yossydevb",
         },
       ],
     },
   ],
   designer: [
     {
-      name: "名前",
+      name: "lanberb",
       image: dummySpeakerIcon,
       id: "@lanberb",
       socialLinks: [
