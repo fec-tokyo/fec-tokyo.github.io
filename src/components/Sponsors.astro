@@ -23,6 +23,7 @@ import { Image } from "astro:assets";
           <Image
             src={SPONSORS.venue[0].image}
             alt={SPONSORS.venue[0].name}
+            width={568}
             class="sponsorLogoImage"
           />
         </div>
@@ -39,6 +40,7 @@ import { Image } from "astro:assets";
                 <Image
                   src={sponsor.image}
                   alt={sponsor.name}
+                  width={160}
                   class="sponsorLogoImage sponsorLogoImageSmall"
                 />
               </div>
@@ -58,6 +60,7 @@ import { Image } from "astro:assets";
                 <Image
                   src={sponsor.image}
                   alt={sponsor.name}
+                  width={160}
                   class="sponsorLogoImage sponsorLogoImageSmall"
                 />
               </div>
@@ -97,7 +100,6 @@ import { Image } from "astro:assets";
     }
     .categoryInfo {
       flex-shrink: 0;
-      width: 420px;
       min-width: 200px;
     }
     .categoryName {
@@ -110,9 +112,14 @@ import { Image } from "astro:assets";
     }
 
     .sponsorLogos {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: wrap;
+      row-gap: 8px;
+      column-gap: 10.67px;
+      align-items: start;
+      justify-items: flex-start;
+      max-width: 600px;
     }
 
     .sponsorLogo {
@@ -127,8 +134,9 @@ import { Image } from "astro:assets";
 
     .sponsorLogoImage {
       align-items: center;
-      width: 100%;
       height: auto;
+      aspect-ratio: 568/355;
+      object-fit: contain;
     }
 
     @media (--breakpoint-sp) {
@@ -143,12 +151,11 @@ import { Image } from "astro:assets";
       .sponsorLogos {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         grid-auto-columns: minmax(0, 1fr);
-        row-gap: 6px;
         column-gap: 8px;
       }
 
       .sponsorLogoImageSmall {
-        width: 100%;
+        width: 135.5px;
       }
     }
   </style>
