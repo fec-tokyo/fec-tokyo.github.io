@@ -3,27 +3,36 @@ import { Image } from "astro:assets";
 import LogoImage from "@/assets/colored-logo.svg";
 import PeopleImage from "@/assets/kv-people.png";
 import TrafficImage from "@/assets/kv-traffic.png";
-// import TileImage from "@/assets/kv-shikxui-bg.png";
+import TileImage from "@/assets/kv-shikxui-bg.png";
+
+import TrafficSpImage from "@/assets/kv-traffic-sp.png";
+import PeopleSpImage from "@/assets/kv-people-sp.png";
 ---
 
 <section id="kv" class="container">
   <div class="contents">
-    <!-- <div class="bg"> -->
-    <Image src={TrafficImage} alt="" class="traffic" layout="full-width" />
-    <!-- <Image src={TileImage} width={1812} height={1812} alt="" class="tile" /> -->
-    <!-- <div class="tile"></div> -->
-    <!-- <div class="traffic"></div> -->
-    <!-- </div> -->
-    <!-- <div class="people"> -->
-    <Image
-      src={PeopleImage}
-      width={1812}
-      height={1812}
-      alt=""
-      class="people"
-      layout="full-width"
-    />
-    <!-- </div> -->
+    <div class="bgColor bgBase"></div>
+    <picture>
+      <source srcset={TrafficImage.src} media="(min-width: 767px)" />
+      <img
+        src={TrafficSpImage.src}
+        width="767"
+        height="767"
+        alt=""
+        class="traffic bgBase"
+      />
+    </picture>
+    <Image src={TileImage} alt="" class="tile bgBase" layout="full-width" />
+    <picture>
+      <source srcset={PeopleImage.src} media="(min-width: 767px)" />
+      <img
+        src={PeopleSpImage.src}
+        width="767"
+        height="767"
+        alt=""
+        class="people bgBase"
+      />
+    </picture>
     <div class="content">
       <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
       <h1 class="eventName">
@@ -50,6 +59,7 @@ import TrafficImage from "@/assets/kv-traffic.png";
     position: relative;
     height: calc(100vh + 120px);
     overflow: hidden;
+    isolation: isolate;
   }
   .container::after {
     position: absolute;
@@ -71,41 +81,23 @@ import TrafficImage from "@/assets/kv-traffic.png";
     height: 100vh;
   }
 
-  .bg {
-    position: relative;
-    isolation: isolate;
-  }
   .traffic,
-  .tile {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(100vmax * 1.4142);
-    height: calc(100vmax * 1.4142);
-    transform: translate(-50%, -50%) rotate(-45deg);
+  .tile,
+  .bgColor {
+    mix-blend-mode: overlay;
   }
-  /* .traffic {
-    background: url("../assets/kv-traffic.png") center/ cover no-repeat;
-    transform: rotate(-45deg);
-  }
-  .tile {
-    background:
-      linear-gradient(rgba(4, 31, 48, 0.9), rgba(4, 31, 48, 0.9)),
-      url("../assets/kv-shikxui-bg.png") center center / cover no-repeat;
-  } */
 
-  .people {
-    /* transform: rotate(-45deg) scale(1.25); */
+  .bgColor {
+    background-color: var(--bg-dark);
+  }
+
+  .bgBase {
     position: absolute;
     top: 50%;
     left: 50%;
     width: calc(100vmax * 1.4142);
     height: calc(100vmax * 1.4142);
     transform: translate(-50%, -50%) rotate(-45deg);
-    /* position: absolute;
-    inset: 0;
-    width: 100vw; */
-    /* background: url("../assets/kv-people.png") center center / cover no-repeat; */
   }
 
   .content {
@@ -166,14 +158,14 @@ import TrafficImage from "@/assets/kv-traffic.png";
   }
 
   @media (--breakpoint-sp) {
-    .traffic {
-      background: url("../assets/kv-traffic-sp.png") center center / cover
-        no-repeat;
+    /* TODO: デザイン再現の調整中 */
+    .container {
+      height: calc(100vh + 30px);
     }
-
-    .people {
-      background: url("../assets/kv-pedestrian-sp.png") center center / cover
-        no-repeat;
+    .bgBase {
+      top: 52.4%;
+      width: calc(100vmax * 1.1);
+      height: calc(100vmax * 1.1);
     }
 
     .content {
