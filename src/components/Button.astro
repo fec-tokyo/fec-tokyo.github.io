@@ -2,10 +2,10 @@
 interface Props {
   tag?: "a" | "button";
   href?: string;
-  isOutlined?: boolean;
+  isGradated?: boolean;
 }
 
-const { tag = "a", href, isOutlined = false } = Astro.props;
+const { tag = "a", href, isGradated = true } = Astro.props;
 ---
 
 {
@@ -15,22 +15,26 @@ const { tag = "a", href, isOutlined = false } = Astro.props;
       class:list={[
         "button",
         "buttonBase",
-        isOutlined ? "outlined" : "gradationDarkened",
+        isGradated ? "gradated" : "outlined",
       ]}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <slot />
+      <span class="buttonInner">
+        <slot />
+      </span>
     </a>
   ) : (
     <button
       class:list={[
         "button",
         "buttonBase",
-        isOutlined ? "outlined" : "gradationDarkened",
+        isGradated ? "gradated" : "outlined",
       ]}
     >
-      <slot />
+      <span class="buttonInner">
+        <slot />
+      </span>
     </button>
   )
 }
@@ -39,15 +43,51 @@ const { tag = "a", href, isOutlined = false } = Astro.props;
   @import "../css/utils.css";
 
   .button {
+    position: relative;
     gap: 8px;
     padding: 16px 48px;
+    overflow: hidden;
     font-size: 18px;
     line-height: 1em;
     letter-spacing: 0.04em;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    isolation: isolate;
   }
 
-  .outlined {
+  .button.gradated::before,
+  .button.gradated::after,
+  .button.gradated span::before,
+  .button.gradated span::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    border-radius: inherit;
+  }
+  .button.gradated::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+  .button.gradated span::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+  .button.gradated span::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+  .button.gradated::after {
+    background: var(--grad-color-4);
+    mix-blend-mode: var(--grad-blend-mode-4);
+  }
+
+  .buttonInner {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .button.outlined {
     color: #ffffff;
     background-color: transparent;
     border: 1px solid #ffffff;
