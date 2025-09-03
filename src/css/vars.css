@@ -12,6 +12,16 @@
   --bg-dark: #030c12;
   --bg-darken: #01121e; /*Figma上では実際には使われていないが、デザイン再現のために用意 */
 
+  /* 上から順にグラデーションを重ねる */
+  --grad-color-1: linear-gradient(90deg, #041f30 0%, #ce0134 100%);
+  --grad-blend-mode-1: normal;
+  --grad-color-2: linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%);
+  --grad-blend-mode-2: plus-lighter;
+  --grad-color-3: linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%);
+  --grad-blend-mode-3: hard-light;
+  --grad-color-4: rgba(0, 0, 0, 0.2);
+  --grad-blend-mode-4: normal;
+
   /* font */
   /* TODO: webフォント置き換え */
   --font-avenir-next-condensed: "Avenir Next Condensed", sans-serif;

@@ -15,10 +15,10 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     />
     <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
       <button class="tab buttonBase isActive" role="tab" aria-selected="true">
-        SESSION ROOM
+        <span> SESSION ROOM</span>
       </button>
       <button class="tab buttonBase" role="tab" aria-selected="false"
-        >AMA ROOM</button
+        ><span>AMA ROOM</span></button
       >
     </div>
 
@@ -187,8 +187,10 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
   }
 
   .tab {
+    position: relative;
     width: 50%;
     padding: 12px 20px;
+    overflow: hidden;
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
@@ -199,19 +201,35 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
     cursor: pointer;
     background: none;
     border: 0;
-    border-radius: 9999px;
+    border-radius: 100vh;
   }
-  .tab.isActive {
-    cursor: default;
-    background:
-      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-      linear-gradient(84.83deg, #aed6bc 4.14%, #041f30 102.21%),
-      linear-gradient(86.6deg, #ce0134 26.54%, #aed6bc 72.19%),
-      linear-gradient(90deg, #041f30 0%, #ce0134 100%);
-    border: 0;
+  .tab.isActive::before,
+  .tab.isActive::after,
+  .tab.isActive span::before,
+  .tab.isActive span::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    border-radius: inherit;
+  }
+  .tab.isActive::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+  .tab.isActive span::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+  .tab.isActive span::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+  .tab.isActive::after {
+    background: var(--grad-color-4);
+    mix-blend-mode: var(--grad-blend-mode-4);
+  }
 
-    background-blend-mode: normal, hard-light, screen, normal;
-  }
   .tab:not(.isActive) {
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   }

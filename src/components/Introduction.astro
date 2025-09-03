@@ -1,12 +1,18 @@
 ---
 import Button from "@/components/Button.astro";
+
+const EMPHASIS_TEXT = "東京発、";
 ---
 
 <section id="introduction" class="container">
   <div class="content">
     <div class="info">
       <h2 class="title">
-        <span class="emphasis gradation">東京発、</span><br />
+        <div class="emphasis">
+          <span class="bottomGrad">{EMPHASIS_TEXT}</span>
+          <span class="middleGrad">{EMPHASIS_TEXT}</span>
+          <span class="topGrad">{EMPHASIS_TEXT}</span>
+        </div><br />
         フロントエンドの交差点。
       </h2>
       <p class="message">
@@ -96,10 +102,35 @@ import Button from "@/components/Button.astro";
   }
 
   .emphasis {
+    position: relative;
+  }
+
+  .bottomGrad {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+
+  .middleGrad {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+
+  .topGrad {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+
+  .bottomGrad,
+  .middleGrad,
+  .topGrad {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    color: transparent;
+    white-space: nowrap;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
   }
 
   .message {
