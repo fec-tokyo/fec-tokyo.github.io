@@ -7,6 +7,8 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
 import Button from "@/components/Button.astro";
 import EventNameImage from "@/assets/event-name-en.svg";
 import FooterPersonImage from "@/assets/footer-person.png";
+import TileImage from "@/assets/kv-shikxui-bg.png";
+import TrafficImage from "@/assets/footer-traffic.png";
 
 const BOTTOM_LINKS = [
   {
@@ -94,8 +96,9 @@ const BOTTOM_LINKS = [
   </div>
 </footer>
 <div class="bg">
-  <div class="tile"></div>
-  <div class="traffic"></div>
+  <div class="bgColor bgBase"></div>
+  <Image src={TileImage} alt="" class="tile bgBase" layout="full-width" />
+  <Image src={TrafficImage} alt="" class="traffic bgBase" layout="full-width" />
   <Image src={FooterPersonImage} alt="" width={68} height={52} class="person" />
 </div>
 
@@ -112,6 +115,7 @@ const BOTTOM_LINKS = [
     max-width: 992px;
     padding: 120px 16px 0;
     margin: 0 auto;
+    isolation: isolate;
   }
   .topInner {
     display: flex;
@@ -188,22 +192,18 @@ const BOTTOM_LINKS = [
     height: 240px;
     isolation: isolate;
   }
-
-  .traffic,
-  .tile {
+  .bgBase {
     position: absolute;
     width: 100%;
     height: 100%;
-    mix-blend-mode: soft-light;
   }
-  .traffic {
-    background: url("../assets/footer-traffic.png") center center / cover
-      no-repeat;
+  .bgColor {
+    background-color: var(--bg-darken);
   }
+  .bgColor,
+  .traffic,
   .tile {
-    background:
-      linear-gradient(rgba(4, 31, 48, 0.999), rgba(4, 31, 48, 0.999)),
-      url("../assets/kv-shikxui-bg.png") center center / cover no-repeat;
+    mix-blend-mode: overlay;
   }
 
   .person {
