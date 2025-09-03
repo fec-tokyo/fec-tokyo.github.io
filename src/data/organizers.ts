@@ -6,6 +6,10 @@ import ken7253 from "@/assets/staff/ken7253.jpg";
 import oyu from "@/assets/staff/0yu.jpg";
 import yossydev from "@/assets/staff/yossydev.jpg";
 
+import berlysia from "@/assets/staff/berlysia.jpg";
+import sakito from "@/assets/staff/sakito.jpg";
+import sosukesuzuki from "@/assets/staff/sosukesuzuki.jpg";
+
 type Organizer = {
   name: string;
   message?: string[];
@@ -34,62 +38,62 @@ export const ORGANIZERS: Organizers = {
         "登壇やAMA、他の参加者との議論を通じて知識と繋がりを深め、これまでに築いたフロントエンドの技術と文化を未来へ伝えるためのカンファレンスです。",
       ],
       image: did0es,
-      id: "@lanberb",
+      id: "@did0es",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "http://twitter.com/did0es",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/shuta13",
         },
       ],
     },
   ],
   cfpReviews: [
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "berlysia",
+      image: berlysia,
+      id: "@berlysia",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://twitter.com/berlysia",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/berlysia",
         },
       ],
     },
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "sakito",
+      image: sakito,
+      id: "@sakito",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://x.com/__sakito__",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/sakit0",
         },
       ],
     },
     {
-      name: "名前",
-      image: dummySpeakerIcon,
-      id: "@lanberb",
+      name: "sosukesuzuki",
+      image: sosukesuzuki,
+      id: "@__sosukesuzuki",
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          url: "https://twitter.com/__sosukesuzuki",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          url: "https://github.com/sosukesuzuki",
         },
       ],
     },
