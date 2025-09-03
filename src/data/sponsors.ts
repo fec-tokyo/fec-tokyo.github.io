@@ -26,7 +26,7 @@ type Sponsors = {
 };
 
 export const SPONSORS: Sponsors = {
-  venue: [{ name: "ダミースポンサー1", image: cyberagent }],
+  venue: [{ name: "株式会社サイバーエージェント", image: cyberagent }],
   food: [
     { name: "レバテック株式会社", image: levtech },
     { name: "株式会社CARTA HOLDINGS", image: carta },
