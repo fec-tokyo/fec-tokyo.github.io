@@ -1,6 +1,12 @@
+---
+import { getImage } from "astro:assets";
+import ShixkuiImage from "@/assets/kv-shikxui-bg.png";
+const shixkuiImage = await getImage({ src: ShixkuiImage, format: "webp" });
+---
+
 <div class="bg"></div>
 
-<style>
+<style define:vars={{ image: `url(${shixkuiImage.src})` }}>
   .bg {
     position: absolute;
     width: 100%;
@@ -10,7 +16,7 @@
         color-mix(in srgb, var(--bg-light) 65%, transparent),
         color-mix(in srgb, var(--bg-light) 65%, transparent)
       ),
-      url("../assets/kv-shikxui-bg.png") center center / cover no-repeat;
+      var(--image) center center / cover no-repeat;
     mix-blend-mode: overlay;
   }
 </style>
