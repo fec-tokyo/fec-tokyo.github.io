@@ -2,7 +2,13 @@
 type Props = {
   en: string;
   ja: string;
-  sectionId: "timetable" | "sponsors" | "faq" | "organizers" | "notice";
+  sectionId:
+    | "timetable"
+    | "sponsors"
+    | "faq"
+    | "organizers"
+    | "notice"
+    | "sessionList";
 };
 const { en, ja, sectionId } = Astro.props;
 ---

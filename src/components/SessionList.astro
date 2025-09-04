@@ -1,0 +1,196 @@
+---
+import SectionTitle from "@/components/SectionTitle.astro";
+import { SESSION_LIST } from "@/data/session";
+import ExternalLinkIcon from "@/assets/external-link.svg";
+import { Image } from "astro:assets";
+import SnsLinks from "@/components/SnsLinks.astro";
+import ShixkuiBg from "@/components/ShixkuiBg.astro";
+---
+
+<section id="sessionList" class="container">
+  <ShixkuiBg />
+  <div class="contents">
+    <SectionTitle en="Contents" ja="セッション一覧" sectionId="sessionList" />
+    <ul class="timeSlotList">
+      {
+        SESSION_LIST.map((timeSlot) => (
+          <li class="timeSlot">
+            <div class="timeSlotTitle">{timeSlot.startAt}</div>
+            <ul class="presentationList">
+              {timeSlot.list.map((presentation) => (
+                <li class="presentation">
+                  <div class="presentationCategory">
+                    <div class="presentationCategoryText">
+                      {presentation.category}
+                    </div>
+                  </div>
+                  <div class="presentationTitle">{presentation.title}</div>
+                  <div class="presentationDescription">
+                    {presentation.description}
+                  </div>
+                  <a
+                    class="slide"
+                    href={presentation.slidesUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span class="slideText">登壇資料</span>
+                    <Image
+                      src={ExternalLinkIcon}
+                      alt=""
+                      width={12}
+                      height={12}
+                      class="slideIcon"
+                    />
+                  </a>
+                  <div class="speakerCard">
+                    <Image
+                      src={presentation.icon}
+                      alt=""
+                      width={80}
+                      height={80}
+                      class="speakerIcon"
+                    />
+                    <div class="speakerDetail">
+                      <div class="speakerName">{presentation.name}</div>
+                      <div class="speakerId">@{presentation.id}</div>
+                      <div class="snsLinks">
+                        <SnsLinks
+                          xId={presentation.xId}
+                          githubId={presentation.githubId}
+                          size="small"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contents {
+    max-width: 992px;
+    padding: 233.5px 16px 0;
+    margin: 0 auto;
+    isolation: isolate;
+  }
+  .timeSlotList {
+    margin-top: 48px;
+  }
+  .timeSlot:not(:first-child) {
+    margin-top: 48px;
+  }
+  .timeSlotTitle {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+  }
+  .timeSlotTitle::after {
+    display: block;
+    width: 100%;
+    height: 1px;
+    content: "";
+    background-color: #fff;
+  }
+  .presentationList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .presentation {
+    padding: 24px;
+
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    background-color: var(--bg-light);
+    border-radius: 20px;
+  }
+  .presentationCategory {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  .presentationCategoryText {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    color: var(--bg-light);
+    text-transform: uppercase;
+  }
+  .presentationTitle {
+    margin-top: 16px;
+    font-size: 20px;
+  }
+  .presentationDescription {
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .slide {
+    display: inline-block;
+    margin-top: 20px;
+    color: #fff;
+  }
+  .slideText {
+    font-size: 14px;
+  }
+  .slideIcon {
+    object-fit: contain;
+  }
+  .speakerCard {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 8px;
+    margin-top: 32px;
+    background-color: var(--bg-dark);
+    border-radius: 12px;
+  }
+  .speakerIcon {
+    border-radius: 8px;
+  }
+  .speakerDetail {
+    display: flex;
+    flex-direction: column;
+  }
+  .speakerName {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .speakerId {
+    margin-top: 4px;
+    font-family: var(--font-noto-sans-jp);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .snsLinks {
+    margin-top: 12px;
+  }
+
+  @media (--breakpoint-sp) {
+    .timeSlot:not(:first-child) {
+      margin-top: 52px;
+    }
+  }
+</style>
