@@ -10,7 +10,7 @@
   /* color */
   --bg-light: #041f30;
   --bg-dark: #030c12;
-  --bg-darken: #01121e; /*Figma上では実際には使われていないが、デザイン再現のために用意 */
+  --bg-darken: #010d1a; /*Figma上では実際には使われていないが、デザイン再現のために用意 */
 
   /* 上から順にグラデーションを重ねる */
   --grad-color-1: linear-gradient(90deg, #041f30 0%, #ce0134 100%);
