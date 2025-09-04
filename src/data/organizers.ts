@@ -17,7 +17,7 @@ type Organizer = {
   id: string;
   socialLinks: {
     type: "x" | "github";
-    url: string;
+    id: string;
   }[];
 };
 
@@ -42,11 +42,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "http://twitter.com/did0es",
+          id: "did0es",
         },
         {
           type: "github",
-          url: "https://github.com/shuta13",
+          id: "shuta13",
         },
       ],
     },
@@ -59,11 +59,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://x.com/__sakito__",
+          id: "__sakito__",
         },
         {
           type: "github",
-          url: "https://github.com/sakit0",
+          id: "sakit0",
         },
       ],
     },
@@ -74,11 +74,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/__sosukesuzuki",
+          id: "__sosukesuzuki",
         },
         {
           type: "github",
-          url: "https://github.com/sosukesuzuki",
+          id: "sosukesuzuki",
         },
       ],
     },
@@ -89,11 +89,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/berlysia",
+          id: "berlysia",
         },
         {
           type: "github",
-          url: "https://github.com/berlysia",
+          id: "berlysia",
         },
       ],
     },
@@ -106,11 +106,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://x.com/yud0uhu",
+          id: "yud0uhu",
         },
         {
           type: "github",
-          url: "https://github.com/yud0uhu",
+          id: "yud0uhu",
         },
       ],
     },
@@ -121,11 +121,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://x.com/ken7253_",
+          id: "ken7253_",
         },
         {
           type: "github",
-          url: "https://github.com/ken7253",
+          id: "ken7253",
         },
       ],
     },
@@ -136,11 +136,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://x.com/yossydev",
+          id: "yossydev",
         },
         {
           type: "github",
-          url: "https://github.com/yossydevb",
+          id: "yossydevb",
         },
       ],
     },
@@ -153,11 +153,11 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          url: "https://twitter.com/lanberb",
+          id: "lanberb",
         },
         {
           type: "github",
-          url: "https://github.com/lanberb",
+          id: "lanberb",
         },
       ],
     },

@@ -3,12 +3,12 @@ import GitHubLogoImage from "@/assets/github-logo.svg";
 import XLogoImage from "@/assets/x-logo.svg";
 
 type Props = {
-  xLink: string;
-  githubLink: string;
+  xId: string;
+  githubId: string;
   size?: "small" | "large";
 };
 
-const { xLink, githubLink, size = "small" }: Props = Astro.props;
+const { xId, githubId, size = "small" }: Props = Astro.props;
 ---
 
 <ul class:list={["list", size === "small" ? "small" : "large"]}>
@@ -16,7 +16,11 @@ const { xLink, githubLink, size = "small" }: Props = Astro.props;
     [<XLogoImage />, <GitHubLogoImage />].map((icon, index) => (
       <li>
         <a
-          href={index === 0 ? xLink : githubLink}
+          href={
+            index === 0
+              ? `https://x.com/${xId}`
+              : `https://github.com/${githubId}`
+          }
           target="_blank"
           rel="noopener noreferrer"
           class:list={[

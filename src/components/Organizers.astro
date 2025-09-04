@@ -25,8 +25,8 @@ import SnsLinks from "./SnsLinks.astro";
             <div class="authorDetail">
               <p class="authorName">{ORGANIZERS.author[0].id}</p>
               <SnsLinks
-                xLink={ORGANIZERS.author[0].socialLinks[0].url}
-                githubLink={ORGANIZERS.author[0].socialLinks[1].url}
+                xId={ORGANIZERS.author[0].socialLinks[0].id}
+                githubId={ORGANIZERS.author[0].socialLinks[1].id}
                 size="small"
               />
               <div class="authorMessagePc">
@@ -73,8 +73,8 @@ import SnsLinks from "./SnsLinks.astro";
                   <p class="organizerId">@{organizer.id}</p>
                   <div class="snsLinksWrapper">
                     <SnsLinks
-                      xLink={organizer.socialLinks[0].url}
-                      githubLink={organizer.socialLinks[1].url}
+                      xId={organizer.socialLinks[0].id}
+                      githubId={organizer.socialLinks[1].id}
                       size="small"
                     />
                   </div>
@@ -104,8 +104,8 @@ import SnsLinks from "./SnsLinks.astro";
                   <p class="organizerId">@{organizer.id}</p>
                   <div class="snsLinksWrapper">
                     <SnsLinks
-                      xLink={organizer.socialLinks[0].url}
-                      githubLink={organizer.socialLinks[1].url}
+                      xId={organizer.socialLinks[0].id}
+                      githubId={organizer.socialLinks[1].id}
                       size="small"
                     />
                   </div>
@@ -135,8 +135,8 @@ import SnsLinks from "./SnsLinks.astro";
                   <p class="organizerId">{organizer.id}</p>
                   <div class="snsLinksWrapper">
                     <SnsLinks
-                      xLink={organizer.socialLinks[0].url}
-                      githubLink={organizer.socialLinks[1].url}
+                      xId={organizer.socialLinks[0].id}
+                      githubId={organizer.socialLinks[1].id}
                       size="small"
                     />
                   </div>
