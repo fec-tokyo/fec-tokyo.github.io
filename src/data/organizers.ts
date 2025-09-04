@@ -140,7 +140,7 @@ export const ORGANIZERS: Organizers = {
         },
         {
           type: "github",
-          id: "yossydevb",
+          id: "yossydev",
         },
       ],
     },
@@ -153,7 +153,7 @@ export const ORGANIZERS: Organizers = {
       socialLinks: [
         {
           type: "x",
-          id: "lanberb",
+          id: "lanberb__",
         },
         {
           type: "github",
