@@ -1,7 +1,5 @@
 ---
 import Button from "@/components/Button.astro";
-
-const EMPHASIS_TEXT = "東京発、";
 ---
 
 <section id="introduction" class="container">
@@ -9,9 +7,7 @@ const EMPHASIS_TEXT = "東京発、";
     <div class="info">
       <h2 class="title">
         <div class="emphasis">
-          <span class="bottomGrad">{EMPHASIS_TEXT}</span>
-          <span class="middleGrad">{EMPHASIS_TEXT}</span>
-          <span class="topGrad">{EMPHASIS_TEXT}</span>
+          <span class="middleGrad">東京発、</span>
         </div><br />
         フロントエンドの交差点。
       </h2>
@@ -104,25 +100,25 @@ const EMPHASIS_TEXT = "東京発、";
   .emphasis {
     position: relative;
   }
-
-  .bottomGrad {
+  .emphasis::before,
+  .emphasis::after {
+    content: "東京発、";
+  }
+  .emphasis::before {
     background: var(--grad-color-1);
     mix-blend-mode: var(--grad-blend-mode-1);
   }
-
   .middleGrad {
     background: var(--grad-color-2);
     mix-blend-mode: var(--grad-blend-mode-2);
   }
-
-  .topGrad {
+  .emphasis::after {
     background: var(--grad-color-3);
     mix-blend-mode: var(--grad-blend-mode-3);
   }
-
-  .bottomGrad,
+  .emphasis::before,
   .middleGrad,
-  .topGrad {
+  .emphasis::after {
     position: absolute;
     top: 0;
     left: 0;
