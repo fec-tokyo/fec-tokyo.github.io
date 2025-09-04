@@ -38,7 +38,7 @@ export const ORGANIZERS: Organizers = {
         "登壇やAMA、他の参加者との議論を通じて知識と繋がりを深め、これまでに築いたフロントエンドの技術と文化を未来へ伝えるためのカンファレンスです。",
       ],
       image: did0es,
-      id: "@did0es",
+      id: "did0es",
       socialLinks: [
         {
           type: "x",
@@ -55,7 +55,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "sakito",
       image: sakito,
-      id: "@sakito",
+      id: "sakito",
       socialLinks: [
         {
           type: "x",
@@ -70,7 +70,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "sosukesuzuki",
       image: sosukesuzuki,
-      id: "@__sosukesuzuki",
+      id: "__sosukesuzuki",
       socialLinks: [
         {
           type: "x",
@@ -85,7 +85,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "berlysia",
       image: berlysia,
-      id: "@berlysia",
+      id: "berlysia",
       socialLinks: [
         {
           type: "x",
@@ -102,7 +102,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "0yu",
       image: oyu,
-      id: "@0yu",
+      id: "0yu",
       socialLinks: [
         {
           type: "x",
@@ -117,7 +117,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "ken7253",
       image: ken7253,
-      id: "@ken7253",
+      id: "ken7253",
       socialLinks: [
         {
           type: "x",
@@ -132,7 +132,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "yossydev",
       image: yossydev,
-      id: "@yossydev",
+      id: "yossydev",
       socialLinks: [
         {
           type: "x",
@@ -149,7 +149,7 @@ export const ORGANIZERS: Organizers = {
     {
       name: "lanberb",
       image: dummySpeakerIcon,
-      id: "@lanberb",
+      id: "lanberb",
       socialLinks: [
         {
           type: "x",

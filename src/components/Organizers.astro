@@ -3,8 +3,7 @@ import SectionTitle from "@/components/SectionTitle.astro";
 import ShixkuiBg from "@/components/ShixkuiBg.astro";
 import { ORGANIZERS } from "@/data/organizers";
 import { Image } from "astro:assets";
-import GitHubLogoImage from "@/assets/github-logo.svg";
-import XLogoImage from "@/assets/x-logo.svg";
+import SnsLinks from "./SnsLinks.astro";
 ---
 
 <section id="organizers" class="container">
@@ -14,26 +13,43 @@ import XLogoImage from "@/assets/x-logo.svg";
     <div class="organizerTypes">
       <div class="authors">
         <div class="organizerType">Author</div>
-        <div class="authorInfo">
-          <Image
-            src={ORGANIZERS.author[0].image}
-            alt={ORGANIZERS.author[0].name}
-            width={280}
-            height={280}
-            class="organizerImage"
-          />
-          <div class="authorDetail">
-            <p class="authorName">{ORGANIZERS.author[0].name}</p>
-            <div class="authorMessage">
-              <p class="messageTitle">Message</p>
-              <p class="messageDetail">
-                {
-                  ORGANIZERS.author[0].message?.map((message) => (
-                    <span class="messageDetailItem">{message}</span>
-                  ))
-                }
-              </p>
+        <div class="authorInfoWrapper">
+          <div class="authorInfo">
+            <Image
+              src={ORGANIZERS.author[0].image}
+              alt={ORGANIZERS.author[0].name}
+              width={280}
+              height={280}
+              class="organizerIcon"
+            />
+            <div class="authorDetail">
+              <p class="authorName">{ORGANIZERS.author[0].id}</p>
+              <SnsLinks
+                xLink={ORGANIZERS.author[0].socialLinks[0].url}
+                githubLink={ORGANIZERS.author[0].socialLinks[1].url}
+                size="small"
+              />
+              <div class="authorMessagePc">
+                <p class="messageTitle">Message</p>
+                <p class="messageDetail">
+                  {
+                    ORGANIZERS.author[0].message?.map((message) => (
+                      <span class="messageDetailItem">{message}</span>
+                    ))
+                  }
+                </p>
+              </div>
             </div>
+          </div>
+          <div class="authorMessageSp">
+            <p class="messageTitle">Message</p>
+            <p class="messageDetail">
+              {
+                ORGANIZERS.author[0].message?.map((message) => (
+                  <span class="messageDetailItem">{message}</span>
+                ))
+              }
+            </p>
           </div>
         </div>
       </div>
@@ -54,31 +70,14 @@ import XLogoImage from "@/assets/x-logo.svg";
                 />
                 <div class="organizerDetail">
                   <p class="organizerName">{organizer.name}</p>
-                  <p class="organizerId">{organizer.id}</p>
-                  <ul class="organizerSocialLinks">
-                    {organizer.socialLinks.map((socialLink) => (
-                      <li>
-                        <a
-                          href={socialLink.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class:list={[
-                            "organizerSocialLink",
-                            {
-                              github: socialLink.type === "github",
-                              x: socialLink.type === "x",
-                            },
-                          ]}
-                        >
-                          {socialLink.type === "github" ? (
-                            <GitHubLogoImage />
-                          ) : (
-                            <XLogoImage />
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <p class="organizerId">@{organizer.id}</p>
+                  <div class="snsLinksWrapper">
+                    <SnsLinks
+                      xLink={organizer.socialLinks[0].url}
+                      githubLink={organizer.socialLinks[1].url}
+                      size="small"
+                    />
+                  </div>
                 </div>
               </div>
             ))
@@ -102,31 +101,14 @@ import XLogoImage from "@/assets/x-logo.svg";
                 />
                 <div class="organizerDetail">
                   <p class="organizerName">{organizer.name}</p>
-                  <p class="organizerId">{organizer.id}</p>
-                  <ul class="organizerSocialLinks">
-                    {organizer.socialLinks.map((socialLink) => (
-                      <li>
-                        <a
-                          href={socialLink.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class:list={[
-                            "organizerSocialLink",
-                            {
-                              github: socialLink.type === "github",
-                              x: socialLink.type === "x",
-                            },
-                          ]}
-                        >
-                          {socialLink.type === "github" ? (
-                            <GitHubLogoImage />
-                          ) : (
-                            <XLogoImage />
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <p class="organizerId">@{organizer.id}</p>
+                  <div class="snsLinksWrapper">
+                    <SnsLinks
+                      xLink={organizer.socialLinks[0].url}
+                      githubLink={organizer.socialLinks[1].url}
+                      size="small"
+                    />
+                  </div>
                 </div>
               </div>
             ))
@@ -151,30 +133,13 @@ import XLogoImage from "@/assets/x-logo.svg";
                 <div class="organizerDetail">
                   <p class="organizerName">{organizer.name}</p>
                   <p class="organizerId">{organizer.id}</p>
-                  <ul class="organizerSocialLinks">
-                    {organizer.socialLinks.map((socialLink) => (
-                      <li>
-                        <a
-                          href={socialLink.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class:list={[
-                            "organizerSocialLink",
-                            {
-                              github: socialLink.type === "github",
-                              x: socialLink.type === "x",
-                            },
-                          ]}
-                        >
-                          {socialLink.type === "github" ? (
-                            <GitHubLogoImage />
-                          ) : (
-                            <XLogoImage />
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <div class="snsLinksWrapper">
+                    <SnsLinks
+                      xLink={organizer.socialLinks[0].url}
+                      githubLink={organizer.socialLinks[1].url}
+                      size="small"
+                    />
+                  </div>
                 </div>
               </div>
             ))
@@ -227,11 +192,8 @@ import XLogoImage from "@/assets/x-logo.svg";
   .authorInfo {
     display: flex;
     gap: 30px;
-    align-items: end;
+    align-items: center;
     margin-top: 16px;
-  }
-  .organizerImage {
-    border-radius: 12px;
   }
   .authorDetail {
     display: flex;
@@ -239,10 +201,16 @@ import XLogoImage from "@/assets/x-logo.svg";
     gap: 12px;
   }
   .authorName {
+    font-family: var(--font-noto-sans-jp);
     font-size: 32px;
     font-weight: bold;
+    line-height: 1;
+    letter-spacing: 0.04em;
   }
-  .authorMessage {
+  .authorMessageSp {
+    display: none;
+  }
+  .authorMessagePc {
     padding: 16px 24px;
     background-color: var(--bg-dark);
     border-radius: 12px;
@@ -254,8 +222,8 @@ import XLogoImage from "@/assets/x-logo.svg";
   .messageDetail {
     margin-top: 12px;
     font-family: var(--font-noto-sans-jp);
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.8;
     letter-spacing: 0.02em;
   }
   .messageDetailItem {
@@ -292,42 +260,39 @@ import XLogoImage from "@/assets/x-logo.svg";
     font-family: var(--font-noto-sans-jp);
     font-size: 12px;
   }
-  .organizerSocialLinks {
-    display: flex;
-    gap: 4px;
-    padding: 0;
+  .snsLinksWrapper {
     margin-top: 12px;
-    margin-bottom: 0;
-    list-style: none;
-  }
-  .organizerSocialLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    padding: 4px;
-    background-color: #fff;
-    border-radius: 4px;
-  }
-  .github {
-    padding: 2px;
   }
 
   @media (--breakpoint-sp) {
     .organizerType {
       margin-top: 22px;
     }
-    /* AuthorのPC表示でSNSリンク等はなくていい？を確認 */
     .authorInfo {
-      flex-direction: column;
-      align-items: center;
+      padding: 16px;
+      background-color: var(--bg-dark);
+      border-radius: 12px;
+    }
+    .organizerIcon {
+      width: 120px;
+      height: 120px;
+    }
+    .authorName {
+      font-size: 18px;
+    }
+    .authorMessageSp {
+      display: block;
+      padding: 16px 24px;
+      margin-top: 16px;
+      background-color: var(--bg-dark);
+      border-radius: 12px;
+    }
+    .authorMessagePc {
+      display: none;
     }
     .organizers {
       flex-direction: column;
       gap: 8px;
-    }
-    .organizer {
     }
   }
 </style>

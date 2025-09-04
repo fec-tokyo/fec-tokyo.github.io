@@ -1,14 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import LogoImage from "@/assets/colored-logo.svg";
-import XLogoImage from "@/assets/x-logo.svg";
-import GitHubLogoImage from "@/assets/github-logo.svg";
 import ShixkuiBg from "@/components/ShixkuiBg.astro";
 import Button from "@/components/Button.astro";
 import EventNameImage from "@/assets/event-name-en.svg";
 import FooterPersonImage from "@/assets/footer-person.png";
 import TileImage from "@/assets/kv-shikxui-bg.png";
 import TrafficImage from "@/assets/footer-traffic.png";
+import SnsLinks from "./SnsLinks.astro";
 
 const BOTTOM_LINKS = [
   {
@@ -50,28 +49,7 @@ const BOTTOM_LINKS = [
               class=""
             />
           </div>
-          <ul class="topSocialLinks">
-            <li>
-              <a
-                href="/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="topSocialLink"
-              >
-                <XLogoImage width={24} height={24} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="topSocialLink"
-              >
-                <GitHubLogoImage width={28} height={28} />
-              </a>
-            </li>
-          </ul>
+          <SnsLinks xLink="/" githubLink="/" size="large" />
         </div>
         <div class="topButtons">
           <Button href="/"> Connpassで参加申込する </Button>
