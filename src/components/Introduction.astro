@@ -48,16 +48,16 @@ import Button from "@/components/Button.astro";
       </div>
     </div>
     <div class="map">
-      <iframe
-        title="Map"
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12912.09909222013!2d139.7100532!3d35.6611749!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188cd0b4b7b3d1%3A0x3a8c7b3b7b3b3b3b!2z5pel5pys44Gu44Oq44O844Or44O8!5e0!3m2!1sja!2sjp!4v1693022400000!5m2!1sja!2sjp"
-        width="472"
-        height="472"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        class="embed"
-      >
-      </iframe>
+      <div class="mapInner">
+        <iframe
+          title="Map"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12912.09909222013!2d139.7100532!3d35.6611749!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188cd0b4b7b3d1%3A0x3a8c7b3b7b3b3b3b!2z5pel5pys44Gu44Oq44O844Or44O8!5e0!3m2!1sja!2sjp!4v1693022400000!5m2!1sja!2sjp"
+          width="472"
+          height="472"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="embed"></iframe>
+      </div>
     </div>
   </div>
 </section>
@@ -276,19 +276,36 @@ import Button from "@/components/Button.astro";
     align-items: center;
     justify-content: center;
     aspect-ratio: 1/1;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 107, 107, 0.8),
-      rgba(74, 144, 226, 0.8)
-    );
-    background-clip: border-box;
-    background-origin: border-box;
-    border: 8px solid transparent;
-    border-radius: 32px;
-    box-shadow: inset 0 0 32px rgba(161, 161, 161, 1);
-    background-blend-mode: normal, screen, normal;
   }
+
+  .mapInner {
+    padding: 6px;
+  }
+
+  .map::before,
+  .map .mapInner::before,
+  .map .mapInner::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    border-radius: 24px;
+  }
+  .map::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+  .map .mapInner::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+  .map .mapInner::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+
   .embed {
+    background-color: #fff;
     border: 0;
     border-radius: 24px;
   }
