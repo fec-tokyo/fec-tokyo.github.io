@@ -77,6 +77,10 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
   .contents {
     position: relative;
     z-index: var(--base-z-index);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
   }
@@ -101,15 +105,13 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
   }
 
   .content {
-    position: absolute;
-    top: 160px;
-    left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -50px;
     color: #fff;
     text-align: center;
-    transform: translateX(-50%);
+    isolation: isolate;
   }
 
   .eventName {
@@ -126,7 +128,7 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
 
   .eventNameColumn {
     display: block;
-    font-size: clamp(32px, 4vw, 44px);
+    font-size: 44px;
     font-weight: bold;
     vertical-align: top;
     text-align: start;
@@ -158,7 +160,6 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
   }
 
   @media (--breakpoint-sp) {
-    /* TODO: デザイン再現の調整中 */
     .container {
       height: calc(100vh + 30px);
     }
@@ -169,7 +170,7 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
     }
 
     .content {
-      top: 144px;
+      margin-top: -40px;
     }
 
     .logo {
@@ -180,6 +181,9 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
     .eventName {
       gap: 16px;
       margin-top: 20px;
+    }
+    .eventNameColumn {
+      font-size: clamp(32px, 6vw, 44px);
     }
 
     .eventInfo {
