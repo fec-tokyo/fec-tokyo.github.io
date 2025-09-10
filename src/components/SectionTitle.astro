@@ -17,6 +17,7 @@ const { en, ja, sectionId } = Astro.props;
   class:list={[
     "container",
     {
+      organizers: sectionId === "organizers",
       notice: sectionId === "notice",
       faq: sectionId === "faq",
     },
@@ -57,10 +58,14 @@ const { en, ja, sectionId } = Astro.props;
   .container {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+  }
+  .container.organizers {
     gap: 12px;
   }
   .container.notice {
     color: var(--bg-light);
+    gap: 12px;
   }
 
   .en {
