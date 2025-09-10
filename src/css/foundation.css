@@ -30,6 +30,8 @@ body {
   color: #fff;
   color-scheme: dark;
   background: var(--bg-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
