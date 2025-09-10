@@ -399,14 +399,13 @@ import Button from "@/components/Button.astro";
     .apply {
       align-self: stretch;
     }
-    .map {
-      width: 100%;
-      max-width: 480px;
+    .mapInner {
+      padding: 4px;
     }
 
     .embed {
-      width: 100%;
-      height: auto;
+      max-width: calc(100vw - 44px);
+      height: 100%;
       aspect-ratio: 1/1;
     }
   }
