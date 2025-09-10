@@ -16,9 +16,7 @@ import ApplyImage from "@/assets/apply-button.svg";
     z-index: var(--apply-button-z-index);
     display: inline-block;
     border-radius: 50%;
-    transition:
-      transform 0.2s ease,
-      outline 0.2s ease;
+    transition: opacity 0.15s;
   }
 
   @media (--breakpoint-sp) {
@@ -28,7 +26,7 @@ import ApplyImage from "@/assets/apply-button.svg";
   }
   @media (hover: hover) {
     .apply:hover {
-      transform: scale(1.05);
+      opacity: 0.6;
     }
   }
 </style>

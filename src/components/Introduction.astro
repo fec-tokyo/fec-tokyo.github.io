@@ -8,7 +8,8 @@ import Button from "@/components/Button.astro";
       <h2 class="title">
         <div class="emphasis">
           <span class="middleGrad">東京発、</span>
-        </div><br />
+        </div>
+        <span class="break"></span>
         フロントエンドの交差点。
       </h2>
       <p class="message">
@@ -74,11 +75,11 @@ import Button from "@/components/Button.astro";
 
   .content {
     display: flex;
-    gap: 20px;
+    gap: 24px;
     align-items: center;
     align-self: stretch;
     justify-content: center;
-    padding-bottom: 20px;
+    padding: 20px 0;
   }
 
   .info {
@@ -129,9 +130,13 @@ import Button from "@/components/Button.astro";
     background-clip: text;
   }
 
+  .break {
+    display: block;
+    height: 60px;
+  }
   .message {
     padding: 0;
-    margin-top: 20px;
+    margin-top: 24px;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.8;
@@ -279,7 +284,7 @@ import Button from "@/components/Button.astro";
   }
 
   .mapInner {
-    padding: 6px;
+    padding: 8px;
   }
 
   .map::before,
@@ -289,7 +294,7 @@ import Button from "@/components/Button.astro";
     inset: 0;
     z-index: -1;
     content: "";
-    border-radius: 24px;
+    border-radius: 32px;
   }
   .map::before {
     background: var(--grad-color-1);
@@ -319,6 +324,7 @@ import Button from "@/components/Button.astro";
       flex-direction: column;
       gap: 64px;
       align-self: stretch;
+      padding-top: 60px;
     }
 
     .info {
@@ -393,14 +399,13 @@ import Button from "@/components/Button.astro";
     .apply {
       align-self: stretch;
     }
-    .map {
-      width: 100%;
-      max-width: 480px;
+    .mapInner {
+      padding: 4px;
     }
 
     .embed {
-      width: 100%;
-      height: auto;
+      max-width: calc(100vw - 44px);
+      height: 100%;
       aspect-ratio: 1/1;
     }
   }

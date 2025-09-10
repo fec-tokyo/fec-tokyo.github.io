@@ -14,13 +14,25 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
       ja="当日のタイムテーブルをご紹介"
       sectionId="timetable"
     />
-    <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
-      <button class="tab buttonBase isActive" role="tab" aria-selected="true">
-        <span> SESSION ROOM</span>
-      </button>
-      <button class="tab buttonBase" role="tab" aria-selected="false"
-        ><span>AMA ROOM</span></button
-      >
+    <div class="tabWrapper">
+      <input
+        type="radio"
+        name="roomTabs"
+        id="sessionRoom"
+        class="tabInput"
+        checked
+      />
+      <input type="radio" name="roomTabs" id="amaRoom" class="tabInput" />
+
+      <div class="tabList">
+        <label for="sessionRoom" class="tabLabel" tabindex="0">
+          <span>SESSION ROOM</span>
+        </label>
+        <label for="amaRoom" class="tabLabel" tabindex="-1">
+          <span>AMA ROOM</span>
+        </label>
+        <div class="tabSlider"><span></span></div>
+      </div>
     </div>
 
     <div class="tableWrapper">
@@ -66,7 +78,15 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
                           },
                         ]}
                       >
-                        <div class="cellBody">
+                        {cell.id && (
+                          <a href={`/contents/#${cell.id}`} class="cellLink" />
+                        )}
+                        <div
+                          class:list={[
+                            "cellBody",
+                            { shortTalk: !cell.isLongTalk },
+                          ]}
+                        >
                           <div class="cellContents">
                             <p
                               class:list={[
@@ -128,6 +148,65 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
   </div>
 </section>
 
+<script>
+  const sessionRoomInput = document.getElementById(
+    "sessionRoom",
+  ) as HTMLInputElement | null;
+  const amaRoomInput = document.getElementById(
+    "amaRoom",
+  ) as HTMLInputElement | null;
+  const sessionRoomLabel = document.querySelector(
+    "label[for='sessionRoom']",
+  ) as HTMLLabelElement | null;
+  const amaRoomLabel = document.querySelector(
+    "label[for='amaRoom']",
+  ) as HTMLLabelElement | null;
+
+  function updateTabStates() {
+    if (sessionRoomInput?.checked) {
+      sessionRoomLabel?.setAttribute("tabindex", "0");
+      amaRoomLabel?.setAttribute("tabindex", "-1");
+    } else {
+      sessionRoomLabel?.setAttribute("tabindex", "-1");
+      amaRoomLabel?.setAttribute("tabindex", "0");
+    }
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    const tabs = [sessionRoomLabel, amaRoomLabel].filter(
+      Boolean,
+    ) as HTMLLabelElement[];
+    const currentIndex = tabs.findIndex(
+      (tab) => tab.getAttribute("tabindex") === "0",
+    );
+
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      const nextIndex =
+        event.key === "ArrowRight"
+          ? (currentIndex + 1) % tabs.length
+          : (currentIndex - 1 + tabs.length) % tabs.length;
+
+      tabs[currentIndex]?.setAttribute("tabindex", "-1");
+      tabs[nextIndex]?.setAttribute("tabindex", "0");
+      tabs[nextIndex]?.focus();
+
+      const targetId = tabs[nextIndex]?.getAttribute("for");
+      if (targetId === "sessionRoom") {
+        sessionRoomInput?.click();
+      } else if (targetId === "amaRoom") {
+        amaRoomInput?.click();
+      }
+    }
+  }
+
+  sessionRoomInput?.addEventListener("change", updateTabStates);
+  amaRoomInput?.addEventListener("change", updateTabStates);
+
+  sessionRoomLabel?.addEventListener("keydown", handleKeyDown);
+  amaRoomLabel?.addEventListener("keydown", handleKeyDown);
+</script>
+
 <style>
   @import "../css/utils.css";
   @import "../css/vars.css";
@@ -162,9 +241,8 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     backdrop-filter: blur(0px);
   }
 
-  .tabs {
-    display: flex;
-    align-items: stretch;
+  .tabWrapper {
+    position: relative;
     width: 100%;
     padding: 8px 10px;
     margin-top: 24px;
@@ -173,52 +251,87 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     backdrop-filter: blur(16px);
   }
 
-  .tab {
+  /* ラジオボタンを隠す */
+  .tabInput {
+    display: none;
+  }
+
+  .tabList {
     position: relative;
-    width: 50%;
+    display: flex;
+  }
+
+  .tabLabel {
+    position: relative;
+    z-index: 2;
+    display: block;
+    flex: 1;
     padding: 12px 20px;
-    overflow: hidden;
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
     color: #ffffff;
+    text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    appearance: none;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    background: none;
-    border: 0;
-    border-radius: 100vh;
   }
-  .tab.isActive::before,
-  .tab.isActive::after,
-  .tab.isActive span::before,
-  .tab.isActive span::after {
+
+  .tabSlider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 100vh;
+    transition: all 0.15s linear;
+  }
+
+  .tabSlider::before,
+  .tabSlider::after,
+  .tabSlider span::before,
+  .tabSlider span::after {
     position: absolute;
     inset: 0;
     z-index: -1;
     content: "";
     border-radius: inherit;
   }
-  .tab.isActive::before {
+
+  .tabSlider::before {
     background: var(--grad-color-1);
     mix-blend-mode: var(--grad-blend-mode-1);
   }
-  .tab.isActive span::before {
+
+  .tabSlider span::before {
     background: var(--grad-color-2);
     mix-blend-mode: var(--grad-blend-mode-2);
   }
-  .tab.isActive span::after {
+
+  .tabSlider span::after {
     background: var(--grad-color-3);
     mix-blend-mode: var(--grad-blend-mode-3);
   }
-  .tab.isActive::after {
+
+  .tabSlider::after {
     background: var(--grad-color-4);
     mix-blend-mode: var(--grad-blend-mode-4);
   }
 
-  .tab:not(.isActive) {
-    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  .tabInput:nth-child(1):checked ~ .tabList .tabSlider {
+    transform: translateX(0%);
+  }
+
+  .tabInput:nth-child(2):checked ~ .tabList .tabSlider {
+    transform: translateX(100%);
+  }
+
+  .tabInput:nth-child(1):checked ~ .tabList .tabLabel:nth-child(1),
+  .tabInput:nth-child(2):checked ~ .tabList .tabLabel:nth-child(2) {
+    text-shadow: none;
   }
 
   .tableWrapper {
@@ -261,10 +374,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     padding: 24px;
   }
   .presentationCell {
-    padding: 26px 24px;
-  }
-  .presentationCell.shortTalk {
-    padding: 20px 24px;
+    position: relative;
   }
 
   .timeRange {
@@ -288,6 +398,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     width: 2px;
     height: 13px;
     background: #ffffff;
+    border-radius: 100vh;
   }
 
   .cell {
@@ -297,10 +408,19 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     border-radius: 8px;
   }
 
+  .cellLink {
+    position: absolute;
+    inset: 0;
+  }
+
   .cellBody {
     display: flex;
     gap: 16px;
     align-items: center;
+    padding: 26px 24px;
+  }
+  .cellBody.shortTalk {
+    padding: 20px 24px;
   }
 
   .cellContents {
@@ -319,8 +439,8 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     -webkit-line-clamp: 3;
     line-height: 1.3;
     color: #ffffff;
-    letter-spacing: 0.02em;
     -webkit-box-orient: vertical;
+    text-align: justify;
   }
 
   .emphasized {
@@ -351,6 +471,10 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
   }
 
   .slide {
+    z-index: 1;
+    display: flex;
+    gap: 4px;
+    align-items: center;
     color: #fff;
     text-decoration: none;
   }
@@ -363,7 +487,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
 
   @media (--breakpoint-sp) {
     .container {
-      padding: 60px 0;
+      padding-top: 60px;
     }
     .container::before {
       top: -20vw;
@@ -373,28 +497,21 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
       padding-top: 27vw;
     }
 
-    .tabs {
+    .tabWrapper {
       width: 100%;
       margin-top: 48px;
     }
-    .tab {
+    .tabLabel {
       padding: 12px 18px;
-      font-size: 22px;
+      letter-spacing: 0.001em;
     }
 
     .timetable {
       grid-template-columns: 80px 1fr;
-      row-gap: 4px;
-    }
-    .cell {
-      padding: 16px;
     }
     .eventCell {
       padding: 24px;
       line-height: 1.35;
-    }
-    .presentationCell {
-      padding: 16px;
     }
     .colTime {
       width: 140px;
@@ -402,6 +519,10 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     .cellBody {
       flex-direction: column;
       align-items: unset;
+    }
+    .cellBody,
+    .cellBody.shortTalk {
+      padding: 16px;
     }
     .cellContents {
       gap: 8px;
@@ -431,38 +552,3 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     }
   }
 </style>
-
-<script>
-  // ROOMの表示切り替えは一旦classの付け替えで対応
-  // キーボード操作によるタブ切り替えは未対応
-  const tabsContainer = document.querySelector(
-    '[role="tablist"]',
-  ) as HTMLElement;
-  const tabs = tabsContainer?.querySelectorAll(
-    '[role="tab"]',
-  ) as NodeListOf<HTMLButtonElement>;
-
-  if (tabsContainer && tabs) {
-    tabs.forEach((tab, index) => {
-      if (index === 0) {
-        tab.setAttribute("tabindex", "0");
-      } else {
-        tab.setAttribute("tabindex", "-1");
-      }
-    });
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((otherTab) => {
-          otherTab.classList.remove("isActive");
-          otherTab.setAttribute("aria-selected", "false");
-          otherTab.setAttribute("tabindex", "-1");
-        });
-
-        tab.classList.add("isActive");
-        tab.setAttribute("aria-selected", "true");
-        tab.setAttribute("tabindex", "0");
-      });
-    });
-  }
-</script>

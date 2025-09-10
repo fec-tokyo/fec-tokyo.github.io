@@ -30,6 +30,8 @@ body {
   color: #fff;
   color-scheme: dark;
   background: var(--bg-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
@@ -55,6 +57,7 @@ main {
 :where(html) {
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 :where(button, input, select, textarea) {

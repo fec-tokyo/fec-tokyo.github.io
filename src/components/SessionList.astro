@@ -18,7 +18,7 @@ import ShixkuiBg from "@/components/ShixkuiBg.astro";
             <div class="timeSlotTitle">{timeSlot.startAt}</div>
             <ul class="presentationList">
               {timeSlot.list.map((presentation) => (
-                <li class="presentation">
+                <li class="presentation" id={presentation.id}>
                   <div class="presentationCategory">
                     <div class="presentationCategoryText">
                       {presentation.category}

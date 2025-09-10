@@ -16,7 +16,10 @@ import { FAQ_LIST } from "@/data/faq";
               <span class="prefix">Q.</span>
               {faq.question}
             </div>
-            <div class="answer">{faq.answer}</div>
+            <div class="answer">
+              <span class="prefix onlySp">A.</span>
+              {faq.answer}
+            </div>
           </list>
         ))
       }
@@ -59,14 +62,18 @@ import { FAQ_LIST } from "@/data/faq";
     font-family: var(--font-noto-sans-jp);
     letter-spacing: 0.03em;
     background-color: var(--bg-dark);
-    border-radius: 12px;
+    border-radius: 8px;
   }
   .question {
     display: flex;
     gap: 8px;
     min-width: 360px;
     font-size: 20px;
+    line-height: 1.4;
     letter-spacing: 0.02em;
+  }
+  .prefix.onlySp {
+    display: none;
   }
   .answer {
     line-height: 1.6;
@@ -75,12 +82,17 @@ import { FAQ_LIST } from "@/data/faq";
   @media (--breakpoint-sp) {
     .item {
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       align-items: start;
       padding: 24px;
     }
     .question {
       min-width: auto;
+      font-size: 16px;
+    }
+    .prefix.onlySp {
+      display: inline-block;
+      margin-right: 8px;
       font-size: 16px;
     }
     .answer {

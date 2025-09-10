@@ -11,23 +11,23 @@ import SnsLinks from "./SnsLinks.astro";
 
 const BOTTOM_LINKS = [
   {
-    href: "/",
+    href: "#timetable",
     text: "タイムテーブル",
   },
   {
-    href: "/",
+    href: "#sponsors",
     text: "スポンサー一覧",
   },
   {
-    href: "/",
+    href: "#faq",
     text: "よくあるご質問",
   },
   {
-    href: "/",
+    href: "https://docs.google.com/document/d/1kzUGfkN5P77_4nmOCCZ7jJZcsGdMD44UIZtSLQMIEPI/edit?usp=sharing",
     text: "プライバシーポリシー",
   },
   {
-    href: "/",
+    href: "https://docs.google.com/document/d/1pyHpjW8yNUDqbZa2p57PjCuEkYn6jWPCNPEQ3PWAq7o/edit?usp=sharing",
     text: "行動規範",
   },
 ];
@@ -49,11 +49,23 @@ const BOTTOM_LINKS = [
               class=""
             />
           </div>
-          <SnsLinks xId="fec_tokyo" githubId="" size="large" />
+          <SnsLinks
+            xId="fec_tokyo"
+            hasNote={true}
+            noteId="fec_tokyo"
+            size="large"
+          />
         </div>
         <div class="topButtons">
-          <Button href="/"> Connpassで参加申込する </Button>
-          <Button href="/" isGradated={false}> Xで参加をシェアする </Button>
+          <Button href="https://fec-tokyo.connpass.com/event/352581/">
+            Connpassで参加申込する
+          </Button>
+          <Button
+            href="https://x.com/intent/post?url=https%3A%2F%2Fx.com%2Ffec_tokyo/"
+            isGradated={false}
+          >
+            Xで参加をシェアする
+          </Button>
         </div>
       </div>
     </div>
@@ -69,7 +81,7 @@ const BOTTOM_LINKS = [
           ))
         }
       </ul>
-      <p class="copyright">©FEC TOKYO</p>
+      <p class="copyright">©フロントエンドカンファレンス東京実行委員会</p>
     </div>
   </div>
 </footer>
@@ -99,7 +111,7 @@ const BOTTOM_LINKS = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 30px;
+    padding-bottom: 32px;
   }
   .top::after {
     display: block;
@@ -142,7 +154,7 @@ const BOTTOM_LINKS = [
   .topButtons {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
   .apply {
     width: 100%;
@@ -151,7 +163,7 @@ const BOTTOM_LINKS = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px 0;
+    padding: 32px 0;
     font-size: 12px;
   }
   .bottomLinks {
@@ -159,7 +171,7 @@ const BOTTOM_LINKS = [
     gap: 24px;
   }
   .bottomLink {
-    line-height: 1.3;
+    line-height: 1.4;
     color: #fff;
     letter-spacing: 0.03em;
     text-decoration: none;
@@ -214,6 +226,9 @@ const BOTTOM_LINKS = [
     .bottomLinks {
       flex-wrap: wrap;
       gap: 16px;
+    }
+    .bg {
+      height: 160px;
     }
   }
 </style>

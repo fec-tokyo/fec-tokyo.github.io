@@ -1,14 +1,14 @@
 import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
 import type { ImageMetadata } from "astro";
 
-import did0es from "@/assets/staff/did0es.jpg";
-import ken7253 from "@/assets/staff/ken7253.jpg";
-import oyu from "@/assets/staff/0yu.jpg";
-import yossydev from "@/assets/staff/yossydev.jpg";
+import did0es from "@/assets/coreMembers/did0es.jpg";
+import ken7253 from "@/assets/coreMembers/ken7253.jpg";
+import oyu from "@/assets/coreMembers/0yu.jpg";
+import yossydev from "@/assets/coreMembers/yossydev.jpg";
 
-import berlysia from "@/assets/staff/berlysia.jpg";
-import sakito from "@/assets/staff/sakito.jpg";
-import sosukesuzuki from "@/assets/staff/sosukesuzuki.jpg";
+import berlysia from "@/assets/coreMembers/berlysia.jpg";
+import sakito from "@/assets/coreMembers/sakito.jpg";
+import sosukesuzuki from "@/assets/coreMembers/sosukesuzuki.jpg";
 
 type Organizer = {
   name: string;
@@ -22,14 +22,14 @@ type Organizer = {
 };
 
 type Organizers = {
-  author: Organizer[];
+  organizer: Organizer[];
   cfpReviews: Organizer[];
-  staff: Organizer[];
+  coreMembers: Organizer[];
   designer: Organizer[];
 };
 
 export const ORGANIZERS: Organizers = {
-  author: [
+  organizer: [
     {
       name: "平井 柊太",
       message: [
@@ -98,7 +98,7 @@ export const ORGANIZERS: Organizers = {
       ],
     },
   ],
-  staff: [
+  coreMembers: [
     {
       name: "0yu",
       image: oyu,

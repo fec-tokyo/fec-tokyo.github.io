@@ -28,17 +28,17 @@ type Sponsors = {
 export const SPONSORS: Sponsors = {
   venue: [{ name: "株式会社サイバーエージェント", image: cyberagent }],
   food: [
-    { name: "レバテック株式会社", image: levtech },
-    { name: "株式会社CARTA HOLDINGS", image: carta },
-    { name: "株式会社ドワンゴ", image: dwango },
-    { name: "株式会社ジーニー", image: geniee },
-    { name: "コミューン株式会社", image: commune },
-    { name: "ちょっと株式会社", image: chot },
-    { name: "株式会社ノベルティ", image: novelty },
     { name: "株式会社カオナビ", image: kaonavi },
+    { name: "株式会社CARTA HOLDINGS", image: carta },
+    { name: "コミューン株式会社", image: commune },
+    { name: "株式会社ジーニー", image: geniee },
+    { name: "ちょっと株式会社", image: chot },
+    { name: "株式会社ドワンゴ", image: dwango },
+    { name: "株式会社ノベルティ", image: novelty },
+    { name: "レバテック株式会社", image: levtech },
   ],
   drink: [
-    { name: "フリー株式会社", image: free },
     { name: "株式会社カケハシ", image: kakehashi },
+    { name: "フリー株式会社", image: free },
   ],
 };
