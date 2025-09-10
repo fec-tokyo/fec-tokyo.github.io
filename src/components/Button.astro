@@ -52,6 +52,7 @@ const { tag = "a", href, isGradated = true } = Astro.props;
     letter-spacing: 0.04em;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     isolation: isolate;
+    transition: opacity 0.15s;
   }
 
   .button.gradated::before,
@@ -96,7 +97,7 @@ const { tag = "a", href, isGradated = true } = Astro.props;
 
   @media (hover: hover) {
     .button:hover {
-      transform: scale(1.05);
+      opacity: 0.6;
     }
   }
 </style>
