@@ -81,7 +81,12 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
                         {cell.id && (
                           <a href={`/contents/#${cell.id}`} class="cellLink" />
                         )}
-                        <div class="cellBody">
+                        <div
+                          class:list={[
+                            "cellBody",
+                            { shortTalk: !cell.isLongTalk },
+                          ]}
+                        >
                           <div class="cellContents">
                             <p
                               class:list={[
@@ -370,10 +375,6 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
   }
   .presentationCell {
     position: relative;
-    padding: 26px 24px;
-  }
-  .presentationCell.shortTalk {
-    padding: 20px 24px;
   }
 
   .timeRange {
@@ -416,6 +417,10 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     display: flex;
     gap: 16px;
     align-items: center;
+    padding: 26px 24px;
+  }
+  .cellBody.shortTalk {
+    padding: 20px 24px;
   }
 
   .cellContents {
@@ -435,6 +440,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     line-height: 1.3;
     color: #ffffff;
     -webkit-box-orient: vertical;
+    text-align: justify;
   }
 
   .emphasized {
@@ -505,14 +511,11 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
       row-gap: 4px;
     }
     .cell {
-      padding: 16px;
+      /* padding: 16px; */
     }
     .eventCell {
       padding: 24px;
       line-height: 1.35;
-    }
-    .presentationCell {
-      padding: 16px;
     }
     .colTime {
       width: 140px;
@@ -520,6 +523,10 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     .cellBody {
       flex-direction: column;
       align-items: unset;
+    }
+    .cellBody,
+    .cellBody.shortTalk {
+      padding: 16px;
     }
     .cellContents {
       gap: 8px;
