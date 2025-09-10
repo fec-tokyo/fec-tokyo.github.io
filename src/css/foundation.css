@@ -57,6 +57,7 @@ main {
 :where(html) {
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 :where(button, input, select, textarea) {
