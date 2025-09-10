@@ -15,12 +15,24 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
       sectionId="timetable"
     />
     <div class="tabs" role="tablist" aria-label="タイムテーブル表示切替">
-      <button class="tab buttonBase isActive" role="tab" aria-selected="true">
-        <span> SESSION ROOM</span>
-      </button>
-      <button class="tab buttonBase" role="tab" aria-selected="false"
-        ><span>AMA ROOM</span></button
-      >
+      <input
+        type="radio"
+        name="roomTabs"
+        id="sessionRoom"
+        class="tabInput"
+        checked
+      />
+      <input type="radio" name="roomTabs" id="amaRoom" class="tabInput" />
+
+      <div class="tabList">
+        <label for="sessionRoom" class="tabLabel">
+          <span>SESSION ROOM</span>
+        </label>
+        <label for="amaRoom" class="tabLabel">
+          <span>AMA ROOM</span>
+        </label>
+        <div class="tabSlider"><span></span></div>
+      </div>
     </div>
 
     <div class="tableWrapper">
@@ -163,8 +175,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
   }
 
   .tabs {
-    display: flex;
-    align-items: stretch;
+    position: relative;
     width: 100%;
     padding: 8px 10px;
     margin-top: 24px;
@@ -173,52 +184,87 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     backdrop-filter: blur(16px);
   }
 
-  .tab {
+  /* ラジオボタンを隠す */
+  .tabInput {
+    display: none;
+  }
+
+  .tabList {
+    display: flex;
     position: relative;
-    width: 50%;
+  }
+
+  .tabLabel {
+    flex: 1;
+    display: block;
     padding: 12px 20px;
-    overflow: hidden;
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    appearance: none;
+    text-align: center;
     cursor: pointer;
-    background: none;
-    border: 0;
-    border-radius: 100vh;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   }
-  .tab.isActive::before,
-  .tab.isActive::after,
-  .tab.isActive span::before,
-  .tab.isActive span::after {
+
+  .tabSlider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    border-radius: 100vh;
+    transition: all 0.15s linear;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .tabSlider::before,
+  .tabSlider::after,
+  .tabSlider span::before,
+  .tabSlider span::after {
     position: absolute;
     inset: 0;
     z-index: -1;
     content: "";
     border-radius: inherit;
   }
-  .tab.isActive::before {
+
+  .tabSlider::before {
     background: var(--grad-color-1);
     mix-blend-mode: var(--grad-blend-mode-1);
   }
-  .tab.isActive span::before {
+
+  .tabSlider span::before {
     background: var(--grad-color-2);
     mix-blend-mode: var(--grad-blend-mode-2);
   }
-  .tab.isActive span::after {
+
+  .tabSlider span::after {
     background: var(--grad-color-3);
     mix-blend-mode: var(--grad-blend-mode-3);
   }
-  .tab.isActive::after {
+
+  .tabSlider::after {
     background: var(--grad-color-4);
     mix-blend-mode: var(--grad-blend-mode-4);
   }
 
-  .tab:not(.isActive) {
-    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  .tabInput:nth-child(1):checked ~ .tabList .tabSlider {
+    transform: translateX(0%);
+  }
+
+  .tabInput:nth-child(2):checked ~ .tabList .tabSlider {
+    transform: translateX(100%);
+  }
+
+  .tabInput:nth-child(1):checked ~ .tabList .tabLabel:nth-child(1),
+  .tabInput:nth-child(2):checked ~ .tabList .tabLabel:nth-child(2) {
+    text-shadow: none;
   }
 
   .tableWrapper {
@@ -377,7 +423,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
       width: 100%;
       margin-top: 48px;
     }
-    .tab {
+    .tabLabel {
       padding: 12px 18px;
       font-size: 22px;
     }
@@ -431,38 +477,3 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     }
   }
 </style>
-
-<script>
-  // ROOMの表示切り替えは一旦classの付け替えで対応
-  // キーボード操作によるタブ切り替えは未対応
-  const tabsContainer = document.querySelector(
-    '[role="tablist"]',
-  ) as HTMLElement;
-  const tabs = tabsContainer?.querySelectorAll(
-    '[role="tab"]',
-  ) as NodeListOf<HTMLButtonElement>;
-
-  if (tabsContainer && tabs) {
-    tabs.forEach((tab, index) => {
-      if (index === 0) {
-        tab.setAttribute("tabindex", "0");
-      } else {
-        tab.setAttribute("tabindex", "-1");
-      }
-    });
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        tabs.forEach((otherTab) => {
-          otherTab.classList.remove("isActive");
-          otherTab.setAttribute("aria-selected", "false");
-          otherTab.setAttribute("tabindex", "-1");
-        });
-
-        tab.classList.add("isActive");
-        tab.setAttribute("aria-selected", "true");
-        tab.setAttribute("tabindex", "0");
-      });
-    });
-  }
-</script>
