@@ -1,6 +1,5 @@
 ---
 import Apply from "@/components/Apply.astro";
-import Header from "@/components/Header.astro";
 import Organizers from "@/components/Organizers.astro";
 import Introduction from "@/components/Introduction.astro";
 import Kv from "@/components/Kv.astro";
@@ -10,11 +9,11 @@ import Timetable from "@/components/Timetable.astro";
 import Notice from "@/components/Notice.astro";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
+import Bg from "@/layouts/Bg.astro";
 ---
 
 <Layout>
-  <Header />
-  <main>
+  <Bg>
     <Kv />
     <Introduction />
     <Timetable />
@@ -24,5 +23,5 @@ import Footer from "@/components/Footer.astro";
     <Notice />
     <Footer />
     <Apply />
-  </main>
+  </Bg>
 </Layout>
