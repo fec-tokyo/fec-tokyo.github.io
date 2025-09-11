@@ -184,6 +184,7 @@ const BOTTOM_LINKS = [
   }
   .traffic {
     mix-blend-mode: soft-light;
+    height: 100%;
   }
 
   .person {
@@ -191,6 +192,10 @@ const BOTTOM_LINKS = [
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  .traffic,
+  .person {
+    position: absolute;
   }
 
   @media (--breakpoint-sp) {
