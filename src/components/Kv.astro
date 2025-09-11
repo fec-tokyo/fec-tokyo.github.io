@@ -6,6 +6,7 @@ import TrafficImage from "@/assets/kv-traffic.png";
 
 import TrafficSpImage from "@/assets/kv-traffic-sp.png";
 import PeopleSpImage from "@/assets/kv-people-sp.png";
+import EventNameImage from "@/assets/kv-event-name.svg";
 ---
 
 <section id="kv" class="container">
@@ -33,9 +34,20 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
     <div class="content">
       <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
       <h1 class="eventName">
-        <span class="eventNameColumn">フロントエンド</span>
-        <span class="eventNameColumn">カンファレンス</span>
-        <span class="eventNameColumn">トウキョウ</span>
+        <picture>
+          <source
+            srcset={EventNameImage.src}
+            media="(min-width: 767px)"
+            width="172"
+            height="315"
+          />
+          <img
+            src={EventNameImage.src}
+            width="120"
+            height="220"
+            alt="フロントエンドカンファレンストウキョウ"
+          />
+        </picture>
       </h1>
       <div class="eventInfo">
         <span class="location">In Shibuya, Tokyo - Abema Towers</span>
@@ -115,17 +127,6 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
     line-height: 1;
   }
 
-  .eventNameColumn {
-    display: block;
-    font-size: 44px;
-    font-weight: bold;
-    vertical-align: top;
-    text-align: start;
-    letter-spacing: 0.02em;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-
   .eventInfo {
     display: flex;
     flex-direction: column;
@@ -169,14 +170,11 @@ import PeopleSpImage from "@/assets/kv-people-sp.png";
 
     .eventName {
       gap: 16px;
-      margin-top: 20px;
-    }
-    .eventNameColumn {
-      font-size: clamp(32px, 6vw, 44px);
+      margin-top: 24px;
     }
 
     .eventInfo {
-      margin-top: 44px;
+      margin-top: 48px;
     }
 
     .eventInfo .location,
