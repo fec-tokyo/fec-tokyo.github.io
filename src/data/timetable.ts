@@ -16,6 +16,7 @@ type PresentationRow = {
 
 type TimeTableCell = {
   id?: string;
+  roomType: "A" | "B";
   title: string;
   isEmphasized: boolean;
   speakerName: string;
@@ -36,6 +37,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     endAt: "11:00",
     list: [
       {
+        roomType: "A",
         title: "オープニング",
         isEmphasized: true,
         speakerName: "shuta hirai",
@@ -53,6 +55,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "2",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -64,6 +67,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "3",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -82,6 +86,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "4",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -93,6 +98,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "5",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -112,6 +118,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "6",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -123,6 +130,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "7",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -141,6 +149,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "8",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -152,6 +161,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "9",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -170,6 +180,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "10",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -181,6 +192,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "11",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -199,6 +211,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "12",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -210,6 +223,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "13",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -228,6 +242,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "14",
+        roomType: "A",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -239,6 +254,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "15",
+        roomType: "B",
         title:
           "十八等官でしたから役所のなかでも、ずうっと下の方でしたし俸給ほうきゅうもほんのわずかでしたが、受持ちが標本の採集や整理で生れ付き好きなことでしたから、わたくしは毎日ずいぶん愉快にはたらきました。",
         isEmphasized: false,
@@ -257,6 +273,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "16",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -267,6 +284,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "17",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -284,6 +302,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "18",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -294,6 +313,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "19",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -311,6 +331,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "20",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -321,6 +342,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "21",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -338,6 +360,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "22",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -348,6 +371,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "23",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -365,6 +389,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "24",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -375,6 +400,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "25",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -392,6 +418,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "26",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -402,6 +429,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "27",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -419,6 +447,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     list: [
       {
         id: "28",
+        roomType: "A",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -429,6 +458,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       },
       {
         id: "29",
+        roomType: "B",
         title: "ライトニングトーク",
         isLongTalk: false,
         isEmphasized: false,
@@ -445,6 +475,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     endAt: "19:00",
     list: [
       {
+        roomType: "A",
         title: "クロージング",
         isEmphasized: true,
         speakerName: "shuta hirai",

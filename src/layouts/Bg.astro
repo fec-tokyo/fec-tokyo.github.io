@@ -21,13 +21,10 @@ import Layout from "@/layouts/Layout.astro";
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url(../assets/texture.png);
+    background-image: url(../assets/bg-texture.png);
     background-repeat: repeat;
     background-size: 680px 871px;
-    opacity: 0.1;
-  }
-  .texture {
-    mix-blend-mode: color-burn;
+    background-blend-mode: color-burn;
   }
 
   @supports (mix-blend-mode: plus-darker) {

@@ -86,6 +86,12 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
                           ]}
                         >
                           <div class="cellContents">
+                            <div class="cellRoomType">
+                              <span />
+                              <p class="cellRoomTypeInner">
+                                SESSION ROOM - {cell.roomType}
+                              </p>
+                            </div>
                             <p
                               class:list={[
                                 "cellTitle",
@@ -415,7 +421,7 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     display: flex;
     gap: 16px;
     align-items: center;
-    padding: 26px 24px;
+    padding: 20px 24px;
   }
   .cellBody.shortTalk {
     padding: 20px 24px;
@@ -427,6 +433,49 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
+  }
+
+  .cellRoomType {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    position: relative;
+    border-radius: 6px;
+    isolation: isolate;
+  }
+
+  .cellRoomType::before,
+  .cellRoomType::after,
+  .cellRoomType span::before,
+  .cellRoomType span::after {
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    z-index: -1;
+    content: "";
+    border-radius: 6px;
+  }
+  .cellRoomType::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+  .cellRoomType span::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+  .cellRoomType span::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+  .cellRoomType::after {
+    background: var(--grad-color-4);
+    mix-blend-mode: var(--grad-blend-mode-4);
+  }
+  .cellRoomTypeInner {
+    margin: 1px;
+    padding: 6px 9px;
+    border-radius: inherit;
+    background: var(--bg-dark);
   }
 
   .cellTitle {
