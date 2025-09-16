@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -40,3 +40,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Archive production artifacts
+        if: github.ref_type == 'tag'
+        run: tar -czf ${{ github.ref_name }}.tar.gz ./dist
+      - name: Create release
+        if: github.ref_type == 'tag'
+        run: |
+          gh release create $GITHUB_REF_NAME --title "Release $GITHUB_REF_NAME" --generate-notes --latest || echo "Release $GITHUB_REF_NAME already exists"
+          gh release upload $GITHUB_REF_NAME ./${{ github.ref_name }}.tar.gz --clobber
