@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import { TIMETABLE_ROWS } from "@/data/timetable";
-import SectionTitle from "@/components/SectionTitle.astro";
 import ExternalLinkIcon from "@/assets/external-link.svg";
+import SectionTitle from "@/components/SectionTitle.astro";
+import { TIMETABLE_ROWS } from "@/data/timetable";
 ---
 
 <section id="timetable" class="container">
@@ -76,9 +76,12 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
                           },
                         ]}
                       >
-                        {cell.id && (
-                          <a href={`/contents/#${cell.id}`} class="cellLink" />
-                        )}
+                        {/**cell.id && (
+                          <a
+                            href={`/2025/contents/#${cell.id}`}
+                            class="cellLink"
+                          />
+                        )*/}
                         <div
                           class:list={[
                             "cellBody",
