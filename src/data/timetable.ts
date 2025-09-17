@@ -1,6 +1,36 @@
 import type { ImageMetadata } from "astro";
+
+import berlysia from "@/assets/coreMembers/berlysia.jpg";
 import did0es from "@/assets/coreMembers/did0es.jpg";
+
 import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
+import E_Chanoknan from "@/assets/speaker/EC-9624.jpg";
+import hal from "@/assets/speaker/Hal.jpg";
+import hiroppy from "@/assets/speaker/hiroppy.webp";
+import jp_knj from "@/assets/speaker/jp-knj.jpg";
+import jxck from "@/assets/speaker/jxck.png";
+import KyouheiHorizumi from "@/assets/speaker/KyouheiHorizumi.jpg";
+import kengo from "@/assets/speaker/kengo20_03.jpg";
+import kinocoboy from "@/assets/speaker/kinocoboy.jpg";
+import ksu_kohei0104 from "@/assets/speaker/ksu_kohei0104.jpg";
+import l1lhu1hu1 from "@/assets/speaker/l1lhu1hu1.jpg";
+import manasugiyoshi from "@/assets/speaker/manasugiyoshi.jpg";
+import nkgrnkgr from "@/assets/speaker/nkgrnkgr.jpg";
+import nrs from "@/assets/speaker/nrs.jpg";
+import nus3 from "@/assets/speaker/nus3_.jpg"
+import p_craft from "@/assets/speaker/p_craft.jpg"; 
+import progfay from "@/assets/speaker/progfay.jpg";
+import pvcresin from "@/assets/speaker/pvcresin.png";
+import reyalka_dev from "@/assets/speaker/reyalka_dev.jpg";
+import riya_amemiya from "@/assets/speaker/riya-amemiya.png";
+import ryo_manba from "@/assets/speaker/ryo_manba.jpg";
+import yuta_ike from "@/assets/speaker/Selria1.jpg";
+import saku from "@/assets/speaker/saku.jpg";
+import ssssota from "@/assets/speaker/ssssotaro.png";
+import syumai from "@/assets/speaker/syumai.jpg";
+import takashi_onda from "@/assets/speaker/takashi_onda.jpg";
+import tetsuwo from "@/assets/speaker/tetsuwo0717.jpg";
+import toshi__toma from "@/assets/speaker/toshi__toma.jpg";
 
 type EventRow = {
   category: "event";
@@ -63,7 +93,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: saku,
       },
       {
         id: "3",
@@ -74,7 +104,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: ryo_manba,
       },
     ],
   },
@@ -92,7 +122,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: manasugiyoshi,
       },
       {
         id: "5",
@@ -103,7 +133,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: berlysia,
       },
     ],
   },
@@ -122,7 +152,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: syumai,
       },
       {
         id: "7",
@@ -133,7 +163,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: kinocoboy,
       },
     ],
   },
@@ -151,7 +181,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: riya_amemiya,
       },
       {
         id: "9",
@@ -162,7 +192,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: progfay,
       },
     ],
   },
@@ -180,7 +210,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: nkgrnkgr,
       },
       {
         id: "11",
@@ -191,7 +221,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: nrs,
       },
     ],
   },
@@ -209,7 +239,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: pvcresin,
       },
       {
         id: "13",
@@ -220,7 +250,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: toshi__toma,
       },
     ],
   },
@@ -238,18 +268,18 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: jxck,
       },
       {
         id: "15",
         roomType: "B",
-        title: "",
+        title: "[キャンセル] Node.jsのこれまでの歩みとこれから",
         isEmphasized: false,
-        speakerName: "shuta_hirai",
+        speakerName: "hiroppy",
         isLongTalk: true,
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: hiroppy,
       },
     ],
   },
@@ -267,7 +297,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "恩田 崇",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: takashi_onda,
       },
       {
         id: "17",
@@ -278,7 +308,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "Hal",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: hal,
       },
     ],
   },
@@ -296,7 +326,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "かみくず",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: p_craft,
       },
       {
         id: "19",
@@ -307,7 +337,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "Kyouhei Horizumi",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: KyouheiHorizumi,
       },
     ],
   },
@@ -325,7 +355,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "yuta-ike",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: yuta_ike,
       },
       {
         id: "21",
@@ -336,7 +366,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "斉藤賢悟",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: kengo,
       },
     ],
   },
@@ -354,7 +384,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "nus3",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: nus3,
       },
       {
         id: "23",
@@ -365,7 +395,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "綾本公平",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: ksu_kohei0104,
       },
     ],
   },
@@ -383,7 +413,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "てつを。",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: tetsuwo,
       },
       {
         id: "25",
@@ -394,7 +424,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "Eakudompong Chanoknan",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: E_Chanoknan,
       },
     ],
   },
@@ -412,7 +442,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "ssssota",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: ssssota,
       },
       {
         id: "27",
@@ -423,7 +453,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "れやか",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: reyalka_dev,
       },
     ],
   },
@@ -441,7 +471,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "津村光輝",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: l1lhu1hu1,
       },
       {
         id: "29",
@@ -452,7 +482,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         speakerName: "jp-knj",
         hasSlides: false,
         slidesUrl: "#",
-        thumbnailImage: dummySpeakerIcon,
+        thumbnailImage: jp_knj,
       },
     ],
   },
