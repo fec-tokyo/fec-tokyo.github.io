@@ -1,0 +1,86 @@
+---
+import GitHubLogoImage from "@/assets/github-logo.svg";
+import XLogoImage from "@/assets/x-logo.svg";
+import NoteLogoImage from "@/assets/note-logo.svg";
+
+type Props = {
+  xId: string;
+  githubId?: string;
+  hasNote?: boolean;
+  noteId?: string;
+  size?: "small" | "large";
+};
+
+const {
+  xId,
+  githubId,
+  hasNote = false,
+  noteId,
+  size = "small",
+}: Props = Astro.props;
+---
+
+<ul class:list={["list", size === "small" ? "small" : "large"]}>
+  {
+    [<XLogoImage />, hasNote ? <NoteLogoImage /> : <GitHubLogoImage />].map(
+      (icon, index) => (
+        <li>
+          <a
+            href={
+              index === 0
+                ? `https://x.com/${xId}`
+                : hasNote
+                  ? `https://note.com/${noteId}`
+                  : `https://github.com/${githubId}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[
+              "item",
+              {
+                github: index === 1 && !hasNote,
+                note: index === 1 && hasNote,
+                x: index === 0,
+              },
+              size === "small" ? "small" : "large",
+            ]}
+          >
+            {icon}
+          </a>
+        </li>
+      ),
+    )
+  }
+</ul>
+
+<style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
+  .list {
+    display: flex;
+    gap: 4px;
+    padding: 0;
+    list-style: none;
+  }
+  .list.large {
+    gap: 8px;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background-color: #fff;
+  }
+  .item.small {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+  .item.large {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+  }
+</style>

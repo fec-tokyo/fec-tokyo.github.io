@@ -1,0 +1,13 @@
+{
+	"extends": [
+		"stylelint-config-recess-order",
+		"stylelint-config-html"
+	],
+	"plugins": ["stylelint-prettier"],
+	"rules": {
+		"at-rule-no-unknown": null,
+		"prettier/prettier": true,
+		"selector-class-pattern": null,
+	},
+	"ignoreFiles": ["node_modules/**/*.css", "dist/**/*.css"]
+}

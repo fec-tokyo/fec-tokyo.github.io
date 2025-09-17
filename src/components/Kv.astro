@@ -1,0 +1,185 @@
+---
+import { Image } from "astro:assets";
+import LogoImage from "@/assets/colored-logo.svg";
+import PeopleImage from "@/assets/kv-people.png";
+import TrafficImage from "@/assets/kv-traffic.png";
+
+import TrafficSpImage from "@/assets/kv-traffic-sp.png";
+import PeopleSpImage from "@/assets/kv-people-sp.png";
+import EventNameImage from "@/assets/kv-event-name.svg";
+---
+
+<section id="kv" class="container">
+  <div class="contents">
+    <picture>
+      <source srcset={TrafficImage.src} media="(min-width: 767px)" />
+      <img
+        src={TrafficSpImage.src}
+        width="767"
+        height="767"
+        alt=""
+        class="traffic bgBase"
+      />
+    </picture>
+    <picture>
+      <source srcset={PeopleImage.src} media="(min-width: 767px)" />
+      <img
+        src={PeopleSpImage.src}
+        width="767"
+        height="767"
+        alt=""
+        class="people bgBase"
+      />
+    </picture>
+    <div class="content">
+      <Image src={LogoImage} width={200} height={200} alt="" class="logo" />
+      <h1 class="eventName">
+        <picture>
+          <source
+            srcset={EventNameImage.src}
+            media="(min-width: 767px)"
+            width="172"
+            height="315"
+          />
+          <img
+            src={EventNameImage.src}
+            width="120"
+            height="220"
+            alt="フロントエンドカンファレンストウキョウ"
+          />
+        </picture>
+      </h1>
+      <div class="eventInfo">
+        <span class="location">In Shibuya, Tokyo - Abema Towers</span>
+        <span class="datetime"
+          ><time datetime="2025-09-21T12:00+09:00">2025.09.21 SUN 12:00</time
+          ><span class="timeSeparator">–</span>19:00</span
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+    height: calc(100vh + 120px);
+    overflow: hidden;
+  }
+  .container::after {
+    position: absolute;
+    bottom: -61vw;
+    left: 50%;
+    z-index: var(--intro-decoration-z-index);
+    width: 150vw;
+    height: 70vw;
+    content: "";
+    background: var(--bg-light);
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0px -8px 64px 0px rgba(0, 0, 0, 0.16);
+    transform: translateX(-50%);
+  }
+  .contents {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .traffic {
+    mix-blend-mode: overlay;
+  }
+
+  .bgBase {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    width: calc(100vmax * 1.25);
+    height: calc(100vmax * 1.25);
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -50px;
+    color: #fff;
+    text-align: center;
+    isolation: isolate;
+  }
+
+  .eventName {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin-top: 32px;
+    font-size: 0;
+    line-height: 1;
+  }
+
+  .eventInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 64px;
+  }
+
+  .eventInfo .location,
+  .eventInfo .datetime {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-wrap: nowrap;
+    text-shadow: 0 2px 4px rgb(0 0 0 / 70%);
+  }
+
+  .timeSeparator {
+    margin: 0 0.3em;
+  }
+
+  @media (--breakpoint-sp) {
+    .container {
+      height: calc(100vh + 30px);
+    }
+    .bgBase {
+      top: 52.4%;
+      width: calc(100vmax * 1.1);
+      height: calc(100vmax * 1.1);
+    }
+
+    .content {
+      margin-top: -40px;
+    }
+
+    .logo {
+      width: 144px;
+      height: 144px;
+    }
+
+    .eventName {
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .eventInfo {
+      margin-top: 48px;
+    }
+
+    .eventInfo .location,
+    .eventInfo .datetime {
+      letter-spacing: 0.001em;
+    }
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+import LogoImage from "@/assets/header-logo.svg";
+---
+
+<header class="container">
+  <a href="/">
+    <Image
+      src={LogoImage}
+      alt="Frontend Conference Tokyo"
+      width={175}
+      height={58}
+      class="logo"
+    />
+  </a>
+  <nav class="nav" aria-label="メインナビゲーション">
+    <a href="#timetable" class="navLink">Timetable</a>
+    <a href="#sponsors" class="navLink">Sponsors</a>
+    <a href="#faq" class="navLink">Faq</a>
+  </nav>
+</header>
+
+<style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
+  .container {
+    position: fixed;
+    z-index: var(--header-z-index);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 48px 56px 0;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgb(255 255 255 / 8%);
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: 100vh;
+    backdrop-filter: blur(4px);
+  }
+
+  .navLink {
+    padding: 16px 18px;
+  }
+  .navLink:first-child {
+    padding: 16px 18px 16px 32px;
+  }
+  .navLink:last-child {
+    padding: 16px 32px 16px 18px;
+  }
+
+  @media (--breakpoint-sp) {
+    .container {
+      padding: 24px 16px 0;
+    }
+
+    .logo {
+      width: 144px;
+      height: 47px;
+    }
+
+    .nav {
+      display: none;
+    }
+  }
+
+  .navLink {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1em;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+    border-radius: 4px;
+    transition:
+      opacity 0.2s ease,
+      outline 0.2s ease;
+  }
+
+  @media (hover: hover) {
+    .navLink:hover {
+      opacity: 0.8;
+    }
+  }
+</style>

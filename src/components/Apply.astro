@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import ApplyImage from "@/assets/apply-button.png";
+---
+
+<a href="#apply" class="apply">
+  <Image src={ApplyImage} width={200} height={200} alt="応募する" />
+</a>
+<style>
+  @import "../css/utils.css";
+
+  .apply {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: var(--apply-button-z-index);
+    display: inline-block;
+    border-radius: 50%;
+    transition: opacity 0.15s;
+  }
+
+  @media (--breakpoint-sp) {
+    .apply {
+      display: none;
+    }
+  }
+  @media (hover: hover) {
+    .apply:hover {
+      opacity: 0.6;
+    }
+  }
+</style>

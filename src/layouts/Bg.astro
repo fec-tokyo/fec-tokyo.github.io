@@ -1,0 +1,35 @@
+---
+import Header from "@/components/Header.astro";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <Header />
+  <main class="bg">
+    <div class="texture"></div>
+    <slot />
+  </main>
+</Layout>
+
+<style>
+  @import "../css/vars.css";
+
+  .bg {
+    position: relative;
+  }
+  .texture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/bg-texture.png);
+    background-repeat: repeat;
+    background-size: 680px 871px;
+    background-blend-mode: color-burn;
+  }
+
+  @supports (mix-blend-mode: plus-darker) {
+    .texture {
+      mix-blend-mode: plus-darker;
+    }
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import SectionTitle from "@/components/SectionTitle.astro";
+import { FAQ_LIST } from "@/data/faq";
+---
+
+<section id="faq" class="faq">
+  <div class="container">
+    <SectionTitle en="FAQ" ja="よくあるご質問" sectionId="faq" />
+    <ul class="list">
+      {
+        FAQ_LIST.map((faq) => (
+          <list class="item">
+            <div class="question">
+              <span class="prefix">Q.</span>
+              {faq.question}
+            </div>
+            <div class="answer">
+              <span class="prefix onlySp">A.</span>
+              {faq.answer}
+            </div>
+          </list>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  @import "../css/vars.css";
+  @import "../css/utils.css";
+
+  .faq {
+    position: relative;
+  }
+
+  .container {
+    max-width: 1016px;
+    padding: 80px 16px 0;
+    margin: 0 auto;
+    isolation: isolate;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    margin-top: 24px;
+    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+  }
+
+  .item {
+    display: flex;
+    gap: 56px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px;
+    font-family: var(--font-noto-sans-jp);
+    letter-spacing: 0.03em;
+    background-color: var(--bg-dark);
+    border-radius: 8px;
+  }
+  .question {
+    display: flex;
+    gap: 8px;
+    min-width: 360px;
+    font-size: 20px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+  .prefix.onlySp {
+    display: none;
+  }
+  .answer {
+    line-height: 1.6;
+  }
+
+  @media (--breakpoint-sp) {
+    .item {
+      flex-direction: column;
+      gap: 8px;
+      align-items: start;
+      padding: 24px;
+    }
+    .question {
+      min-width: auto;
+      font-size: 16px;
+    }
+    .prefix.onlySp {
+      display: inline-block;
+      font-size: 16px;
+    }
+    .answer {
+      font-size: 14px;
+      display: flex;
+      gap: 10px;
+    }
+  }
+</style>

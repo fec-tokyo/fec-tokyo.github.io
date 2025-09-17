@@ -1,0 +1,601 @@
+---
+import { Image } from "astro:assets";
+import { TIMETABLE_ROWS } from "@/data/timetable";
+import SectionTitle from "@/components/SectionTitle.astro";
+import ExternalLinkIcon from "@/assets/external-link.svg";
+---
+
+<section id="timetable" class="container">
+  <div class="content">
+    <SectionTitle
+      en="Timetable"
+      ja="当日のタイムテーブルをご紹介"
+      sectionId="timetable"
+    />
+    <div class="tabWrapper">
+      <input
+        type="radio"
+        name="roomTabs"
+        id="sessionRoom"
+        class="tabInput"
+        checked
+      />
+      <input type="radio" name="roomTabs" id="amaRoom" class="tabInput" />
+
+      <div class="tabList">
+        <label for="sessionRoom" class="tabLabel" tabindex="0">
+          <span>SESSION ROOM</span>
+        </label>
+        <label for="amaRoom" class="tabLabel" tabindex="-1">
+          <span>AMA ROOM</span>
+        </label>
+        <div class="tabSlider"><span></span></div>
+      </div>
+    </div>
+
+    <div class="tableWrapper">
+      <table class="timetable" aria-label="タイムテーブル">
+        <tbody class="tableBody">
+          {
+            TIMETABLE_ROWS.map((row) => {
+              const isEvent = row.category === "event";
+
+              return (
+                <tr class="tableRow">
+                  <th
+                    scope="row"
+                    class:list={[
+                      "cell timeCell",
+                      {
+                        verticalMergeCell: !isEvent && row.list.length >= 2,
+                      },
+                    ]}
+                  >
+                    {isEvent ? (
+                      <span class="timeText">{row.time}</span>
+                    ) : (
+                      <div class="timeRange">
+                        <span class="timeText">{row.startAt}</span>
+                        <span class="timeDivider" aria-hidden="true" />
+                        <span class="timeText">{row.endAt}</span>
+                      </div>
+                    )}
+                  </th>
+                  {isEvent ? (
+                    <td class="cell eventCell horizontalMergeCell">
+                      {row.label}
+                    </td>
+                  ) : (
+                    row.list.map((cell) => (
+                      <td
+                        class:list={[
+                          "cell presentationCell",
+                          {
+                            horizontalMergeCell: row.list.length === 1,
+                            shortTalk: !cell.isLongTalk,
+                          },
+                        ]}
+                      >
+                        {cell.id && (
+                          <a href={`/contents/#${cell.id}`} class="cellLink" />
+                        )}
+                        <div
+                          class:list={[
+                            "cellBody",
+                            { shortTalk: !cell.isLongTalk },
+                          ]}
+                        >
+                          <div class="cellContents">
+                            <div class="cellRoomType">
+                              <span />
+                              <p class="cellRoomTypeInner">
+                                SESSION ROOM - {cell.roomType}
+                              </p>
+                            </div>
+                            <p
+                              class:list={[
+                                "cellTitle",
+                                { emphasized: cell.isEmphasized },
+                              ]}
+                            >
+                              {cell.title}
+                            </p>
+                            <div class="speakerInfo">
+                              <span
+                                class:list={[
+                                  "speaker",
+                                  { shortTalk: !cell.isLongTalk },
+                                ]}
+                              >
+                                {cell.speakerName}
+                              </span>
+                              {cell.hasSlides && (
+                                <a
+                                  class="slide"
+                                  href={cell.slidesUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <span class="slidesText">登壇資料</span>
+                                  <Image
+                                    src={ExternalLinkIcon}
+                                    alt=""
+                                    width={12}
+                                    height={12}
+                                  />
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                          <Image
+                            src={cell.thumbnailImage}
+                            class:list={[
+                              "speakerIcon",
+                              { shortTalk: !cell.isLongTalk },
+                            ]}
+                            width={cell.isLongTalk ? 108 : 80}
+                            height={cell.isLongTalk ? 108 : 80}
+                            alt={cell.speakerName}
+                            data-astro-image="constrained"
+                          />
+                        </div>
+                      </td>
+                    ))
+                  )}
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  const sessionRoomInput = document.getElementById(
+    "sessionRoom",
+  ) as HTMLInputElement | null;
+  const amaRoomInput = document.getElementById(
+    "amaRoom",
+  ) as HTMLInputElement | null;
+  const sessionRoomLabel = document.querySelector(
+    "label[for='sessionRoom']",
+  ) as HTMLLabelElement | null;
+  const amaRoomLabel = document.querySelector(
+    "label[for='amaRoom']",
+  ) as HTMLLabelElement | null;
+
+  function updateTabStates() {
+    if (sessionRoomInput?.checked) {
+      sessionRoomLabel?.setAttribute("tabindex", "0");
+      amaRoomLabel?.setAttribute("tabindex", "-1");
+    } else {
+      sessionRoomLabel?.setAttribute("tabindex", "-1");
+      amaRoomLabel?.setAttribute("tabindex", "0");
+    }
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    const tabs = [sessionRoomLabel, amaRoomLabel].filter(
+      Boolean,
+    ) as HTMLLabelElement[];
+    const currentIndex = tabs.findIndex(
+      (tab) => tab.getAttribute("tabindex") === "0",
+    );
+
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      const nextIndex =
+        event.key === "ArrowRight"
+          ? (currentIndex + 1) % tabs.length
+          : (currentIndex - 1 + tabs.length) % tabs.length;
+
+      tabs[currentIndex]?.setAttribute("tabindex", "-1");
+      tabs[nextIndex]?.setAttribute("tabindex", "0");
+      tabs[nextIndex]?.focus();
+
+      const targetId = tabs[nextIndex]?.getAttribute("for");
+      if (targetId === "sessionRoom") {
+        sessionRoomInput?.click();
+      } else if (targetId === "amaRoom") {
+        amaRoomInput?.click();
+      }
+    }
+  }
+
+  sessionRoomInput?.addEventListener("change", updateTabStates);
+  amaRoomInput?.addEventListener("change", updateTabStates);
+
+  sessionRoomLabel?.addEventListener("keydown", handleKeyDown);
+  amaRoomLabel?.addEventListener("keydown", handleKeyDown);
+</script>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container::before {
+    position: absolute;
+    top: -61vw;
+    left: 50%;
+    z-index: var(--intro-decoration-z-index);
+    width: 150vw;
+    height: 70vw;
+    content: "";
+    background: var(--bg-light);
+    border-radius: 0 0 50% 50%;
+    box-shadow: 0px 8px 64px 0px rgba(0, 0, 0, 0.16);
+    transform: translateX(-50%);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    max-width: 992px;
+    padding: 14vw 16px 0;
+    margin: 0 auto;
+    isolation: isolate;
+    backdrop-filter: blur(0px);
+  }
+
+  .tabWrapper {
+    position: relative;
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    backdrop-filter: blur(16px);
+  }
+
+  /* ラジオボタンを隠す */
+  .tabInput {
+    display: none;
+  }
+
+  .tabList {
+    position: relative;
+    display: flex;
+  }
+
+  .tabLabel {
+    position: relative;
+    z-index: 2;
+    display: block;
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+
+  .tabSlider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 100vh;
+    transition: all 0.15s linear;
+  }
+
+  .tabSlider::before,
+  .tabSlider::after,
+  .tabSlider span::before,
+  .tabSlider span::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    border-radius: inherit;
+  }
+
+  .tabSlider::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+
+  .tabSlider span::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+
+  .tabSlider span::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+
+  .tabSlider::after {
+    background: var(--grad-color-4);
+    mix-blend-mode: var(--grad-blend-mode-4);
+  }
+
+  .tabInput:nth-child(1):checked ~ .tabList .tabSlider {
+    transform: translateX(0%);
+  }
+
+  .tabInput:nth-child(2):checked ~ .tabList .tabSlider {
+    transform: translateX(100%);
+  }
+
+  .tabInput:nth-child(1):checked ~ .tabList .tabLabel:nth-child(1),
+  .tabInput:nth-child(2):checked ~ .tabList .tabLabel:nth-child(2) {
+    text-shadow: none;
+  }
+
+  .tableWrapper {
+    align-self: stretch;
+    padding: 16px;
+    margin-top: 16px;
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+  }
+
+  .timetable {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+    border-spacing: 8px 8px;
+    border-collapse: separate;
+
+    thead,
+    tbody,
+    tfoot,
+    tr {
+      display: contents;
+    }
+  }
+
+  .horizontalMergeCell {
+    grid-column: auto / span 2;
+  }
+
+  .timeCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 21.5px 24px;
+  }
+  .eventCell {
+    padding: 24px;
+  }
+  .presentationCell {
+    position: relative;
+  }
+
+  .timeRange {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 8px;
+    align-items: center;
+    justify-items: center;
+    width: 120px;
+  }
+
+  .timeText {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .timeDivider {
+    width: 2px;
+    height: 13px;
+    background: #ffffff;
+    border-radius: 100vh;
+  }
+
+  .cell {
+    vertical-align: top;
+    text-align: center;
+    background: var(--bg-dark);
+    border-radius: 8px;
+  }
+
+  .cellLink {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cellBody {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 20px 24px;
+  }
+  .cellBody.shortTalk {
+    padding: 20px 24px;
+  }
+
+  .cellContents {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cellRoomType {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    position: relative;
+    border-radius: 6px;
+    isolation: isolate;
+  }
+
+  .cellRoomType::before,
+  .cellRoomType::after,
+  .cellRoomType span::before,
+  .cellRoomType span::after {
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    z-index: -1;
+    content: "";
+    border-radius: 6px;
+  }
+  .cellRoomType::before {
+    background: var(--grad-color-1);
+    mix-blend-mode: var(--grad-blend-mode-1);
+  }
+  .cellRoomType span::before {
+    background: var(--grad-color-2);
+    mix-blend-mode: var(--grad-blend-mode-2);
+  }
+  .cellRoomType span::after {
+    background: var(--grad-color-3);
+    mix-blend-mode: var(--grad-blend-mode-3);
+  }
+  .cellRoomType::after {
+    background: var(--grad-color-4);
+    mix-blend-mode: var(--grad-blend-mode-4);
+  }
+  .cellRoomTypeInner {
+    margin: 1px;
+    padding: 6px 9px;
+    border-radius: inherit;
+    background: var(--bg-dark);
+  }
+
+  .cellTitle {
+    display: -webkit-box;
+    flex: 1;
+    max-height: calc(1.5em * 3);
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    line-height: 1.3;
+    color: #ffffff;
+    -webkit-box-orient: vertical;
+    text-align: justify;
+  }
+
+  .emphasized {
+    font-size: 20px;
+  }
+
+  .speakerInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .speakerIcon {
+    border-radius: 12px;
+  }
+
+  .speaker {
+    font-family: var(--font-noto-sans-jp);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+  .speaker.shortTalk {
+    font-size: 12px;
+  }
+
+  .slide {
+    z-index: 1;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+  }
+  .slidesText {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  @media (--breakpoint-sp) {
+    .container {
+      padding-top: 60px;
+    }
+    .container::before {
+      top: -20vw;
+      height: 40vw;
+    }
+    .content {
+      padding-top: 27vw;
+    }
+
+    .tabWrapper {
+      width: 100%;
+      margin-top: 48px;
+    }
+    .tabLabel {
+      padding: 12px 18px;
+      letter-spacing: 0.001em;
+    }
+
+    .timetable {
+      grid-template-columns: 80px 1fr;
+    }
+    .eventCell {
+      padding: 24px;
+      line-height: 1.35;
+    }
+    .colTime {
+      width: 140px;
+    }
+    .cellBody {
+      flex-direction: column;
+      align-items: unset;
+    }
+    .cellBody,
+    .cellBody.shortTalk {
+      padding: 16px;
+    }
+    .cellContents {
+      gap: 8px;
+    }
+    .timeText {
+      font-size: 20px;
+    }
+    .cellTitle,
+    .speaker,
+    .slidesText {
+      font-size: clamp(12px, 3vw, 16px);
+    }
+
+    .horizontalMergeCell {
+      grid-column: auto;
+    }
+    .verticalMergeCell {
+      grid-row: auto / span 2;
+    }
+    .speakerIcon {
+      width: 116px;
+      height: 116px;
+    }
+    .speakerIcon.shortTalk {
+      width: 80px;
+      height: 80px;
+    }
+  }
+</style>

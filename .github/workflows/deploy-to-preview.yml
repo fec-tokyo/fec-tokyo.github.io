@@ -1,0 +1,31 @@
+name: Deploy to preview-site
+
+on:
+  push:
+    branches:
+      # デプロイ対象のブランチを指定
+      # 複数指定すると、どのブランチでも実行してしまうので注意すること
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: |
+          npm i
+          npm run build
+      - name: 'Package contents'
+        run: |
+          cd dist/
+          zip -r contents.zip .
+      - name: 'Push contents'
+        run: >
+          curl
+          -F 'contents=@dist/contents.zip'
+          -H 'Authorization: Bearer ${{ secrets.PSP_SITE_TOKEN }}'
+          'https://sites.nijibox.net/api/site-contents?site=${{ secrets.PSP_SITE_DOMAIN }}'

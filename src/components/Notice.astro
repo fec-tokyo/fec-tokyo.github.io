@@ -1,0 +1,89 @@
+---
+import SectionTitle from "@/components/SectionTitle.astro";
+---
+
+<section id="notice" class="container">
+  <div class="wrapper">
+    <div class="content">
+      <SectionTitle en="Notice" ja="注意事項" sectionId="notice" />
+      <ul class="list">
+        <li class="item">参加料は無料です</li>
+        <li class="item">
+          ウェブフロントエンドカンファレンス東京のアンチハラスメントポリシーを遵守してください
+        </li>
+        <li class="item">店舗や近隣に迷惑をかけないようお願いします</li>
+        <li class="item">
+          20歳未満は入場できません。顔写真付きの身分証を持参してください。（コピーや画像は不可）
+        </li>
+        <li class="item">
+          本イベントの開催時刻・終了時刻・タイムスケジュールは目安で、状況により変更する場合がございますのであらかじめご了承ください
+        </li>
+        <li class="item">
+          主催者の判断により、参加登録者の承諾を得ることなく、また参加登録者への事前の告知を行うことなく、本イベントの全部または一部を変更または中止する場合があります
+        </li>
+        <li class="item">
+          本イベントの内容および期間は、実行委員会の判断により予告なく変更する場合があります
+        </li>
+        <li class="item">
+          体調不良の方（少しでも違和感のある方・微熱がある方）の参加はご遠慮ください
+        </li>
+        <li class="item">
+          イベント中に撮影が行われる場合、お客さまが写り込む可能性があります
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import "../css/utils.css";
+  @import "../css/vars.css";
+
+  .container {
+    position: relative;
+  }
+
+  .wrapper {
+    max-width: 992px;
+    padding: 120px 16px 0;
+    margin: 0 auto;
+    isolation: isolate;
+  }
+
+  .content {
+    padding: 64px 80px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 24px;
+    backdrop-filter: blur(4px);
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 22px;
+    margin-top: 32px;
+    list-style-type: disc;
+  }
+
+  .item {
+    font-family: var(--font-noto-sans-jp);
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  @media (--breakpoint-sp) {
+    .wrapper {
+      padding-top: 80px;
+    }
+
+    .content {
+      padding: 32px 24px;
+    }
+    .list {
+      margin-top: 24px;
+    }
+  }
+</style>
