@@ -67,7 +67,6 @@ export default [
       "build/**",
       ".git/**",
       ".astro/**",
-      ".claude/utils/**",
     ],
   },
 ];
