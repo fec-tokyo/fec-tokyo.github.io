@@ -3,7 +3,6 @@ import type { ImageMetadata } from "astro";
 import berlysia from "@/assets/coreMembers/berlysia.jpg";
 import did0es from "@/assets/coreMembers/did0es.jpg";
 
-import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
 import E_Chanoknan from "@/assets/speaker/EC-9624.jpg";
 import hal from "@/assets/speaker/Hal.jpg";
 import hiroppy from "@/assets/speaker/hiroppy.webp";
