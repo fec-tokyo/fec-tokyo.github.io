@@ -1,9 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import ApplyImage from "@/assets/apply-button.png";
+import { CONNPASS_URL } from "@/data/constants";
 ---
 
-<a href="#apply" class="apply">
+<a href={CONNPASS_URL} class="apply">
   <Image src={ApplyImage} width={200} height={200} alt="応募する" />
 </a>
 <style>

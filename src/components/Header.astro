@@ -1,6 +1,14 @@
 ---
 import { Image } from "astro:assets";
 import LogoImage from "@/assets/header-logo.svg";
+
+const currentPath = Astro.url.pathname;
+const getNavHref = (section: string) => {
+  if (currentPath === "/" || currentPath === "/contents") {
+    return `#${section}`;
+  }
+  return `/#${section}`;
+};
 ---
 
 <header class="container">
@@ -14,9 +22,9 @@ import LogoImage from "@/assets/header-logo.svg";
     />
   </a>
   <nav class="nav" aria-label="メインナビゲーション">
-    <a href="#timetable" class="navLink">Timetable</a>
-    <a href="#sponsors" class="navLink">Sponsors</a>
-    <a href="#faq" class="navLink">Faq</a>
+    <a href={getNavHref("timetable")} class="navLink">Timetable</a>
+    <a href={getNavHref("sponsors")} class="navLink">Sponsors</a>
+    <a href={getNavHref("faq")} class="navLink">Faq</a>
   </nav>
 </header>
 

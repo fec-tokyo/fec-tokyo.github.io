@@ -217,7 +217,8 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
 
   .container {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .container::before {
@@ -246,7 +247,10 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
   }
 
   .tabWrapper {
-    position: relative;
+    position: sticky;
+    /* Offset matches fixed header height (padding + logo) plus additional spacing */
+    top: calc(122px + env(safe-area-inset-top));
+    z-index: 10;
     width: 100%;
     padding: 8px 10px;
     margin-top: 24px;
@@ -547,6 +551,8 @@ import ExternalLinkIcon from "@/assets/external-link.svg";
     .tabWrapper {
       width: 100%;
       margin-top: 48px;
+      /* Smaller header footprint on mobile */
+      top: calc(87px + env(safe-area-inset-top));
     }
     .tabLabel {
       padding: 12px 18px;
