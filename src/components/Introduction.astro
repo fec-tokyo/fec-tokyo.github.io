@@ -1,5 +1,6 @@
 ---
 import Button from "@/components/Button.astro";
+import { CONNPASS_URL } from "@/data/constants";
 ---
 
 <section id="introduction" class="container">
@@ -42,7 +43,7 @@ import Button from "@/components/Button.astro";
         </p>
       </div>
       <div class="apply">
-        <Button href="/">
+        <Button href={CONNPASS_URL}>
           いますぐ参加申込する
           <span class="arrow"></span>
         </Button>

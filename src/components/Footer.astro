@@ -6,6 +6,7 @@ import EventNameImage from "@/assets/event-name-en.svg";
 import FooterPersonImage from "@/assets/footer-person.png";
 import TrafficImage from "@/assets/footer-traffic.png";
 import SnsLinks from "./SnsLinks.astro";
+import { CONNPASS_URL } from "@/data/constants";
 
 const BOTTOM_LINKS = [
   {
@@ -54,9 +55,7 @@ const BOTTOM_LINKS = [
           />
         </div>
         <div class="topButtons">
-          <Button href="https://fec-tokyo.connpass.com/event/352581/">
-            Connpassで参加申込する
-          </Button>
+          <Button href={CONNPASS_URL}> Connpassで参加申込する </Button>
           <Button
             href="https://x.com/intent/tweet?text=Frontend%20Conference%20Tokyo%202025に参加申し込みをしました%20%EF%BC%81%0A%23fec_tokyo%0Ahttps%3A%2F%2Ffec-tokyo.github.io%2F"
             isGradated={false}
