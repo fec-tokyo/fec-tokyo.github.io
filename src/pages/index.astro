@@ -1,27 +1,25 @@
 ---
-import Apply from "@/components/Apply.astro";
-import Organizers from "@/components/Organizers.astro";
-import Introduction from "@/components/Introduction.astro";
-import Kv from "@/components/Kv.astro";
-import Faq from "@/components/Faq.astro";
-import Sponsors from "@/components/Sponsors.astro";
-import Timetable from "@/components/Timetable.astro";
-import Notice from "@/components/Notice.astro";
-import Layout from "@/layouts/Layout.astro";
-import Footer from "@/components/Footer.astro";
-import Bg from "@/layouts/Bg.astro";
+
 ---
 
-<Layout>
-  <Bg>
-    <Kv />
-    <Introduction />
-    <Timetable />
-    <Sponsors />
-    <Faq />
-    <Organizers />
-    <Notice />
-    <Footer />
-    <Apply />
-  </Bg>
-</Layout>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta color-scheme="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Frontend Conference Tokyo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta http-equiv="refresh" content={`0;url=${Astro.url}2025`} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
