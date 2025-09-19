@@ -50,6 +50,8 @@ type TimeTableCell = {
   title: string;
   isEmphasized: boolean;
   speakerName: string;
+  xId?: string;
+  githubId?: string;
   isLongTalk: boolean;
   hasSlides: boolean;
   slidesUrl: string;

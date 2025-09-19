@@ -1,7 +1,10 @@
 ---
 import { Image } from "astro:assets";
+
 import ExternalLinkIcon from "@/assets/external-link.svg";
 import SectionTitle from "@/components/SectionTitle.astro";
+import SnsLinks from "@/components/SnsLinks.astro";
+
 import { TIMETABLE_ROWS } from "@/data/timetable";
 ---
 
@@ -128,6 +131,10 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
                                   />
                                 </a>
                               )}
+                              <SnsLinks
+                                xId={cell.xId}
+                                githubId={cell.githubId}
+                              />
                             </div>
                           </div>
                           <Image
