@@ -4,7 +4,7 @@ import XLogoImage from "@/assets/x-logo.svg";
 import NoteLogoImage from "@/assets/note-logo.svg";
 
 type Props = {
-  xId: string;
+  xId?: string;
   githubId?: string;
   hasNote?: boolean;
   noteId?: string;
@@ -22,33 +22,38 @@ const {
 
 <ul class:list={["list", size === "small" ? "small" : "large"]}>
   {
-    [<XLogoImage />, hasNote ? <NoteLogoImage /> : <GitHubLogoImage />].map(
-      (icon, index) => (
-        <li>
-          <a
-            href={
-              index === 0
-                ? `https://x.com/${xId}`
-                : hasNote
-                  ? `https://note.com/${noteId}`
-                  : `https://github.com/${githubId}`
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            class:list={[
-              "item",
-              {
-                github: index === 1 && !hasNote,
-                note: index === 1 && hasNote,
-                x: index === 0,
-              },
-              size === "small" ? "small" : "large",
-            ]}
-          >
-            {icon}
-          </a>
-        </li>
-      ),
+    [
+      xId && <XLogoImage />,
+      hasNote && <NoteLogoImage />,
+      githubId && <GitHubLogoImage />,
+    ].map(
+      (icon, index) =>
+        icon && (
+          <li>
+            <a
+              href={
+                index === 0
+                  ? `https://x.com/${xId}`
+                  : hasNote
+                    ? `https://note.com/${noteId}`
+                    : `https://github.com/${githubId}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "item",
+                {
+                  github: index === 1 && !hasNote,
+                  note: index === 1 && hasNote,
+                  x: index === 0,
+                },
+                size === "small" ? "small" : "large",
+              ]}
+            >
+              {icon}
+            </a>
+          </li>
+        ),
     )
   }
 </ul>
