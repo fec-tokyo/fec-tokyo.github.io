@@ -28,7 +28,7 @@ const canonicalURL = new URL(Astro.url, Astro.site);
       property="og:description"
       content="フロントエンドカンファレンス東京は「フロントエンドを次世代に」をテーマとして開催する技術カンファレンスです。"
     />
-    <meta property="og:image" content={ogImage.src} />
+    <meta property="og:image" content={`${Astro.site}og-image.png`} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.toString()} />
     <meta property="og:site_name" content="Frontend Conference Tokyo" />

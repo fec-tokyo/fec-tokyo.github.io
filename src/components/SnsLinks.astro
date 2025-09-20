@@ -2,10 +2,12 @@
 import GitHubLogoImage from "@/assets/github-logo.svg";
 import XLogoImage from "@/assets/x-logo.svg";
 import NoteLogoImage from "@/assets/note-logo.svg";
+import WebsiteLogoImage from "@/assets/link-logo.svg";
 
 type Props = {
-  xId: string;
+  xId?: string;
   githubId?: string;
+  website?: string;
   hasNote?: boolean;
   noteId?: string;
   size?: "small" | "large";
@@ -14,6 +16,7 @@ type Props = {
 const {
   xId,
   githubId,
+  website,
   hasNote = false,
   noteId,
   size = "small",
@@ -22,33 +25,41 @@ const {
 
 <ul class:list={["list", size === "small" ? "small" : "large"]}>
   {
-    [<XLogoImage />, hasNote ? <NoteLogoImage /> : <GitHubLogoImage />].map(
-      (icon, index) => (
-        <li>
-          <a
-            href={
-              index === 0
-                ? `https://x.com/${xId}`
-                : hasNote
-                  ? `https://note.com/${noteId}`
-                  : `https://github.com/${githubId}`
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            class:list={[
-              "item",
-              {
-                github: index === 1 && !hasNote,
-                note: index === 1 && hasNote,
-                x: index === 0,
-              },
-              size === "small" ? "small" : "large",
-            ]}
-          >
-            {icon}
-          </a>
-        </li>
-      ),
+    (
+      [
+        { icon: <XLogoImage />, url: xId && `https://x.com/${xId}` },
+        {
+          icon: <NoteLogoImage />,
+          url: noteId && `https://note.com/${noteId}`,
+        },
+        {
+          icon: <GitHubLogoImage />,
+          url: githubId && `https://github.com/${githubId}`,
+        },
+        { icon: <WebsiteLogoImage />, url: website },
+      ] as const
+    ).map(
+      ({ icon, url }) =>
+        url != null && (
+          <li>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "item",
+                {
+                  github: url.includes("github.com"),
+                  note: url.includes("note.com"),
+                  x: url.includes("x.com"),
+                },
+                size === "small" ? "small" : "large",
+              ]}
+            >
+              {icon}
+            </a>
+          </li>
+        ),
     )
   }
 </ul>

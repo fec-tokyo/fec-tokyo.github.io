@@ -1,7 +1,10 @@
 ---
 import { Image } from "astro:assets";
+
 import ExternalLinkIcon from "@/assets/external-link.svg";
 import SectionTitle from "@/components/SectionTitle.astro";
+import SnsLinks from "@/components/SnsLinks.astro";
+
 import { TIMETABLE_ROWS } from "@/data/timetable";
 ---
 
@@ -128,6 +131,11 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
                                   />
                                 </a>
                               )}
+                              <SnsLinks
+                                xId={cell.xId}
+                                githubId={cell.githubId}
+                                website={cell.website}
+                              />
                             </div>
                           </div>
                           <Image
@@ -138,7 +146,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
                             ]}
                             width={cell.isLongTalk ? 108 : 80}
                             height={cell.isLongTalk ? 108 : 80}
-                            alt={cell.speakerName}
+                            alt=""
                             data-astro-image="constrained"
                           />
                         </div>
@@ -422,6 +430,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
   .cellBody {
     display: flex;
+    height: 100%;
     gap: 16px;
     align-items: center;
     padding: 20px 24px;
@@ -432,10 +441,12 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
   .cellContents {
     display: flex;
+    height: inherit;
     flex-grow: 1;
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
+    justify-content: space-between;
   }
 
   .cellRoomType {
@@ -482,15 +493,10 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
   }
 
   .cellTitle {
-    display: -webkit-box;
-    flex: 1;
-    max-height: calc(1.5em * 3);
+    text-align: start;
     overflow: hidden;
-    -webkit-line-clamp: 3;
     line-height: 1.3;
     color: #ffffff;
-    -webkit-box-orient: vertical;
-    text-align: justify;
   }
 
   .emphasized {
