@@ -532,6 +532,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     endAt: "19:00",
     list: [
       {
+        id: "30",
         roomType: "A",
         title: "クロージング",
         isEmphasized: true,
