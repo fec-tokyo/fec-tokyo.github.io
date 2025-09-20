@@ -16,8 +16,8 @@ import l1lhu1hu1 from "@/assets/speaker/l1lhu1hu1.jpg";
 import manasugiyoshi from "@/assets/speaker/manasugiyoshi.jpg";
 import nkgrnkgr from "@/assets/speaker/nkgrnkgr.jpg";
 import nrs from "@/assets/speaker/nrs.jpg";
-import nus3 from "@/assets/speaker/nus3_.jpg"
-import p_craft from "@/assets/speaker/p_craft.jpg"; 
+import nus3 from "@/assets/speaker/nus3_.jpg";
+import p_craft from "@/assets/speaker/p_craft.jpg";
 import progfay from "@/assets/speaker/progfay.jpg";
 import pvcresin from "@/assets/speaker/pvcresin.png";
 import reyalka_dev from "@/assets/speaker/reyalka_dev.jpg";
@@ -70,6 +70,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     endAt: "11:00",
     list: [
       {
+        id: "1",
         roomType: "A",
         title: "オープニング",
         isEmphasized: true,
@@ -122,7 +123,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "4",
         roomType: "A",
-        title: "見た目は動く。でも使えない、、アクセシブルなUIの実装アンチパターン集",
+        title:
+          "見た目は動く。でも使えない、、アクセシブルなUIの実装アンチパターン集",
         isEmphasized: false,
         speakerName: "maddy/杉吉真奈",
         xId: "manasugiyoshi",
@@ -185,7 +187,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "8",
         roomType: "A",
-        title: "そのJavaScript、V8が泣いてます。V8の気持ちを理解して書くパフォーマンス最適化",
+        title:
+          "そのJavaScript、V8が泣いてます。V8の気持ちを理解して書くパフォーマンス最適化",
         isEmphasized: false,
         speakerName: "西 悠太",
         website: "https://riya-amemiya-links.oshaburikitchin.com/",
@@ -197,7 +200,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "9",
         roomType: "B",
-        title: "フロントエンドパフォーマンスチューニングで Web 技術を深掘り直す",
+        title:
+          "フロントエンドパフォーマンスチューニングで Web 技術を深掘り直す",
         isEmphasized: false,
         speakerName: "progfay",
         xId: "progfay",
@@ -216,7 +220,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "10",
         roomType: "A",
-        title: "爆速でプロダクトをリリースしようと思ったらマイクロフロントエンドを選んでいた",
+        title:
+          "爆速でプロダクトをリリースしようと思ったらマイクロフロントエンドを選んでいた",
         isEmphasized: false,
         speakerName: "Nokogiri",
         xId: "nkgrnkgr",
@@ -247,7 +252,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "12",
         roomType: "A",
-        title: "Reduxモダナイズ　〜コードのモダン化を通して、将来のライブラリ移行に備える〜",
+        title:
+          "Reduxモダナイズ　〜コードのモダン化を通して、将来のライブラリ移行に備える〜",
         isEmphasized: false,
         speakerName: "pvcresin",
         xId: "pvcresin",
@@ -259,7 +265,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "13",
         roomType: "B",
-        title: "\"フロントエンドの技術\"を移行する技術",
+        title: '"フロントエンドの技術"を移行する技術',
         isEmphasized: false,
         speakerName: "外松 俊尚",
         xId: "toshi__toma",
@@ -306,7 +312,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
     endAt: "17:25",
     list: [
       {
-        id: "16",
+        id: undefined,
         roomType: "A",
         title: "愛すべき Image API - 前世紀の技を現代で",
         isLongTalk: false,
@@ -324,7 +330,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
         isLongTalk: false,
         isEmphasized: false,
         speakerName: "Hal",
-        xId: 'hal_spidernight',
+        xId: "hal_spidernight",
         hasSlides: false,
         slidesUrl: "#",
         thumbnailImage: hal,
@@ -339,7 +345,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "18",
         roomType: "A",
-        title: "IME vs Input Field Shortcuts: Enhancing Text Input Accessibility",
+        title:
+          "IME vs Input Field Shortcuts: Enhancing Text Input Accessibility",
         isLongTalk: false,
         isEmphasized: false,
         speakerName: "かみくず",
@@ -432,7 +439,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "24",
         roomType: "A",
-        title: "ブラウザストレージを活用した、複数アプリをまたぐ永続化とリアクティブな同期 ",
+        title:
+          "ブラウザストレージを活用した、複数アプリをまたぐ永続化とリアクティブな同期 ",
         isLongTalk: false,
         isEmphasized: false,
         speakerName: "てつを。",
@@ -494,7 +502,8 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "28",
         roomType: "A",
-        title: "Yahoo! 知恵袋におけるFeature Flag活用 〜安全で柔軟なリリースを目指して〜",
+        title:
+          "Yahoo! 知恵袋におけるFeature Flag活用 〜安全で柔軟なリリースを目指して〜",
         isLongTalk: false,
         isEmphasized: false,
         speakerName: "津村光輝",

@@ -71,6 +71,7 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
                   ) : (
                     row.list.map((cell) => (
                       <td
+                        style={`visibility: ${cell.id == null ? "hidden" : "visible"}`}
                         class:list={[
                           "cell presentationCell",
                           {
@@ -165,16 +166,16 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
 <script>
   const sessionRoomInput = document.getElementById(
-    "sessionRoom",
+    "sessionRoom"
   ) as HTMLInputElement | null;
   const amaRoomInput = document.getElementById(
-    "amaRoom",
+    "amaRoom"
   ) as HTMLInputElement | null;
   const sessionRoomLabel = document.querySelector(
-    "label[for='sessionRoom']",
+    "label[for='sessionRoom']"
   ) as HTMLLabelElement | null;
   const amaRoomLabel = document.querySelector(
-    "label[for='amaRoom']",
+    "label[for='amaRoom']"
   ) as HTMLLabelElement | null;
 
   function updateTabStates() {
@@ -189,10 +190,10 @@ import { TIMETABLE_ROWS } from "@/data/timetable";
 
   function handleKeyDown(event: KeyboardEvent) {
     const tabs = [sessionRoomLabel, amaRoomLabel].filter(
-      Boolean,
+      Boolean
     ) as HTMLLabelElement[];
     const currentIndex = tabs.findIndex(
-      (tab) => tab.getAttribute("tabindex") === "0",
+      (tab) => tab.getAttribute("tabindex") === "0"
     );
 
     if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
