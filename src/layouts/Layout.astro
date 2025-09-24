@@ -35,11 +35,6 @@ const EventName = await getImage({
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link
-      fetchpriority="low"
-      href="https://fonts.googleapis.com/css2&family=Noto+Sans+JP:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
     <meta
       name="description"
       content="フロントエンドカンファレンス東京は「フロントエンドを次世代に」をテーマとして開催する技術カンファレンスです。"
@@ -58,5 +53,10 @@ const EventName = await getImage({
   </head>
   <body>
     <slot />
+    <link
+      fetchpriority="low"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </body>
 </html>
