@@ -1,13 +1,29 @@
 ---
 import "@/css/foundation.css";
-import ogImage from "@/assets/og-image.png";
+import { getImage } from "astro:assets";
 const canonicalURL = new URL(Astro.url, Astro.site);
+import EventNameImage from "@/assets/kv-event-name.svg";
+import Texture from "@/assets/bg-texture.png";
+
+const TextureImage = await getImage({
+  src: Texture,
+  quality: 80,
+  format: "webp",
+});
+
+const EventName = await getImage({
+  src: EventNameImage,
+  quality: 80,
+  format: "webp",
+});
 ---
 
 <!doctype html>
 <html lang="ja">
   <head prefix="og: https://ogp.me/ns#">
     <meta charset="UTF-8" />
+    <link rel="preload" as="image" href={TextureImage.src} />
+    <link rel="preload" as="image" href={EventName.src} />
     <meta name="viewport" content="width=device-width" />
     <meta color-scheme="dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
