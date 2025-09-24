@@ -12,13 +12,11 @@ const TextureImage = await getImage({
 });
 ---
 
-<Layout>
-  <Header />
-  <main class="bg">
-    <div class="texture"></div>
-    <slot />
-  </main>
-</Layout>
+<Header />
+<main class="bg">
+  <div class="texture"></div>
+  <slot />
+</main>
 
 <style define:vars={{ texture: `url(${TextureImage.src})` }}>
   @import "../css/vars.css";
