@@ -9,7 +9,7 @@ import { FAQ_LIST } from "@/data/faq";
     <ul class="list">
       {
         FAQ_LIST.map((faq) => (
-          <list class="item">
+          <li class="item">
             <div class="question">
               <span class="prefix">Q.</span>
               {faq.question}
@@ -18,7 +18,7 @@ import { FAQ_LIST } from "@/data/faq";
               <span class="prefix onlySp">A.</span>
               {faq.answer}
             </div>
-          </list>
+          </li>
         ))
       }
     </ul>
