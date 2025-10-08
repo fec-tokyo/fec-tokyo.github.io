@@ -7,14 +7,49 @@ import TrafficImage from "@/assets/kv-traffic.png";
 import TrafficSpImage from "@/assets/kv-traffic-sp.png";
 import PeopleSpImage from "@/assets/kv-people-sp.png";
 import EventNameImage from "@/assets/kv-event-name.svg";
+import { getImage } from "astro:assets";
+
+const EventName = await getImage({
+  src: EventNameImage,
+  quality: 80,
+  format: "svg",
+});
+
+const Traffic = await getImage({
+  src: TrafficImage,
+  quality: 80,
+  format: "webp",
+});
+
+const TrafficMobile = await getImage({
+  src: TrafficSpImage,
+  quality: 60,
+  width: 767,
+  height: 767,
+  format: "webp",
+});
+
+const People = await getImage({
+  src: PeopleImage,
+  quality: 80,
+  format: "webp",
+});
+
+const PeopleMobile = await getImage({
+  src: PeopleSpImage,
+  quality: 60,
+  width: 767,
+  height: 767,
+  format: "webp",
+});
 ---
 
 <section id="kv" class="container">
   <div class="contents">
     <picture>
-      <source srcset={TrafficImage.src} media="(min-width: 767px)" />
+      <source srcset={Traffic.src} media="(min-width: 767px)" />
       <img
-        src={TrafficSpImage.src}
+        src={TrafficMobile.src}
         width="767"
         height="767"
         alt=""
@@ -22,9 +57,9 @@ import EventNameImage from "@/assets/kv-event-name.svg";
       />
     </picture>
     <picture>
-      <source srcset={PeopleImage.src} media="(min-width: 767px)" />
+      <source srcset={People.src} media="(min-width: 767px)" />
       <img
-        src={PeopleSpImage.src}
+        src={PeopleMobile.src}
         width="767"
         height="767"
         alt=""
@@ -36,13 +71,13 @@ import EventNameImage from "@/assets/kv-event-name.svg";
       <h1 class="eventName">
         <picture>
           <source
-            srcset={EventNameImage.src}
+            srcset={EventName.src}
             media="(min-width: 767px)"
             width="172"
             height="315"
           />
           <img
-            src={EventNameImage.src}
+            src={EventName.src}
             width="120"
             height="220"
             alt="フロントエンドカンファレンストウキョウ"
