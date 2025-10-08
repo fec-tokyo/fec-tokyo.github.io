@@ -1,15 +1,14 @@
 ---
-import { Image } from "astro:assets";
 import LogoImage from "@/assets/header-logo.svg";
 ---
 
 <header class="container">
   <a href="/">
-    <Image
-      src={LogoImage}
+    <img
+      src={LogoImage.src}
       alt="Frontend Conference Tokyo"
-      width={175}
-      height={58}
+      width="175"
+      height="58"
       class="logo"
     />
   </a>
