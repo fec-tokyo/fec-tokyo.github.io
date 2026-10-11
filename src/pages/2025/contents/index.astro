@@ -1,11 +1,13 @@
 ---
-import SessionList from "@/components/SessionList.astro";
+import SessionList from "@/components/2025/SessionList.astro";
 import Layout from "@/layouts/Layout.astro";
-import Footer from "@/components/Footer.astro";
-import Bg from "@/layouts/Bg.astro";
+import Footer from "@/components/2025/Footer.astro";
+import Bg from "@/layouts/2025/Bg.astro";
+import Head from "@/components/2025/Head.astro";
 ---
 
-<Layout>
+<Layout ogTitle="Frontend Conference Tokyo 2025">
+  <Head slot="head" />
   <Bg>
     <SessionList />
     <Footer />
