@@ -1,14 +1,14 @@
-import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
+import dummySpeakerIcon from "@/assets/2025/dummy-speaker-icon.png";
 import type { ImageMetadata } from "astro";
 
-import did0es from "@/assets/coreMembers/did0es.jpg";
-import ken7253 from "@/assets/coreMembers/ken7253.jpg";
-import oyu from "@/assets/coreMembers/0yu.jpg";
-import yossydev from "@/assets/coreMembers/yossydev.jpg";
+import did0es from "@/assets/2025/coreMembers/did0es.jpg";
+import ken7253 from "@/assets/2025/coreMembers/ken7253.jpg";
+import oyu from "@/assets/2025/coreMembers/0yu.jpg";
+import yossydev from "@/assets/2025/coreMembers/yossydev.jpg";
 
-import berlysia from "@/assets/coreMembers/berlysia.jpg";
-import sakito from "@/assets/coreMembers/sakito.jpg";
-import sosukesuzuki from "@/assets/coreMembers/sosukesuzuki.jpg";
+import berlysia from "@/assets/2025/coreMembers/berlysia.jpg";
+import sakito from "@/assets/2025/coreMembers/sakito.jpg";
+import sosukesuzuki from "@/assets/2025/coreMembers/sosukesuzuki.jpg";
 
 type Organizer = {
   name: string;

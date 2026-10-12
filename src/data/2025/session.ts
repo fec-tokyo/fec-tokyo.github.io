@@ -1,4 +1,4 @@
-import dummySpeakerIcon from "@/assets/dummy-speaker-icon.png";
+import dummySpeakerIcon from "@/assets/2025/dummy-speaker-icon.png";
 import type { ImageMetadata } from "astro";
 
 type SessionItem = {

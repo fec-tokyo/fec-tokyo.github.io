@@ -1,8 +1,8 @@
 ---
-import Header from "@/components/Header.astro";
+import Header from "@/components/2025/Header.astro";
 import { getImage } from "astro:assets";
 
-import Texture from "@/assets/bg-texture.png";
+import Texture from "@/assets/2025/bg-texture.png";
 
 const TextureImage = await getImage({
   src: Texture,
@@ -16,9 +16,14 @@ const TextureImage = await getImage({
   <div class="texture"></div>
   <slot />
 </main>
+<link
+  fetchpriority="low"
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
 
 <style define:vars={{ texture: `url(${TextureImage.src})` }}>
-  @import "../css/vars.css";
+  @import "../../css/2025/vars.css";
 
   .bg {
     position: relative;

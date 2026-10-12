@@ -1,0 +1,26 @@
+---
+import { getImage } from "astro:assets";
+import EventNameImage from "@/assets/2025/kv-event-name.svg";
+import Texture from "@/assets/2025/bg-texture.png";
+
+const TextureImage = await getImage({
+  src: Texture,
+  quality: 80,
+  format: "webp",
+});
+
+const EventName = await getImage({
+  src: EventNameImage,
+  quality: 80,
+  format: "svg",
+});
+---
+
+<link rel="preload" as="image" href={EventName.src} fetchpriority="high" />
+<link rel="preload" as="image" href={TextureImage.src} />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
