@@ -1,7 +1,0 @@
-/*
- * デザインの基準幅: スマホ 440px / タブレット 834px / デスクトップ 1440px
- * 各範囲は重ならないように区切っている
- */
-@custom-media --sp (width < 834px);
-@custom-media --tablet (834px <= width < 1280px);
-@custom-media --desktop (width >= 1280px);
