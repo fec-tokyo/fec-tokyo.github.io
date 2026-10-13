@@ -28,8 +28,8 @@ pre-pushとreference-transactionフックが有効になります。Pythonは不
 
 ### `--no-verify`への対策
 
-`pre-commit`でstaged内容を検査し、[`reference-transaction`](https://git-scm.com/docs/githooks#_reference_transaction)の
-`prepared`段階でも新規コミットの参照更新だけを判定して、同じstaged内容を検査します。
+[`reference-transaction`](https://git-scm.com/docs/githooks#_reference_transaction)の
+`prepared`段階で新規コミットの参照更新だけを判定し、staged内容を1回検査します。
 秘密が見つかると参照更新を中止するため、`git commit --no-verify`でも検査を省略できません。
 既存コミットを指すブランチの作成・切り替えでは履歴の内容検査を行いません。
 削除とsymbolic refの切り替え、remote追跡refの更新も対象外です。

@@ -86,7 +86,6 @@ test('stagedだけ検査し、切り替えを止めず、commit --no-verifyを�
     git('config', 'user.name', 'Test');
     git('config', 'user.email', 'test@example.invalid');
     mkdirSync(join(cwd, '.husky'));
-    copyFileSync(join(root, '.husky/pre-commit'), join(cwd, '.husky/pre-commit'));
     copyFileSync(join(root, '.husky/reference-transaction'), join(cwd, '.husky/reference-transaction'));
     symlinkSync(join(root, 'scripts'), join(cwd, 'scripts'));
     symlinkSync(join(root, 'node_modules'), join(cwd, 'node_modules'));
@@ -104,7 +103,9 @@ test('stagedだけ検査し、切り替えを止めず、commit --no-verifyを�
 
     writeFileSync(join(cwd, 'content.txt'), 'safe');
     git('add', 'content.txt');
-    git('commit', '--no-verify', '-qm', 'safe');
+    const safeCommit = run('commit', '-qm', 'safe');
+    assert.equal(safeCommit.status, 0, safeCommit.stderr);
+    assert.equal((safeCommit.stderr.match(/クレデンシャル検査完了/g) ?? []).length, 1);
     const base = git('rev-parse', 'HEAD');
     writeFileSync(join(cwd, 'unstaged.txt'), secret);
     git('switch', '-c', 'new-branch');
@@ -117,7 +118,7 @@ test('stagedだけ検査し、切り替えを止めず、commit --no-verifyを�
     assert.equal(git('branch', '--show-current'), 'another-branch');
     git('switch', 'new-branch');
     assert.equal(git('branch', '--show-current'), 'new-branch');
-    assert.notEqual(run('commit', '-qm', 'blocked by pre-commit').status, 0);
+    assert.notEqual(run('commit', '-qm', 'blocked').status, 0);
     assert.notEqual(run('commit', '--no-verify', '-qm', 'blocked').status, 0);
     assert.equal(git('rev-parse', 'HEAD'), base);
 
