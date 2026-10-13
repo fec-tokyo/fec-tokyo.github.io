@@ -1,0 +1,3 @@
+# committed / abortedでは検査しない。preparedの失敗で参照更新を止める。
+[ "$1" = "prepared" ] || exit 0
+node scripts/check-secrets.mjs --reference-transaction
