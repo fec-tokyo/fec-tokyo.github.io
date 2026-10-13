@@ -1,0 +1,89 @@
+---
+import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
+import Button from "@/components/2026/Button.astro";
+
+/*
+ * タイムテーブル・チケットのセクションで使う、見出し・説明・リンクボタンを縦に並べた枠。
+ * href が null のときは、まだ公開前としてボタンを無効にして表示する。
+ */
+type Props = {
+  id: string;
+  title: string;
+  description: string;
+  label: string;
+  href: string | null;
+};
+
+const { id, title, description, label, href } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section
+  id={id}
+  class="container background-seigaiha"
+  aria-labelledby={titleId}
+>
+  <h2 id={titleId} class="title">{title}</h2>
+  <p class="description">{description}</p>
+  <Button href={href ?? undefined} class="action" external>
+    {label}
+    <OpenInNewIcon slot="iconRight" />
+  </Button>
+</section>
+
+<style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    color: var(--color-off-white);
+    border: 2px solid var(--color-off-white);
+    border-radius: 16px;
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .description {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  .action {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* モバイル */
+  /* タブレット: 角丸を開催概要の枠とそろえる */
+  @media (width <= 1080px) {
+    .container {
+      border-radius: 24px;
+    }
+  }
+
+  @media (width <= 840px) {
+    .container {
+      padding: 32px 20px;
+    }
+
+    .title {
+      font-size: 36px;
+    }
+  }
+</style>

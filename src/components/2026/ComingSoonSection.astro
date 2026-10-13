@@ -1,0 +1,71 @@
+---
+/*
+ * スポンサー・オーガナイザーのセクションで使う、見出しと「近日中に公開予定です」だけのセクション。
+ * 中身が決まったら、それぞれのセクションで置き換える。
+ */
+type Props = {
+  id: string;
+  title: string;
+};
+
+const { id, title } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section id={id} class="container" aria-labelledby={titleId}>
+  <h2 id={titleId} class="title">{title}</h2>
+  <p class="message">近日中に公開予定です</p>
+</section>
+
+<style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: var(--width-desktop);
+    padding: 80px 120px;
+    margin-inline: auto;
+    color: var(--color-off-white);
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  /* Figma では高さ 80px の枠の中央に置いている */
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  /* タブレット */
+  @media (width <= 1080px) {
+    .container {
+      padding-inline: 40px;
+    }
+  }
+
+  /* モバイル */
+  @media (width <= 840px) {
+    .container {
+      padding: 48px 20px;
+    }
+
+    .title {
+      font-size: 36px;
+    }
+  }
+</style>

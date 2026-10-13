@@ -1,0 +1,103 @@
+---
+import AboutSection from "@/components/2026/AboutSection.astro";
+import Footer from "@/components/2026/Footer.astro";
+import Head from "@/components/2026/Head.astro";
+import Header from "@/components/2026/Header.astro";
+import KeyVisualSection from "@/components/2026/KeyVisualSection.astro";
+import MessageSection from "@/components/2026/MessageSection.astro";
+import NotesSection from "@/components/2026/NotesSection.astro";
+import OrganizersSection from "@/components/2026/OrganizersSection.astro";
+import OverviewSection from "@/components/2026/OverviewSection.astro";
+import SponsorsSection from "@/components/2026/SponsorsSection.astro";
+import TicketsSection from "@/components/2026/TicketsSection.astro";
+import TimetableSection from "@/components/2026/TimetableSection.astro";
+import "@/css/2026/vars.css";
+import "@/css/2026/styles.css";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout ogTitle="Frontend Conference Tokyo 2026">
+  <Head slot="head" />
+  <div class="max-width">
+    <Header />
+  </div>
+  <main>
+    <div class="background-shippo page-top">
+      <div class="max-width">
+        <KeyVisualSection />
+        <MessageSection />
+      </div>
+    </div>
+    {
+      /* About の雲は画面幅いっぱいに並べるので .max-width で囲まない。中身の幅は各セクションで決めている */
+    }
+    <div class="background-aizome">
+      <AboutSection />
+      <div class="event-info">
+        <div class="event-info-overview">
+          <OverviewSection />
+        </div>
+        <TimetableSection />
+        <TicketsSection />
+      </div>
+      <SponsorsSection />
+      <OrganizersSection />
+    </div>
+    <div class="background-twilight">
+      <NotesSection />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  /*
+   * ページ上部の七宝柄の面は、Figma と同じく上から 1024px で赤になり、それより下は赤のまま。
+   * 柄の下に敷くグラデーションを --background-shippo-base で渡す（.background-shippo は styles.css）。
+   */
+  .page-top {
+    --background-shippo-base: linear-gradient(
+      180deg,
+      var(--color-peach) 0,
+      var(--color-coral) calc(1024px * 0.0865),
+      var(--color-red) 1024px
+    );
+  }
+
+  /*
+   * 開催概要・タイムテーブル・チケットの3セクション。
+   * 開催概要は横幅いっぱい、その下にタイムテーブルとチケットを同じ幅・同じ高さで並べる。
+   */
+  .event-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    max-width: var(--width-desktop);
+    padding: 40px 120px;
+    margin-inline: auto;
+  }
+
+  .event-info-overview {
+    grid-column: 1 / -1;
+  }
+
+  /* タブレット: 並びはそのままで、余白を上下左右 40px にする */
+  @media (width <= 1080px) {
+    .event-info {
+      padding: 40px;
+    }
+  }
+
+  /* モバイル: タイムテーブルとチケットも縦に積む */
+  @media (width <= 840px) {
+    .event-info {
+      grid-template-columns: minmax(0, 1fr);
+      padding-inline: 20px;
+    }
+  }
+
+  .max-width {
+    max-width: var(--width-desktop);
+    margin-inline: auto;
+  }
+</style>

@@ -1,0 +1,415 @@
+---
+import { Image } from "astro:assets";
+import CloudImage from "@/assets/2026/about-cloud.svg";
+import PhotoMaskImage from "@/assets/2026/about-photo-mask.svg";
+import KasumiLargeImage from "@/assets/2026/sections/about/kasumi-large.svg";
+import KasumiSmall1Image from "@/assets/2026/sections/about/kasumi-small-1.svg";
+import KasumiSmall2Image from "@/assets/2026/sections/about/kasumi-small-2.svg";
+import KasumiImage from "@/assets/2026/sections/about/kasumi.svg";
+import Photo1Image from "@/assets/2026/sections/about/photo-1.jpg";
+import Photo2Image from "@/assets/2026/sections/about/photo-2.jpg";
+import Photo3Image from "@/assets/2026/sections/about/photo-3.jpg";
+import Photo4Image from "@/assets/2026/sections/about/photo-4.jpg";
+import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
+import XIcon from "@/assets/icon/icon-x.svg";
+import Button from "@/components/2026/Button.astro";
+import { TICKET_URL, X_URL } from "@/data/2026/links";
+
+// TODO: 過去のカンファレンスの写真が揃ったら差し替える。いまは Unsplash の写真を仮で並べている
+const photos = [
+  { src: Photo1Image, alt: "ステージで大きなスクリーンを背に話す登壇者と客席" },
+  {
+    src: Photo2Image,
+    alt: "スクリーンに映ったカンファレンスのタイトルを見る参加者",
+  },
+  { src: Photo3Image, alt: "受付のあるロビーに集まる大勢の参加者" },
+  { src: Photo4Image, alt: "照明を落とした会場で開始を待つ参加者" },
+];
+---
+
+<section
+  id="about"
+  class="container"
+  aria-labelledby="about-title"
+  style={`--cloud-image: url(${CloudImage.src}); --photo-mask-image: url(${PhotoMaskImage.src})`}
+>
+  {/* 上のセクションに 160px かぶさる雲。画面幅いっぱいに横に繰り返す */}
+  <div class="cloud" aria-hidden="true"></div>
+  <div class="contents">
+    <div class="text">
+      <h2 id="about-title" class="title">
+        東京発、<br />フロントエンドの<br class="titleBreak" />交差点。
+      </h2>
+      <p class="description">
+        本カンファレンスは次世代を担うエンジニアに向けて、フロントエンドの第一線に立つエンジニアが知見を共有し、成長の機会を提供します。<br
+        />
+        また、開発現場で活躍するエンジニアが外部発信するきっかけを作るとともに、初心者が実践的なノウハウを学べる場となることを目指します。<br
+        />
+        登壇やAMA、他の参加者との議論を通じて知識と繋がりを深め、これまでに築いたフロントエンドの技術と文化を未来へ伝えるためのカンファレンスです。
+      </p>
+      <div class="actions">
+        <Button href={TICKET_URL} class="action" external>
+          チケットを購入する
+          <OpenInNewIcon slot="iconRight" />
+        </Button>
+        <Button href={X_URL} variant="black" class="action" external>
+          <XIcon slot="iconLeft" />
+          公式アカウントをフォローする
+          <OpenInNewIcon slot="iconRight" />
+        </Button>
+      </div>
+    </div>
+    {
+      /*
+       * 写真と霞の飾り。Figma（592×560）での位置を割合にして、幅が縮んでも崩れないようにしている。
+       * 写真は雲形（Figma の Vector）で切り抜いたカルーセルで、切り抜きの中でフェードで切り替わる。
+       * 見えていない写真は画面外に置かれ遅延読み込みだとフェードで出る瞬間まで読み込まれないので、すべて先に読み込む。
+       */
+    }
+    <div class="visual">
+      <img
+        src={KasumiSmall1Image.src}
+        alt=""
+        width={KasumiSmall1Image.width}
+        height={KasumiSmall1Image.height}
+        class="kasumi kasumiSmall1"
+      />
+      <img
+        src={KasumiSmall2Image.src}
+        alt=""
+        width={KasumiSmall2Image.width}
+        height={KasumiSmall2Image.height}
+        class="kasumi kasumiSmall2"
+      />
+      <div
+        class="carousel"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="過去のカンファレンスの様子"
+      >
+        <div class="carouselTrack">
+          {
+            photos.map((photo, index) => (
+              <div
+                class="carouselSlide"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${index + 1} / ${photos.length}`}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={560}
+                  class="photo"
+                  loading="eager"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <img
+        src={KasumiImage.src}
+        alt=""
+        width={KasumiImage.width}
+        height={KasumiImage.height}
+        class="kasumi kasumiTop"
+      />
+      <img
+        src={KasumiLargeImage.src}
+        alt=""
+        width={KasumiLargeImage.width}
+        height={KasumiLargeImage.height}
+        class="kasumi kasumiLarge"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import EmblaCarousel from "embla-carousel";
+  import Fade from "embla-carousel-fade";
+
+  // 操作されていない間は一定間隔で次の写真へ送る。動きを減らす設定のときは自動で送らない
+  const AUTOPLAY_INTERVAL = 5000;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const carousels = document.querySelectorAll<HTMLElement>("#about .carousel");
+
+  for (const carousel of carousels) {
+    // 横に流さず、写真を重ねてフェードで切り替える
+    const embla = EmblaCarousel(carousel, { loop: true }, [Fade()]);
+    let timer: number | undefined;
+
+    const stop = () => window.clearInterval(timer);
+    const start = () => {
+      stop();
+      // カーソルを乗せている・フォーカスしている・タブが裏にある間は止めておく
+      if (
+        reducedMotion.matches ||
+        carousel.matches(":hover, :focus-within") ||
+        document.hidden
+      )
+        return;
+      timer = window.setInterval(() => embla.scrollNext(), AUTOPLAY_INTERVAL);
+    };
+
+    embla.on("pointerDown", stop);
+    embla.on("settle", start);
+    carousel.addEventListener("pointerenter", stop);
+    carousel.addEventListener("pointerleave", start);
+    carousel.addEventListener("focusin", stop);
+    carousel.addEventListener("focusout", start);
+    document.addEventListener("visibilitychange", start);
+    start();
+  }
+</script>
+
+<style scoped>
+  /*
+   * 雲の1枚分の幅。1440px 以上では Figma と同じ大きさで並べ、それより狭い画面では幅に合わせて縮める。
+   * 雲の高さ・位置と上の余白は、この幅を基準に Figma（1440px）の比率で決める。
+   */
+  .container {
+    --cloud-width: min(var(--width-desktop), 100vw);
+
+    position: relative;
+  }
+
+  /*
+   * 雲の SVG は幅 1440px・高さ 571px（上下に影の余白 32px を含む）。左右の端は同じ高さで切れているので、
+   * 横に並べると継ぎ目なくつながる。Figma では雲がセクションの上に 160px（影込みで 192px）はみ出す。
+   */
+  .cloud {
+    position: absolute;
+    top: calc(var(--cloud-width) * -192 / 1440);
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: calc(var(--cloud-width) * 571 / 1440);
+    pointer-events: none;
+    background-image: var(--cloud-image);
+    background-repeat: repeat-x;
+    background-position: top center;
+    background-size: var(--cloud-width) 100%;
+  }
+
+  /*
+   * 上の余白は雲の下端に合わせる（1440px で 320px）。
+   * 1440px ではテキスト（648px）と写真（592px）で幅 1240px ちょうどになる。
+   * それより狭いと写真がテキストの下に回り込む。
+   */
+  .contents {
+    position: relative;
+    display: flex;
+    gap: 40px 0;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--width-desktop);
+    /* 左右の余白は他のセクションとそろえて 120px（タブレットでは 40px） */
+    padding: calc(var(--cloud-width) * 320 / 1440) 120px 0;
+    margin-inline: auto;
+  }
+
+  /*
+   * 幅は見出し1行分（648px）。本文は 560px で折り返す。
+   * 画面が狭くなっても写真の下に回り込ませず、写真より先にこちらを縮める。
+   */
+  .text {
+    display: flex;
+    flex: 0 1 648px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    min-width: 0;
+    container-type: inline-size;
+    color: var(--color-off-white);
+  }
+
+  /* 列が縮んでも見出しが折り返さないよう、長い方の行（12文字）が列の幅に収まる大きさまで小さくする */
+  .title {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: min(54px, 100cqi / 12);
+    font-weight: 900;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* タブレットだけ「交差点。」の前でも改行する */
+  .titleBreak {
+    display: none;
+  }
+
+  .description {
+    max-width: 560px;
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+
+    /* foundation.css の text-autospace: normal だと「AMA」の前後に隙間が入るので、Figma に合わせて切る */
+    text-autospace: no-autospace;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .visual {
+    position: relative;
+    flex: 0 2 592px;
+    aspect-ratio: 592 / 560;
+  }
+
+  .visual > :global(*) {
+    position: absolute;
+    height: auto;
+  }
+
+  /*
+   * カルーセルの表示領域を Figma の Vector（560×560 の雲形）でマスクする。
+   * 枠の外へは何も見えず、切り抜きの中だけで写真が横に流れる。
+   */
+  .carousel {
+    top: 0;
+    left: calc(16 / 592 * 100%);
+    width: calc(560 / 592 * 100%);
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: grab;
+
+    /* ドラッグで送るときに写真が選択されて青く反転しないようにする */
+    user-select: none;
+    mask-image: var(--photo-mask-image);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+  }
+
+  .carousel:active {
+    cursor: grabbing;
+  }
+
+  .carouselTrack {
+    display: flex;
+    height: 100%;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .carouselSlide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  .photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /*
+   * 霞は青海波の柄をくり抜いた白い1本のパス。
+   * Figma の配置（592×560）の高さに合わせ、幅は SVG の縦横比で決まる（height: auto）。
+   */
+  .kasumi {
+    pointer-events: none;
+  }
+
+  /* Figma で左右反転して置かれているもの */
+  .kasumiSmall1,
+  .kasumiSmall2,
+  .kasumiTop {
+    transform: scaleX(-1);
+  }
+
+  /* 高さ 60px（341×120 の SVG） */
+  .kasumiSmall1 {
+    top: calc(434 / 560 * 100%);
+    left: calc(384 / 592 * 100%);
+    width: calc(170.5 / 592 * 100%);
+  }
+
+  /* 高さ 60px（342×120 の SVG） */
+  .kasumiSmall2 {
+    top: calc(66 / 560 * 100%);
+    left: calc(19 / 592 * 100%);
+    width: calc(171 / 592 * 100%);
+  }
+
+  /* 高さ 160px（546×400 の SVG）。右端を写真エリアの右端にそろえる */
+  .kasumiTop {
+    top: 0;
+    right: 0;
+    width: calc(218.4 / 592 * 100%);
+  }
+
+  /* 高さ 160px（521×400 の SVG） */
+  .kasumiLarge {
+    top: calc(400 / 560 * 100%);
+    left: 0;
+    width: calc(208.4 / 592 * 100%);
+  }
+
+  /* タブレット: テキストと写真を縦に積む */
+  @media (width <= 1080px) {
+    /*
+     * 雲の本体の半分が上のセクションにかぶさり、テキストは上から 1080px 幅で 207px（画面幅に比例）。
+     * Figma の 834px 版（雲の本体の高さ 294px、テキストは上から 160px）と同じ比率にしている。
+     * 雲の SVG は上下に影の余白（1440px で 32px）を含むので、その分も上にずらす。
+     */
+    .cloud {
+      top: calc(var(--cloud-width) * -286 / 1440);
+    }
+
+    .contents {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: calc(var(--cloud-width) * 207 / 1080) 40px 0;
+    }
+
+    .text {
+      flex-basis: 100%;
+    }
+
+    /* 3行に分けて 72px。一番長い「フロントエンドの」（8文字）が幅に収まるよう、狭い画面では縮める */
+    .title {
+      font-size: min(72px, 100cqi / 8);
+    }
+
+    .titleBreak {
+      display: inline;
+    }
+
+    .description {
+      max-width: none;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 2.2;
+    }
+
+    /* ボタンは2つで横幅いっぱいに並べ、収まらなくなったら縦に積む */
+    .actions {
+      align-self: stretch;
+    }
+
+    .action {
+      flex: 1 1 0;
+    }
+  }
+
+  /* モバイル */
+  @media (width <= 840px) {
+    .contents {
+      padding-inline: 20px;
+    }
+
+    .title {
+      font-size: 32px;
+    }
+  }
+</style>

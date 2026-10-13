@@ -1,0 +1,524 @@
+---
+import ArrowIcon from "@/assets/icon/icon-arrow.svg";
+import LogomarkOnetone from "@/assets/logo/logomark-onetone.svg";
+import Button from "@/components/2026/Button.astro";
+import { TICKET_URL, TOP_URL } from "@/data/2026/links";
+import { NEWS } from "@/data/2026/news";
+
+// 文字数に比例させて、本文の長さが変わっても流れる速さをおおよそ揃える
+const marqueeDuration = `${NEWS.text.length * 0.4}s`;
+---
+
+<header class="header">
+  <a href={TOP_URL} class="logoLink">
+    <LogomarkOnetone role="img" aria-label="Frontend Conference Tokyo" />
+  </a>
+  <div class="actions">
+    <a
+      href={NEWS.url}
+      class="news"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`News: ${NEWS.text}`}
+    >
+      <span class="newsLabel">News</span>
+      <span class="newsBody">
+        <span class="newsViewport">
+          <span
+            class="newsTrack"
+            style={`--marquee-duration: ${marqueeDuration}`}
+          >
+            <span class="newsText">{NEWS.text}</span>
+            <span class="newsText" aria-hidden="true">{NEWS.text}</span>
+          </span>
+        </span>
+      </span>
+      <span class="newsArrow">
+        <ArrowIcon aria-hidden="true" />
+      </span>
+    </a>
+    <Button href={TICKET_URL} size="medium" external>
+      チケットを購入する
+    </Button>
+    <button
+      type="button"
+      class="menu"
+      aria-label="メニューを開く"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="header-menu"
+      data-menu-button
+    >
+      <span class="menuBars" aria-hidden="true">
+        <span class="menuBar"></span>
+        <span class="menuBar"></span>
+      </span>
+    </button>
+  </div>
+  {
+    /*
+     * showModal() で開くと最前面（top layer）に出て、メニュー以外は操作も読み上げもできなくなる。
+     * ハンバーガーボタンも隠れて押せなくなるので、閉じるボタンをメニューの中に置いている。
+     */
+  }
+  <dialog
+    id="header-menu"
+    class="drawer"
+    aria-label="メニュー"
+    data-open="false"
+  >
+    <button
+      type="button"
+      class="menu menuClose"
+      aria-label="メニューを閉じる"
+      data-menu-close
+    >
+      <span class="menuBars" aria-hidden="true">
+        <span class="menuBar"></span>
+        <span class="menuBar"></span>
+      </span>
+    </button>
+    <div class="drawerContent" data-menu-panel>
+      {/* メニューの中身は未定 */}
+    </div>
+  </dialog>
+</header>
+
+<script>
+  const button =
+    document.querySelector<HTMLButtonElement>("[data-menu-button]");
+  const drawer = document.getElementById(
+    button?.getAttribute("aria-controls") ?? "",
+  );
+  const closeButton =
+    drawer?.querySelector<HTMLButtonElement>("[data-menu-close]");
+  const panel = drawer?.querySelector<HTMLElement>("[data-menu-panel]");
+
+  if (button && drawer instanceof HTMLDialogElement && closeButton && panel) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // 開くボタンの位置と大きさを dialog の端からの距離で渡す。背景はここから広がり、閉じるボタンもここに重ねる
+    const setOrigin = () => {
+      const from = button.getBoundingClientRect();
+      const to = drawer.getBoundingClientRect();
+      drawer.style.setProperty("--origin-top", `${from.top - to.top}px`);
+      drawer.style.setProperty("--origin-right", `${to.right - from.right}px`);
+      drawer.style.setProperty(
+        "--origin-bottom",
+        `${to.bottom - from.bottom}px`,
+      );
+      drawer.style.setProperty("--origin-left", `${from.left - to.left}px`);
+      drawer.style.setProperty("--origin-radius", `${from.height / 2}px`);
+    };
+
+    const open = () => {
+      drawer.showModal();
+      button.setAttribute("aria-expanded", "true");
+      setOrigin();
+      // 閉じた形（開くボタンの大きさ）を一度描画させてから広げる
+      requestAnimationFrame(() => {
+        drawer.dataset.open = "true";
+      });
+    };
+
+    // 開いている間に画面の大きさが変わると開くボタンの位置もずれるので、合わせ直す
+    window.addEventListener("resize", () => {
+      if (drawer.open) setOrigin();
+    });
+
+    // 縮み終わってから閉じる（閉じると display: none になりアニメーションしないため）
+    const close = () => {
+      if (drawer.dataset.open !== "true") return;
+      // 背景が縮むのと同時に中身をフェードアウトさせる
+      drawer.dataset.open = "closing";
+      if (reducedMotion.matches) {
+        drawer.close();
+        return;
+      }
+      // 背景（::before）が縮み終わったら閉じる
+      const onEnd = (event: TransitionEvent) => {
+        if (event.pseudoElement !== "::before") return;
+        drawer.removeEventListener("transitionend", onEnd);
+        drawer.close();
+      };
+      drawer.addEventListener("transitionend", onEnd);
+    };
+
+    button.addEventListener("click", open);
+    closeButton.addEventListener("click", close);
+
+    // dialog は画面全体を覆っているので、パネルの外をクリックしたら閉じる
+    drawer.addEventListener("click", (event) => {
+      if (event.target !== drawer) return;
+      const rect = panel.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) close();
+    });
+
+    // Escape はブラウザが即座に閉じてしまうので、止めてアニメーションさせる
+    drawer.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      close();
+    });
+
+    drawer.addEventListener("close", () => {
+      drawer.dataset.open = "false";
+      button.setAttribute("aria-expanded", "false");
+      button.focus();
+    });
+  }
+</script>
+
+<style scoped>
+  .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    /* ページ本文（.max-width）と同じく 1440px で止めて中央に寄せる */
+    max-width: var(--width-desktop);
+    padding: 20px 40px 0;
+    margin-inline: auto;
+  }
+
+  .logoLink {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex-shrink: 0;
+    color: var(--color-black);
+  }
+
+  .logoLink :global(svg) {
+    display: block;
+  }
+
+  .actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    min-width: 1px;
+  }
+
+  /* News */
+  /* 幅が足りないときは 480px から 320px まで縮める（ロゴとの間は .header の gap で 40px 空ける） */
+  .news {
+    display: flex;
+    flex: 0 1 480px;
+    gap: 10px;
+    align-items: center;
+    min-width: 320px;
+    height: 34px;
+
+    /* ホバー時のボーダー分を差し引いている */
+    padding: 7px 5px 7px 11px;
+    color: var(--color-black);
+    text-decoration: none;
+    background-color: var(--color-white);
+    border: 1px solid transparent;
+    border-radius: 38px;
+    filter: drop-shadow(0 2px 4px var(--color-shadow));
+    transition: border-color 200ms ease;
+  }
+
+  .newsLabel {
+    flex-shrink: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-orange);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .newsBody {
+    display: flex;
+    flex: 1 0 0;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 1px;
+    height: 100%;
+    border-left: 1px solid var(--color-black);
+  }
+
+  .newsViewport {
+    overflow: hidden;
+  }
+
+  /*
+   * 縦線の右に余白を取らず、文字が縦線にめり込んで消えていくようにする。
+   * 書き出しだけは縦線から 10px 離すため、余白ではなく translateX で右にずらしておく
+   */
+  .newsTrack {
+    --news-offset: 10px;
+
+    display: flex;
+    width: max-content;
+    transform: translateX(var(--news-offset));
+    animation: news-marquee var(--marquee-duration) linear infinite;
+  }
+
+  .newsText {
+    /* 2つ目の本文との間隔。gap ではなく padding にして -50% で継ぎ目なくループさせる */
+    padding-right: 40px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: 1.12px;
+    white-space: nowrap;
+  }
+
+  @keyframes news-marquee {
+    from {
+      transform: translateX(var(--news-offset));
+    }
+
+    to {
+      transform: translateX(calc(var(--news-offset) - 50%));
+    }
+  }
+
+  /* メニューを開いている間は止めておき、閉じたら続きから流す */
+  .header:has(.drawer[open]) .newsTrack {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .newsTrack {
+      animation: none;
+    }
+  }
+
+  .newsArrow {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-black);
+    border: 1px solid var(--color-black);
+    border-radius: 30px;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .newsArrow :global(svg) {
+    display: block;
+  }
+
+  /* メニュー */
+  .menu {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 16px;
+    color: var(--color-off-white);
+    cursor: pointer;
+    background-color: var(--color-black);
+    border: none;
+    border-radius: 9999px;
+    filter: drop-shadow(0 2px 4px var(--color-shadow));
+  }
+
+  .menuBars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 24px;
+  }
+
+  .menuBar {
+    display: block;
+    height: 2px;
+    background-color: currentcolor;
+    transition: transform 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .news:hover {
+      border-color: var(--color-black);
+    }
+
+    .news:hover .newsArrow {
+      color: var(--color-white);
+      background-color: var(--color-black);
+    }
+
+    /* 2本の棒をそれぞれ 1px ずつ寄せて、隙間を 4px → 2px にする */
+    .menu:not(.menuClose):hover .menuBar:first-child {
+      transform: translateY(1px);
+    }
+
+    .menu:not(.menuClose):hover .menuBar:last-child {
+      transform: translateY(-1px);
+    }
+
+    .menuClose:hover {
+      color: var(--color-black);
+      background-color: var(--color-off-white);
+    }
+  }
+
+  /*
+   * メニューが開いている間はページをスクロールさせない。
+   * スクロールバーが消えて横幅が変わらないよう、その分の幅は残しておく。
+   */
+  :global(html:has(#header-menu[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /*
+   * ハンバーガーメニュー（dialog の既定の余白や最大サイズは打ち消す）
+   * dialog は画面全体を覆う透明な枠で、開いた後のパネルは画面の上端から 10px。
+   * 下端は高さ 600px まで（画面が低ければ下端から 10px）、モバイルでは画面の下端から 10px。
+   * 右端は開くボタンの右端から 10px 外側で、左端も画面の左端から同じ距離にして左右対称にする。
+   * 背景（::before）を clip-path で切り抜き、開くボタンの形から右上を起点に左下へ広げる。
+   * 中身は動かさずに表示する。
+   */
+  .drawer {
+    --panel-inset: 10px calc(var(--origin-right) - 10px)
+      max(10px, 100dvh - 10px - 600px);
+    --panel-radius: 24px;
+
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    isolation: isolate;
+  }
+
+  .drawer::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background-color: var(--color-black);
+
+    /* 閉じているときは開くボタンと同じ形（--origin-* は JS で設定） */
+    clip-path: inset(
+      var(--origin-top) var(--origin-right) var(--origin-bottom)
+        var(--origin-left) round var(--origin-radius)
+    );
+    transition: clip-path 200ms ease;
+  }
+
+  /* 開くときだけ ease-in-out で広げる */
+  .drawer[data-open="true"]::before {
+    clip-path: inset(var(--panel-inset) round var(--panel-radius));
+    transition-timing-function: ease-in-out;
+  }
+
+  /* パネルの範囲。開くときは中身をそのまま出し、閉じるときだけフェードアウトさせる */
+  .drawerContent {
+    position: absolute;
+    inset: var(--panel-inset);
+    transition: opacity 200ms ease;
+  }
+
+  .drawer[data-open="closing"] .drawerContent {
+    opacity: 0;
+  }
+
+  /* メニュー以外をぼかす。背景が広がるのに合わせてぼかしもかけていく */
+  .drawer::backdrop {
+    background-color: transparent;
+    backdrop-filter: blur(0);
+    transition: backdrop-filter 200ms ease;
+  }
+
+  .drawer[data-open="true"]::backdrop {
+    backdrop-filter: blur(8px);
+    transition-timing-function: ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer::before,
+    .drawer::backdrop,
+    .drawerContent {
+      transition: none;
+    }
+  }
+
+  /*
+   * ヘッダーのハンバーガーボタンと同じ位置・大きさに重ねる（--origin-* は JS で設定）。
+   * 黒いパネルの上なので影は消して白い枠線を付け、枠線の分だけ padding を減らしている。
+   */
+  .menuClose {
+    position: absolute;
+    top: var(--origin-top);
+    right: var(--origin-right);
+    z-index: 1;
+    padding: 12px 15px;
+    background-color: transparent;
+    border: 1px solid var(--color-off-white);
+    filter: none;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  /* 2本の棒を中央に寄せて交差させ、× にする（隙間 4px + 棒 2px の半分で 3px） */
+  .menuClose .menuBar:first-child {
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .menuClose .menuBar:last-child {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  /* タブレット */
+  @media (width <= 1080px) {
+    .header {
+      padding: 20px 20px 0;
+    }
+
+    .actions {
+      flex: 1 0 0;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+
+    .news {
+      flex: 1 0 0;
+    }
+  }
+
+  /* モバイル: パネルは画面の下端まで */
+  @media (width <= 840px) {
+    .drawer {
+      --panel-inset: 10px calc(var(--origin-right) - 10px);
+    }
+  }
+
+  /* 1行に収まらなくなる幅では、チケットとメニューを上の段に残し、News を下の段に幅いっぱいで置く */
+  @media (width <= 780px) {
+    .news {
+      flex-basis: 100%;
+      order: 1;
+    }
+  }
+</style>

@@ -1,0 +1,78 @@
+/*
+ * ブレークポイント
+ * デザインの基準幅: モバイル 440px / タブレット 1080px / デスクトップ 1440px
+ * モバイルのデザインは 440px 幅だが、840px 以下はモバイルのレイアウトにする。
+ *
+ * デスクトップを基本スタイルとし、幅が狭くなる方向に上書きしていく。
+ * - 1080px より大きい: デスクトップ（メディアクエリなし）
+ * - 1080px 以下:      タブレット
+ * - 840px 以下:       モバイル
+ *
+ * タブレット → モバイルの順に書き、モバイルの指定で上書きされるようにする。
+ *
+ * @media (width <= 1080px) { ... }
+ * @media (width <= 840px) { ... }
+ */
+
+/*
+ * 背景の面
+ * 使う要素に class を付けるだけで敷けるようにしている。テクスチャ類は vars.css。
+ */
+
+/*
+ * 七宝柄の面（ページ上部）。上から ノイズ / 七宝柄 / 地 の3層。
+ * 地は既定で赤一色。グラデーションなどに変えたいときは --background-shippo-base に背景画像を渡す。
+ */
+.background-shippo {
+  background-color: var(--color-red);
+  background-image:
+    var(--texture-noise), var(--texture-shippo),
+    var(--background-shippo-base, none);
+  background-position:
+    0 0,
+    top center,
+    0 0;
+  background-size:
+    auto,
+    30px 30px,
+    auto;
+}
+
+/*
+ * 藍染の面（About 以降）。
+ * Figma の塗りは「青緑 + ノイズ」。ページ背景用のノイズは赤に合わせた濃さで
+ * 青緑の上では明るくなりすぎるので、粒を薄くしたノイズ（vars.css）を重ねている。
+ */
+.background-aizome {
+  background-color: var(--color-aizome);
+  background-image: var(--texture-noise-subtle);
+}
+
+/*
+ * 藍色から下に向かってクリーム色になる面（注意事項）。
+ * Figma の塗りは「藍色 → クリーム色のグラデーション + ノイズ」。上の藍染の面と色がつながるよう、上端は同じ藍色にしている。
+ */
+.background-twilight {
+  background-color: var(--color-cream);
+  background-image:
+    var(--texture-noise-subtle),
+    linear-gradient(180deg, var(--color-aizome), var(--color-cream));
+}
+
+/*
+ * 青海波の面（開催概要・タイムテーブル・チケットの枠）
+ * Figma の塗りは「藍染（青緑 + ノイズ）」の上に、白い青海波のタイル（68×40）を不透明度 8%・比較（明）で重ねたもの。
+ * 白は地より必ず明るいので、比較（明）は普通の重ね方と同じ結果になる。
+ * 背景画像には不透明度を付けられないので、白い柄の上に 92% の藍色を重ね、柄が 8% だけ透けるようにしている。
+ */
+.background-seigaiha {
+  background-color: var(--color-aizome);
+  background-image:
+    var(--texture-noise-subtle),
+    linear-gradient(
+      color-mix(in srgb, var(--color-aizome) 92%, transparent),
+      color-mix(in srgb, var(--color-aizome) 92%, transparent)
+    ),
+    url("../../assets/2026/seigaiha.svg");
+  background-position: 0 0;
+}

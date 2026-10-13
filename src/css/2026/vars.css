@@ -1,0 +1,45 @@
+:root {
+  /*
+   * 端末ごとのデザインの基準幅
+   * カスタムプロパティはメディアクエリの条件に使えないので、
+   * ブレークポイント（width <= 1080px / width <= 840px）は数値を直接書く（styles.css 参照）。
+   */
+  --width-desktop: 1440px;
+  --width-tablet: 1080px;
+  --width-mobile: 840px;
+
+  /* color */
+  --color-black: #101010;
+  --color-white: #fff;
+  --color-off-white: #f7f7f7;
+  --color-red: #ff1c00;
+  --color-orange: #ff4b35;
+  --color-peach: #ffc19e;
+  --color-coral: #ff9170;
+  --color-cream: #fff2c9;
+
+  /* 藍染の面の地の色。ノイズを重ねた平均の色が Figma の書き出し（#266e77）と合うように暗くしている */
+  --color-aizome: #18656f;
+
+  /* ヘッダーのボタン類に付ける影の色 */
+  --color-shadow: rgb(0 0 0 / 30%);
+
+  /* inview で要素を出すアニメーションの時間とイージング */
+  --duration-inview: 1500ms;
+  --easing-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /*
+   * 赤い面に重ねるテクスチャ（ページの背景、チケット購入ボタン）
+   * Figma ではどちらも「赤 + 七宝柄 + ノイズ」の塗りで、ここではその上2層を画像にしている。
+   * 赤の上にそのまま（blend-mode は normal で）重ねる。
+   * - ノイズ: Figma の Noise エフェクト（白 30%）の代替。feTurbulence で生成した白いノイズで、
+   *   赤の上での明るさとざらつきが Figma の書き出しと合うように周波数と不透明度を調整している
+   * - 七宝柄: 30×30 のタイル。#FF5715 を fill-opacity 0.4 で塗っている。
+   *   Figma のレイヤーは HARD_LIGHT だが、パターンの中で単独で描かれるため結果は普通の 40% 重ねと同じになる
+   */
+  --texture-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 -0.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --texture-shippo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' fill='%23FF5715' fill-opacity='0.4'%3E%3Cpath d='M0 0C8.2825 0 15 6.7175 15 15C6.715 15 0 8.285 0 0Z'/%3E%3Cpath d='M30 0C30 8.285 23.2825 15 15 15C15 6.7175 21.715 0 30 0Z'/%3E%3Cpath d='M15 15C15 23.285 8.2825 30 0 30C0 21.7175 6.715 15 15 15Z'/%3E%3Cpath d='M15 15C23.2825 15 30 21.7175 30 30C21.715 30 15 23.285 15 15Z'/%3E%3C/svg%3E");
+
+  /* 藍染の面に重ねる薄いノイズ。--texture-noise の不透明度を 4 割程度にしたもの */
+  --texture-noise-subtle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.2 -0.04'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
