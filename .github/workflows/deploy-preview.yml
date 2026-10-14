@@ -1,0 +1,81 @@
+name: Deploy Pages (preview)
+
+# main への push で、main の内容を noindex 付きで /preview/ 配下にデプロイする（例: /preview/2026/）。
+#
+# GitHub Pages（Actions 方式）はデプロイのたびにサイト全体が置き換わるため、
+# 本番部分は「Deploy Pages（publish.yml）が最後に成功したコミット」からビルドし直して一緒にデプロイする。
+# これにより main への push で本番の内容が変わることはない。
+# なお publish.yml を実行するとプレビューは消えるので、その後はこのワークフローを手動実行すれば戻る。
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}preview/2026/
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find production commit
+        id: production
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(gh run list -R "$GITHUB_REPOSITORY" --workflow publish.yml --status success --limit 1 --json headSha --jq '.[0].headSha')
+          if [ -z "$sha" ]; then
+            echo "::error::publish.yml の成功した実行が見つからないため、本番の内容を再現できません"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.production.outputs.sha }}
+          path: production
+      - uses: actions/checkout@v5
+        with:
+          path: preview
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: |
+            production/package-lock.json
+            preview/package-lock.json
+      - name: Build production
+        working-directory: production
+        run: |
+          npm ci --progress=false
+          npm run build
+      - name: Build preview
+        working-directory: preview
+        run: |
+          npm ci --progress=false
+          npm run build:preview
+      - name: Assemble site
+        run: |
+          mkdir -p site/preview
+          cp -R production/dist/. site/
+          cp -R preview/dist/. site/preview/
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
