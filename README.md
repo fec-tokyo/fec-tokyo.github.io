@@ -1,5 +1,54 @@
 # フロントエンドカンファレンス東京Webサイト
 
+フロントエンドカンファレンス東京の公式サイトです。Astroで構築し、GitHub Pagesに公開しています。
+年別のページとして`/2025/`、`/2025/contents/`、`/2026/`があります。
+現在、トップページ（`/`）は`/2025/`へリダイレクトします。
+
+## 開発環境
+
+Node.js 24（`.node-version`および`package.json`のVolta設定では24.5.0）とnpmを使用します。
+
+```sh
+npm ci
+npm run dev
+```
+
+開発サーバーは`http://localhost:3000`で起動します。公開用の出力をローカルで確認する場合は、
+`npm run build`の後に`npm run preview`を実行します。ビルド結果は`dist/`に生成されます。
+
+## 主なファイル
+
+| パス | 内容 |
+| --- | --- |
+| `src/pages/` | URLに対応するページ。年別のページは`2025/`、`2026/`に配置 |
+| `src/components/2025/`、`src/components/2026/` | 年別の表示部品 |
+| `src/data/2025/` | 2025年のセッション、タイムテーブル、スポンサーなどのデータ |
+| `src/data/2026/` | 2026年のお知らせとリンク先。チケットなどのURLは`links.ts`で管理 |
+| `src/css/`、`src/assets/` | スタイルと画像・SVG |
+| `public/` | faviconやOG画像など、そのまま配信するファイル |
+
+## 確認コマンド
+
+| コマンド | 内容 |
+| --- | --- |
+| `npm run check` | AstroとTypeScriptのチェック |
+| `npm run build` | 本番用サイトのビルド |
+| `npm run markuplint` | Astroファイルのマークアップ検査 |
+| `npm run markuplint:dist` | ビルド後のHTMLのマークアップ検査 |
+| `npm run eslint` | JavaScript・TypeScript・AstroファイルのLintと自動修正 |
+| `npm run stylelint` | Astro・CSSファイルのLintと自動修正 |
+| `npm run format` | AstroファイルをPrettierで整形 |
+| `npm run screenshots` | Playwrightでスクリーンショットを取得 |
+
+スクリーンショットを初めて取得する環境では`npx playwright install`でブラウザーを用意してください。
+`npm run screenshots`はビルドしたサイトをポート3000で配信し、結果を`screen-shot/`に保存します。
+
+## 公開
+
+`.github/workflows/publish.yml`の「Deploy Pages」をGitHub Actionsから手動実行すると、
+`npm ci`と`npm run build`を行い、`dist/`をGitHub Pagesにデプロイします。
+タグを指定して実行した場合は、ビルド成果物のアーカイブをGitHub Releaseにも添付します。
+
 ## push前のクレデンシャル検査
 
 Node.js 24とGitを用意し、`npm ci`を実行すると、既存のHusky経由で
