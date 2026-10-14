@@ -70,6 +70,11 @@ main {
   font-size: inherit;
 }
 
+/* 画像はクリックやドラッグの対象にしない。リンクやボタンの中にあっても、クリックは親要素が受け取る */
+:where(img, picture, svg) {
+  pointer-events: none;
+}
+
 :where(ul) {
   padding: 0;
   margin: 0;

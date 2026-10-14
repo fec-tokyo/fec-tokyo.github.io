@@ -8,6 +8,16 @@
 	},
 	"nodeRules": [
 		{
+			"selector": "style",
+			"rules": {
+				"invalid-attr": {
+					"options": {
+						"allowAttrs": ["scoped"]
+					}
+				}
+			}
+		},
+		{
 			"regexSelector": {
 				"nodeName": "/^img$/",
 				"attrName": "/^decoding$/",

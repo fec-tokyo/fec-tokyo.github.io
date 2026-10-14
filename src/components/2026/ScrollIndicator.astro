@@ -1,0 +1,69 @@
+---
+import ScrollDownText from "@/assets/2026/text-scroll-down.svg";
+---
+
+{/* 操作できない飾りなので、支援技術には読ませない */}
+<div class="scrollIndicator" aria-hidden="true">
+  <span class="mouse">
+    <span class="wheel"></span>
+  </span>
+  <img src={ScrollDownText.src} alt="" width="100" height="9" />
+</div>
+
+<style scoped>
+  .scrollIndicator {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .mouse {
+    display: flex;
+    justify-content: center;
+    width: 28px;
+    height: 48px;
+    padding-top: 10px;
+    border: 2px solid var(--color-white);
+    border-radius: 16px;
+  }
+
+  .wheel {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-white);
+    border-radius: 10px;
+    animation: scroll-wheel 1.6s ease-in-out infinite;
+  }
+
+  .scrollIndicator img {
+    display: block;
+  }
+
+  /* ホイールの点が下に流れて消え、元の位置に戻る */
+  @keyframes scroll-wheel {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    70% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wheel {
+      animation: none;
+    }
+  }
+</style>

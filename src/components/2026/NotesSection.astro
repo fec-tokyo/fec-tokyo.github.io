@@ -1,0 +1,136 @@
+---
+import TitleImage from "@/assets/2026/sections/notes/title.svg";
+import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
+---
+
+<section id="notes" class="container" aria-labelledby="notes-title">
+  <div class="card background-seigaiha">
+    <h2 id="notes-title" class="title">
+      <img
+        src={TitleImage.src}
+        alt="注意事項"
+        width={TitleImage.width}
+        height={TitleImage.height}
+        class="titleImage"
+      />
+    </h2>
+    <ul class="list">
+      <li>
+        20歳未満は入場できません。顔写真付きの身分証を持参してください。（コピーや画像は不可）
+      </li>
+      <li>
+        本イベントの開催時刻・終了時刻・タイムスケジュールは目安で、状況により変更する場合がございますのであらかじめご了承ください
+      </li>
+      <li>
+        主催者の判断により、参加登録者の承諾を得ることなく、また参加登録者への事前の告知を行うことなく、本イベントの全部または一部を変更または中止する場合があります
+      </li>
+      <li>
+        本イベントの内容および期間は、実行委員会の判断により予告なく変更する場合があります
+      </li>
+      <li>
+        体調不良の方（少しでも違和感のある方・微熱がある方）の参加はご遠慮ください
+      </li>
+      <li>
+        イベント中に撮影が行われる場合、お客さまが写り込む可能性があります
+      </li>
+      <li>
+        <a
+          href={ANTI_HARASSMENT_POLICY_URL}
+          class="link"
+          target="_blank"
+          rel="noopener noreferrer"
+          >フロントエンドカンファレンス東京のアンチハラスメントポリシー</a
+        >を遵守にご協力ください
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style scoped>
+  .container {
+    display: flex;
+    justify-content: center;
+    max-width: var(--width-desktop);
+    padding: 80px 120px;
+    margin-inline: auto;
+  }
+
+  .card {
+    display: flex;
+    flex: 0 1 960px;
+    gap: 40px;
+    align-items: center;
+    min-width: 0;
+    padding: 40px 80px;
+    color: var(--color-off-white);
+    border: 2px solid var(--color-off-white);
+    border-radius: 24px;
+  }
+
+  .title {
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .titleImage {
+    display: block;
+    width: 79px;
+    height: auto;
+  }
+
+  .list {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    padding-left: 21px;
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    list-style: disc;
+  }
+
+  .link {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (hover: hover) {
+    .link:hover {
+      text-decoration: none;
+    }
+  }
+
+  /* タブレット: 見出しとリストは横に並べたまま、余白と間隔を詰める */
+  @media (width <= 1080px) {
+    .container {
+      padding-inline: 40px;
+    }
+
+    .card {
+      gap: 20px;
+      padding: 40px;
+    }
+  }
+
+  /* モバイル: 見出しを上に置き、リストを下に積む */
+  @media (width <= 840px) {
+    .container {
+      padding: 48px 20px;
+    }
+
+    .card {
+      flex-direction: column;
+      gap: 32px;
+      padding: 32px 20px;
+    }
+
+    .list {
+      align-self: stretch;
+    }
+  }
+</style>

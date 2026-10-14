@@ -1,0 +1,376 @@
+---
+import CraneImage from "@/assets/2026/message-crane.png";
+import { Image } from "astro:assets";
+---
+
+<section
+  id="message"
+  class="container"
+  aria-labelledby="message-title"
+  data-message-section
+>
+  <h2 id="message-title" class="title">Why now?</h2>
+  <div class="body">
+    <p class="paragraph">
+      <span class="highlight">誰もがプロダクトをつくる時代</span>
+      <span class="text">になった。</span>
+      <span class="break"></span>
+      <span class="text">フロントエンドという</span>
+      <span class="highlight">仕事の輪郭</span>
+      <span class="joinDesktop">
+        <span class="text">も</span>
+        <span class="text">変わりつつある。</span>
+      </span>
+    </p>
+    <p class="paragraph">
+      <span class="text">それでも</span>
+      <span class="highlight">新しい技術</span>
+      <span class="text">や</span>
+      <span class="highlight">発想の探求</span>
+      <span class="joinDesktop">
+        <span class="text">は</span>
+        <span class="text">止まらない。</span>
+      </span>
+      <span class="break breakDesktop"></span>
+      <span class="text">フロントエンドはAIと共に</span>
+      <span class="highlight">より鋭く</span>
+      <span class="highlight">より便利</span>
+      <span class="joinTablet">
+        <span class="text">に</span>
+        <span class="break breakDesktop"></span>
+        <span class="text">もっと進化していける。</span>
+      </span>
+    </p>
+    <p class="paragraph">
+      <span class="joinMobile">
+        <span class="highlight">未来のフロントエンド</span>
+        <span class="text">の担い手は、私たちだ。</span>
+      </span>
+      <span class="break"></span>
+      <span class="joinMobile">
+        <span class="text">いまこそ</span>
+        <span class="highlight quote">“フロントエンドの未来の話をしよう”</span>
+      </span>
+    </p>
+  </div>
+  <Image src={CraneImage} alt="" width={560} class="crane" />
+</section>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-message-section]")
+    .forEach((section) => {
+      const body = section.querySelector<HTMLElement>(".body");
+      if (!body) return;
+
+      // 地の文と強調部分に読む順の番号を振り、1つずつ遅らせて出す
+      section
+        .querySelectorAll<HTMLElement>(".text, .highlight")
+        .forEach((el, i) => {
+          el.style.setProperty("--index", String(i));
+        });
+
+      // セクション全体だと上の余白だけで発火してしまうので、本文が 3 割見えたら表示し、以降は監視しない
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          section.dataset.inview = "true";
+          observer.disconnect();
+        },
+        { threshold: 0.3 },
+      );
+      observer.observe(body);
+    });
+</script>
+
+<style scoped>
+  /*
+   * 見出しと本文を横に並べる。画面幅が 1440px より狭くなると、横に並べたまま文字を縮めていき、タブレットで縦に積む。
+   * 1440px でちょうど Figma のデスクトップ版（左右 120px、間 50px）になる。
+   * 左右の余白は他のセクションとそろえて 120px（タブレットでは 40px）。
+   */
+  .container {
+    /* 上下の余白や段落の間は、この画面幅（px、単位なし）で Figma の値になり、それより狭い画面では幅に比例して縮める */
+    --design-width: 1440;
+
+    position: relative;
+    display: flex;
+    gap: 0 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: min(80px, 100vw * 80 / var(--design-width)) 40px
+      min(240px, 100vw * 240 / var(--design-width)) 120px;
+  }
+
+  .title {
+    flex-shrink: 0;
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-off-white);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .body {
+    /* 地の文と強調部分を読む順に出すときの、1つごとの遅れ（--index は JS で設定） */
+    --stagger: 80ms;
+
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+
+    /* 段落の間 48px。各要素の下に付けた 4px（.text / .highlight）の分を引いている */
+    gap: min(44px, 100vw * 44 / var(--design-width));
+    min-width: 0;
+    max-width: 840px;
+    padding-top: 2px;
+    container-type: inline-size;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-off-white);
+    letter-spacing: 0.04em;
+  }
+
+  /*
+   * 段落の中は、地の文とハイライトを文節単位で横に並べて折り返す。
+   * 改行位置は .break で決め、画面幅によって変わる部分は .breakDesktop / .joinDesktop / .joinTablet で切り替える。
+   */
+  .paragraph {
+    display: flex;
+    flex-wrap: wrap;
+
+    /*
+     * letter-spacing は最後の文字の後ろにも付くので、その分を差し引いて Figma の間隔（4px）に合わせる。
+     * 文字と一緒に縮めるため em で指定している（32px のとき 4px）
+     */
+    column-gap: calc(0.125em - 0.04em);
+    align-items: center;
+    margin: 0;
+
+    /*
+     * 本文が 840px のときに 32px。本文の幅が狭くなったら文字も縮め、改行位置を変えない。
+     * 地の文の高さやハイライトの余白も em で指定して一緒に縮める。
+     * 2行目は 840px でほぼ幅いっぱいで、文字を縮めると行の長さがわずかに比例より長くなり折り返してしまうので、
+     * 単純な比例（100cqi * 32 / 840）より少し多めに縮めている。
+     */
+    font-size: min(32px, (100cqi - 40px) * 32 / 800);
+
+    /* foundation.css で p に text-autospace: normal が当たり「AI」の前後に隙間が入るので、Figma に合わせて切る */
+    text-autospace: no-autospace;
+  }
+
+  /* 最後の行の下に付いた 4px を打ち消して、セクションの高さを Figma に合わせる */
+  .paragraph:last-child {
+    margin-bottom: -4px;
+  }
+
+  /*
+   * 行の間 4px は row-gap ではなく各要素の下に付ける。
+   * row-gap だと .break だけの高さ 0 の行にも上下に間隔が付き、改行したところだけ広がってしまうため。
+   */
+  .text,
+  .highlight {
+    min-width: 0;
+    margin-bottom: 4px;
+  }
+
+  /*
+   * 地の文。ハイライト（6px + 32px + 10px）と同じ 48px（1.5em）の高さにして中央に置く。
+   * 要素は丸ごと次の行に送られるので普段は 48px のまま。
+   * 1要素が本文の幅より長いときだけ要素の中で折り返し、その分だけ高くなる。
+   */
+  .text {
+    display: flex;
+    align-items: center;
+    min-height: 1.5em;
+    transition: opacity var(--duration-inview) var(--easing-out);
+    transition-delay: calc(var(--index, 0) * var(--stagger));
+  }
+
+  /*
+   * 白背景は ::before で敷き、セクションが画面に入ったら左から右へ伸ばす。
+   */
+  .highlight {
+    position: relative;
+    /* 32px のとき 6px 16px 10px */
+    padding: 0.1875em 0.5em 0.3125em;
+    color: var(--color-orange);
+    isolation: isolate;
+  }
+
+  /* かぎかっこの内側に字面の余白があるので、白背景の左右の余白を詰める */
+  .highlight.quote {
+    padding-inline: 2px;
+  }
+
+  .highlight::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background-color: var(--color-off-white);
+    transform-origin: left;
+    transition: transform var(--duration-inview) var(--easing-out);
+    transition-delay: calc(var(--index, 0) * var(--stagger));
+  }
+
+  /* 地の文はフェードインさせる。JS が動かない環境では最初から表示しておく */
+  @media (scripting: enabled) {
+    .container:not([data-inview]) .text {
+      opacity: 0;
+    }
+
+    .container:not([data-inview]) .highlight::before {
+      transform: scaleX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .text,
+    .highlight::before {
+      transition: none;
+    }
+  }
+
+  /* 強制改行 */
+  .break {
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  /* デスクトップでは1つにつなげて間隔を空けない。タブレットではばらして文節の間で折り返せるようにする */
+  .joinDesktop {
+    display: flex;
+  }
+
+  /* デスクトップではばらして中の .breakDesktop で改行する。タブレットでは1つにつなげる */
+  .joinTablet {
+    display: contents;
+  }
+
+  /* デスクトップとタブレットではばらす。モバイルでは1つにつなげて、間で改行させない */
+  .joinMobile {
+    display: contents;
+  }
+
+  /*
+   * Figma では左右反転した鶴に 12px 16px 16px の影が付いている。
+   * filter は transform より先にかかるので、反転後に右下へ落ちるよう x を負にしている。
+   * ぼかしは Figma の値のままだと薄く見えるので、半分にして見た目を合わせている。
+   */
+  .crane {
+    position: absolute;
+    top: min(308px, 100vw * 308 / var(--design-width));
+    left: 0;
+    width: 560px;
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(-12px 16px 8px rgb(0 0 0 / 24%));
+    transform: scaleX(-1);
+  }
+
+  /* タブレット: 見出しと本文を縦に積み、鶴は本文の下に置く */
+  @media (width <= 1080px) {
+    .container {
+      flex-direction: column;
+      padding: 40px 40px 200px;
+    }
+
+    /* 段落の間は 32px（各要素の下の 4px を引いて 28px） */
+    .body {
+      flex-basis: auto;
+      gap: 28px;
+      width: 100%;
+      max-width: none;
+    }
+
+    /* タブレットでは本文の幅によらず .body の文字サイズのままにし、文節の間も 4px に戻す */
+    .paragraph {
+      column-gap: calc(4px - 0.04em);
+      font-size: inherit;
+    }
+
+    .breakDesktop {
+      display: none;
+    }
+
+    .joinDesktop {
+      display: contents;
+    }
+
+    .joinTablet {
+      display: flex;
+    }
+
+    /* タブレットのデザインには見出しがないので、見た目からは消して読み上げには残す */
+    .title {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+      clip-path: inset(50%);
+    }
+
+    /* タブレットのデザインには鶴がない */
+    .crane {
+      display: none;
+    }
+  }
+
+  /*
+   * モバイル: 440px（本文の幅 400px）のときに Figma の値（文字 18px、段落の間 20px、行の間 4px、文節の間 2px）になり、
+   * タブレットに切り替わるまで本文の幅に比例して文字を大きくする。
+   * 文節の間・地の文の高さ・ハイライトの余白は em で指定して文字と一緒に変える。
+   */
+  @media (width <= 840px) {
+    .container {
+      padding-inline: 20px;
+    }
+
+    /* 段落の間 20px（各要素の下の 4px を引いて 16px） */
+    .body {
+      gap: calc(100vw * 20 / 440 - 4px);
+    }
+
+    .joinMobile {
+      display: flex;
+      column-gap: inherit;
+      white-space: nowrap;
+    }
+
+    .joinMobile > * {
+      flex-shrink: 0;
+    }
+
+    /*
+     * 18px のとき文節の間 2px。
+     * 18px だと改行させない「いまこそ“フロントエンドの未来の話をしよう”」が約 417px になり本文の幅 400px に収まらないので、
+     * この行が本文の幅に収まる大きさにする（440px で約 17px）。
+     * 文字を縮めても行の長さは比例どおりには縮まず、狭い画面ほどはみ出しやすいので、単純な比例より少し多めに縮めている。
+     */
+    .paragraph {
+      column-gap: calc(0.1111em - 0.04em);
+      font-size: calc((100cqi - 26px) * 18 / 396);
+    }
+
+    /* 18px のとき 24px。ハイライトのある行は 26px（4px + 18px + 4px）になる */
+    .text {
+      min-height: 1.3333em;
+    }
+
+    /* 18px のとき 4px 6px */
+    .highlight {
+      padding: 0.2222em 0.3333em;
+    }
+
+    .highlight.quote {
+      padding-inline: 2px;
+    }
+  }
+</style>

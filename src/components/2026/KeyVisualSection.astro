@@ -1,0 +1,138 @@
+---
+import CraneImage from "@/assets/2026/keyvisual-crane.png";
+import KeyVisualTabletImage from "@/assets/2026/keyvisual-tablet.png";
+import KeyVisualImage from "@/assets/2026/keyvisual.png";
+import ScrollIndicator from "@/components/2026/ScrollIndicator.astro";
+import type { ImageMetadata } from "astro";
+import { Image, getImage } from "astro:assets";
+
+// モバイル用の画像はまだないので、置かれていればそれを使い、なければタブレット用を出す
+const mobileImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/2026/keyvisual-mobile.png",
+  { eager: true },
+);
+const KeyVisualMobileImage = Object.values(mobileImages)[0]?.default;
+
+const optimize = (src: ImageMetadata) =>
+  getImage({ src, format: "webp", layout: "constrained", width: src.width });
+
+const desktop = await optimize(KeyVisualImage);
+const tablet = await optimize(KeyVisualTabletImage);
+const mobile = KeyVisualMobileImage && (await optimize(KeyVisualMobileImage));
+---
+
+<section id="kv" class="container">
+  <div class="visual">
+    <picture class="keyVisualPicture">
+      {
+        mobile && (
+          <source
+            media="(width <= 840px)"
+            srcset={mobile.srcSet.attribute}
+            sizes={mobile.attributes.sizes}
+            width={mobile.attributes.width}
+            height={mobile.attributes.height}
+          />
+        )
+      }
+      <source
+        media="(width <= 1080px)"
+        srcset={tablet.srcSet.attribute}
+        sizes={tablet.attributes.sizes}
+        width={tablet.attributes.width}
+        height={tablet.attributes.height}
+      />
+      <img
+        src={desktop.src}
+        srcset={desktop.srcSet.attribute}
+        sizes={desktop.attributes.sizes}
+        width={desktop.attributes.width}
+        height={desktop.attributes.height}
+        alt="フロントエンドカンファレンス東京2026 ”大師走祭” 開催日 2026年12月05日 会場 ABEMA TOWERS"
+        class="keyVisual"
+        fetchpriority="high"
+      />
+    </picture>
+    <Image src={CraneImage} alt="" class="crane" />
+    <div class="scroll">
+      <ScrollIndicator />
+    </div>
+  </div>
+</section>
+
+<style scoped>
+  .container {
+    /*
+     * 鶴は KV の右にはみ出す。ここで切ると画面に余白があっても最大幅（1440px）の端で羽が切れるので、
+     * 横スクロールが出ないようにする切り取りは画面幅の main（foundation.css）に任せている。
+     */
+    padding: 70px 40px 0;
+  }
+
+  /*
+   * 1行目に KV、2行目にスクロール誘導を置き、鶴は2行にまたがって KV に重ねる。
+   * 鶴を absolute にすると KV の下にはみ出した分がセクションの高さに入らないため、
+   * グリッドで重ねて鶴やスクロール誘導の下端まで高さに含める。
+   */
+  .visual {
+    display: grid;
+
+    /* 鶴の幅に引っぱられて列が広がらないように固定する */
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keyVisualPicture {
+    grid-area: 1 / 1;
+  }
+
+  .crane {
+    grid-area: 1 / 1 / 3;
+  }
+
+  /* Figma では KV の 16px 下に中央揃え */
+  .scroll {
+    grid-area: 2 / 1;
+    justify-self: center;
+    margin-block: 16px 20px;
+  }
+
+  .keyVisual {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 30%));
+  }
+
+  /*
+   * KV 画像を基準に配置する。
+   * Figma（KV: 1360×739）での位置 left 860px / top 415px / 幅 560px を KV の幅に対する割合にしている。
+   * margin の % は上下も含めて幅基準なので、top も 1360 で割る。
+   * KV の右端からはみ出すのはデザイン通り。
+   */
+  .crane {
+    align-self: start;
+    justify-self: start;
+    width: calc(560 / 1360 * 100%);
+    height: auto;
+    margin-top: calc(415 / 1360 * 100%);
+    margin-left: calc(860 / 1360 * 100%);
+    /* Figma の影（10px -2px 12px）に見た目を合わせるため、ぼかしは Figma の値の半分にしている */
+    filter: drop-shadow(10px -2px 6px rgb(16 16 16 / 24%));
+  }
+
+  /* タブレット: 鶴はタブレット用の KV に描き込まれているので重ねない。スクロール誘導は KV の 8px 下 */
+  @media (width <= 1080px) {
+    .container {
+      padding-inline: 20px;
+    }
+
+    .crane {
+      display: none;
+    }
+
+    .scroll {
+      margin-block: 8px 16px;
+    }
+  }
+</style>

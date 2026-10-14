@@ -1,0 +1,149 @@
+---
+import SymbolmarkImage from "@/assets/logo/symbolmark.svg";
+import LogotypeImage from "@/assets/logo/logotype.svg";
+import {
+  CODE_OF_CONDUCT_URL,
+  PRIVACY_POLICY_URL,
+  TOP_URL,
+} from "@/data/2026/links";
+
+const links = [
+  { href: PRIVACY_POLICY_URL, text: "プライバシーポリシー" },
+  { href: CODE_OF_CONDUCT_URL, text: "行動規範" },
+];
+---
+
+<footer class="footer">
+  <div class="inner">
+    <a href={TOP_URL} class="logoLink" aria-label="Frontend Conference Tokyo">
+      <img
+        src={SymbolmarkImage.src}
+        alt=""
+        width={SymbolmarkImage.width}
+        height={SymbolmarkImage.height}
+        class="symbolmark"
+      />
+      <img
+        src={LogotypeImage.src}
+        alt=""
+        width={LogotypeImage.width}
+        height={LogotypeImage.height}
+        class="logotype"
+      />
+    </a>
+    <div class="bottom">
+      <ul class="links">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="copyright">
+        ©2026 フロントエンドカンファレンス東京 実行委員会
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style scoped>
+  .footer {
+    background-color: var(--color-black);
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    max-width: var(--width-desktop);
+    padding: 40px 120px 0;
+    margin-inline: auto;
+  }
+
+  .logoLink {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .symbolmark {
+    display: block;
+    width: 64px;
+    height: 64px;
+  }
+
+  .logotype {
+    display: block;
+    width: 108px;
+    height: auto;
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: center;
+    align-self: stretch;
+    justify-content: space-between;
+    padding-block: 32px;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-off-white);
+    letter-spacing: 0.02em;
+    border-top: 1px solid var(--color-off-white);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    list-style: none;
+  }
+
+  .link {
+    color: inherit;
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (hover: hover) {
+    .link:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .copyright {
+    margin: 0;
+  }
+
+  /* タブレット */
+  @media (width <= 1080px) {
+    .inner {
+      padding-inline: 40px;
+    }
+  }
+
+  /* モバイル: リンクとコピーライトを縦に積む */
+  @media (width <= 840px) {
+    .inner {
+      padding-inline: 20px;
+    }
+
+    .bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

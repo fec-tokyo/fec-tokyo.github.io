@@ -1,0 +1,164 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+/*
+ * リンクボタン。文字は既定のスロット、アイコンは iconLeft / iconRight のスロットに渡す。
+ * href を渡さないときは、まだ公開前としてボタンを無効にして表示する。
+ *
+ * <Button href={URL} size="large" variant="black" external>
+ *   <XIcon slot="iconLeft" />
+ *   公式アカウントをフォローする
+ *   <OpenInNewIcon slot="iconRight" />
+ * </Button>
+ */
+type Props = Omit<HTMLAttributes<"a">, "href"> & {
+  href?: string;
+  size?: "large" | "medium";
+  variant?: "red" | "black";
+  // 別タブで開く
+  external?: boolean;
+};
+
+const {
+  href,
+  size = "large",
+  variant = "red",
+  external = false,
+  class: className,
+  // 親から渡した class のスコープ用の属性も入るので、要素にそのまま展開する
+  ...rest
+} = Astro.props;
+
+// href のない a は何も指さないリンク（プレースホルダー）になり、フォーカスもされない
+const disabled = href === undefined;
+const externalAttributes = external
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+<a
+  href={href}
+  class:list={["button", size, disabled ? "disabled" : variant, className]}
+  {...!disabled && externalAttributes}
+  {...rest}
+>
+  {
+    Astro.slots.has("iconLeft") && (
+      <span class="icon" aria-hidden="true">
+        <slot name="iconLeft" />
+      </span>
+    )
+  }
+  <slot />
+  {
+    Astro.slots.has("iconRight") && (
+      <span class="icon" aria-hidden="true">
+        <slot name="iconRight" />
+      </span>
+    )
+  }
+</a>
+
+<style scoped>
+  .button {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-off-white);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  /* padding はホバー時のボーダー分を差し引いている */
+  .large {
+    padding: 11px 31px;
+    font-size: 16px;
+  }
+
+  .medium {
+    padding: 9px 23px;
+    font-size: 14px;
+  }
+
+  .icon {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  /* 赤 + ページの背景と同じテクスチャ（ノイズ / 七宝柄） */
+  .red {
+    background-color: var(--color-red);
+    isolation: isolate;
+  }
+
+  /* 赤い面の上に置く medium（ヘッダー）は、影も赤みのある色にしている */
+  .red.large {
+    box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+  }
+
+  .red.medium {
+    box-shadow: 0 2px 8px var(--color-shadow);
+  }
+
+  /* 背景画像のままだとフェードできないので疑似要素に分けている */
+  .red::before {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    content: "";
+    background-color: var(--color-red);
+    background-image: var(--texture-noise), var(--texture-shippo);
+    background-position:
+      0 0,
+      center;
+    background-size:
+      auto,
+      30px 30px;
+    border-radius: inherit;
+    transition: opacity 200ms ease;
+  }
+
+  .black {
+    background-color: var(--color-black);
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 25%));
+  }
+
+  /* 公開前のボタン */
+  .disabled {
+    color: #d4d4d4;
+    cursor: not-allowed;
+    background-color: #949494;
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 25%));
+  }
+
+  @media (hover: hover) {
+    .red:hover {
+      color: var(--color-red);
+      background-color: var(--color-white);
+      border-color: var(--color-red);
+    }
+
+    .red:hover::before {
+      opacity: 0;
+    }
+
+    .black:hover {
+      color: var(--color-black);
+      background-color: var(--color-off-white);
+      border-color: var(--color-black);
+    }
+  }
+</style>
