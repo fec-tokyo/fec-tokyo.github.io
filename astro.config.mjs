@@ -17,6 +17,9 @@ export default defineConfig({
 		responsiveStyles: true,
 		layout: "constrained",
 	},
+	redirects: {
+		"/tokushoho": "https://fec.or.jp/tokushoho/tokyo/2026/",
+	},
 	server: {
 		port: 3000,
 	},
