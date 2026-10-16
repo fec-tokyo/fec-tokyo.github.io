@@ -1,5 +1,6 @@
 // LP のトップ（ヘッダーとフッターのロゴのリンク先）
-export const TOP_URL = "/2026/";
+// プレビュー用ビルドでは base が /preview/ になるので BASE_URL を前に付ける
+export const TOP_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/2026/`;
 
 // TODO: チケット販売ページの URL が決まったら差し替える
 export const TICKET_URL = "#";

@@ -1,7 +1,12 @@
+---
+import { PREVIEW } from "astro:env/server";
+---
+
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <meta name="viewport" content="width=device-width" />
     <meta color-scheme="dark" />
     <link rel="icon" href="/favicon.ico" />
