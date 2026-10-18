@@ -206,8 +206,8 @@ const photos = [
     align-items: center;
     justify-content: space-between;
     max-width: var(--width-desktop);
-    /* 左右の余白は他のセクションとそろえて 120px（タブレットでは 40px） */
-    padding: calc(var(--cloud-width) * 320 / 1440) 120px 0;
+    /* 左の余白は他のセクションとそろえて 120px、右は Figma どおり 80px（タブレットでは左右 40px） */
+    padding: calc(var(--cloud-width) * 320 / 1440) 80px 0 120px;
     margin-inline: auto;
   }
 
@@ -387,7 +387,7 @@ const photos = [
 
     .description {
       max-width: none;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       line-height: 2.2;
     }
@@ -403,13 +403,21 @@ const photos = [
   }
 
   /* モバイル */
-  @media (width <= 840px) {
+  @media (width <= 720px) {
+    /* テキストは雲の下端から始める。Figma の 440px 版では上から 78px */
     .contents {
-      padding-inline: 20px;
+      padding: calc(var(--cloud-width) * 78 / 440) 20px 0;
     }
 
+    /* 48px。狭い画面では「フロントエンドの」（8文字）が幅に収まるよう縮める */
     .title {
-      font-size: 32px;
+      font-size: min(48px, 100cqi / 8);
+    }
+
+    .description {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.6;
     }
   }
 </style>

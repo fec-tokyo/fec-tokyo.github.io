@@ -47,7 +47,7 @@ const titleId = `${id}-title`;
   .title {
     margin: 0;
     font-family: Montserrat, sans-serif;
-    font-size: 40px;
+    font-size: 44px;
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
@@ -69,7 +69,6 @@ const titleId = `${id}-title`;
     max-width: 320px;
   }
 
-  /* モバイル */
   /* タブレット: 角丸を開催概要の枠とそろえる */
   @media (width <= 1080px) {
     .container {
@@ -77,13 +76,10 @@ const titleId = `${id}-title`;
     }
   }
 
-  @media (width <= 840px) {
+  /* モバイル */
+  @media (width <= 720px) {
     .container {
       padding: 32px 20px;
-    }
-
-    .title {
-      font-size: 36px;
     }
   }
 </style>

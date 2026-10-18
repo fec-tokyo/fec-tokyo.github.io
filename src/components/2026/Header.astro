@@ -13,48 +13,46 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   <a href={TOP_URL} class="logoLink">
     <LogomarkOnetone role="img" aria-label="Frontend Conference Tokyo" />
   </a>
-  <div class="actions">
-    <a
-      href={NEWS.url}
-      class="news"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`News: ${NEWS.text}`}
-    >
-      <span class="newsLabel">News</span>
-      <span class="newsBody">
-        <span class="newsViewport">
-          <span
-            class="newsTrack"
-            style={`--marquee-duration: ${marqueeDuration}`}
-          >
-            <span class="newsText">{NEWS.text}</span>
-            <span class="newsText" aria-hidden="true">{NEWS.text}</span>
-          </span>
+  <a
+    href={NEWS.url}
+    class="news"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`News: ${NEWS.text}`}
+  >
+    <span class="newsLabel">News</span>
+    <span class="newsBody">
+      <span class="newsViewport">
+        <span
+          class="newsTrack"
+          style={`--marquee-duration: ${marqueeDuration}`}
+        >
+          <span class="newsText">{NEWS.text}</span>
+          <span class="newsText" aria-hidden="true">{NEWS.text}</span>
         </span>
       </span>
-      <span class="newsArrow">
-        <ArrowIcon aria-hidden="true" />
-      </span>
-    </a>
-    <Button href={TICKET_URL} size="medium" external>
-      チケットを購入する
-    </Button>
-    <button
-      type="button"
-      class="menu"
-      aria-label="メニューを開く"
-      aria-haspopup="dialog"
-      aria-expanded="false"
-      aria-controls="header-menu"
-      data-menu-button
-    >
-      <span class="menuBars" aria-hidden="true">
-        <span class="menuBar"></span>
-        <span class="menuBar"></span>
-      </span>
-    </button>
-  </div>
+    </span>
+    <span class="newsArrow">
+      <ArrowIcon aria-hidden="true" />
+    </span>
+  </a>
+  <Button href={TICKET_URL} size="medium" class="ticket" external>
+    チケットを購入する
+  </Button>
+  <button
+    type="button"
+    class="menu"
+    aria-label="メニューを開く"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="header-menu"
+    data-menu-button
+  >
+    <span class="menuBars" aria-hidden="true">
+      <span class="menuBar"></span>
+      <span class="menuBar"></span>
+    </span>
+  </button>
   {
     /*
      * showModal() で開くと最前面（top layer）に出て、メニュー以外は操作も読み上げもできなくなる。
@@ -180,10 +178,17 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     right: 0;
     left: 0;
     z-index: 100;
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    justify-content: space-between;
+
+    /*
+     * ロゴ、空き、News、チケット、メニューの順に並べる。
+     * News は 480px まで広がり、残りは空きの列が受け持つ。
+     * ロゴと News の間は空きの列（24px 以上）と両側の gap で 40px 以上になる
+     */
+    display: grid;
+    grid-template-areas: "logo . news ticket menu";
+    grid-template-columns: auto minmax(24px, 1fr) minmax(320px, 480px) auto auto;
+    column-gap: 8px;
+    align-items: start;
 
     /* ページ本文（.max-width）と同じく 1440px で止めて中央に寄せる */
     max-width: var(--width-desktop);
@@ -195,7 +200,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     position: relative;
     z-index: 1;
     display: block;
-    flex-shrink: 0;
+    grid-area: logo;
     color: var(--color-black);
   }
 
@@ -203,23 +208,21 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     display: block;
   }
 
-  .actions {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    min-width: 1px;
+  .ticket {
+    grid-area: ticket;
   }
 
   /* News */
-  /* 幅が足りないときは 480px から 320px まで縮める（ロゴとの間は .header の gap で 40px 空ける） */
+  /*
+   * 幅は .header の列で決める。
+   * 既定の min-width: auto のままだと流れる本文の長さより縮まず画面からはみ出すので、0 にしている
+   */
   .news {
     display: flex;
-    flex: 0 1 480px;
+    grid-area: news;
     gap: 10px;
     align-items: center;
-    min-width: 320px;
+    min-width: 0;
     height: 34px;
 
     /* ホバー時のボーダー分を差し引いている */
@@ -325,7 +328,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   /* メニュー */
   .menu {
     display: flex;
-    flex-shrink: 0;
+    grid-area: menu;
     align-items: center;
     justify-content: center;
     padding: 13px 16px;
@@ -489,36 +492,36 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     transform: translateY(-3px) rotate(-45deg);
   }
 
-  /* タブレット */
+  /* タブレット: ロゴとの間は 40px に固定し、News は残りの幅いっぱいに広げる */
   @media (width <= 1080px) {
     .header {
+      grid-template-columns: auto 32px minmax(0, 1fr) auto auto;
+      column-gap: 4px;
       padding: 20px 20px 0;
-    }
-
-    .actions {
-      flex: 1 0 0;
-      flex-wrap: wrap;
-      gap: 4px;
-      justify-content: flex-end;
-    }
-
-    .news {
-      flex: 1 0 0;
     }
   }
 
-  /* モバイル: パネルは画面の下端まで */
-  @media (width <= 840px) {
+  /* モバイル: ロゴは高さ 32px にする。パネルは画面の下端まで */
+  @media (width <= 720px) {
+    /* 幅は viewBox の比率に合わせて決まる */
+    .logoLink :global(svg) {
+      width: auto;
+      height: 32px;
+    }
+
     .drawer {
       --panel-inset: 10px calc(var(--origin-right) - 10px);
     }
   }
 
-  /* 1行に収まらなくなる幅では、チケットとメニューを上の段に残し、News を下の段に幅いっぱいで置く */
+  /* 1行に収まらなくなる幅では、ロゴ・チケット・メニューを上の段に残し、News を下の段に画面幅いっぱいで置く */
   @media (width <= 780px) {
-    .news {
-      flex-basis: 100%;
-      order: 1;
+    .header {
+      grid-template-areas:
+        "logo . ticket menu"
+        "news news news news";
+      grid-template-columns: auto 1fr auto auto;
+      row-gap: 4px;
     }
   }
 </style>

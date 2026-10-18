@@ -135,15 +135,13 @@ const links = [
     }
   }
 
-  /* モバイル: リンクとコピーライトを縦に積む */
-  @media (width <= 840px) {
-    .inner {
-      padding-inline: 20px;
-    }
-
+  /* モバイル: リンクとコピーライトを縦に積む。左右の余白はタブレットと同じ 40px */
+  @media (width <= 720px) {
     .bottom {
       flex-direction: column;
+      gap: 24px;
       align-items: flex-start;
+      padding-block: 24px;
     }
   }
 </style>

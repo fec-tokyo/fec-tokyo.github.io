@@ -2,11 +2,11 @@
   /*
    * 端末ごとのデザインの基準幅
    * カスタムプロパティはメディアクエリの条件に使えないので、
-   * ブレークポイント（width <= 1080px / width <= 840px）は数値を直接書く（styles.css 参照）。
+   * ブレークポイント（width <= 1080px / width <= 720px）は数値を直接書く（styles.css 参照）。
    */
   --width-desktop: 1440px;
   --width-tablet: 1080px;
-  --width-mobile: 840px;
+  --width-mobile: 720px;
 
   /* color */
   --color-black: #101010;

@@ -61,6 +61,13 @@ import ScrollDownText from "@/assets/2026/text-scroll-down.svg";
     }
   }
 
+  /* タブレットとモバイルのデザインでは、マウスの幅が 28px → 25px になるよう全体を縮めている */
+  @media (width <= 1080px) {
+    .scrollIndicator {
+      zoom: calc(25 / 28);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .wheel {
       animation: none;

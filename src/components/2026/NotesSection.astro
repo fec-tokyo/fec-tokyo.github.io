@@ -117,20 +117,24 @@ import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
     }
   }
 
-  /* モバイル: 見出しを上に置き、リストを下に積む */
-  @media (width <= 840px) {
+  /* モバイル: リストだけを置き、余白を詰める */
+  @media (width <= 720px) {
     .container {
-      padding: 48px 20px;
+      padding: 20px;
     }
 
     .card {
-      flex-direction: column;
-      gap: 32px;
-      padding: 32px 20px;
+      padding: 20px;
     }
 
-    .list {
-      align-self: stretch;
+    /* モバイルのデザインには見出しの画像がないので、見た目からは消して読み上げには残す */
+    .title {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+      clip-path: inset(50%);
     }
   }
 </style>

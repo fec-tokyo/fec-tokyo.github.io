@@ -1,40 +1,30 @@
 ---
 import CraneImage from "@/assets/2026/keyvisual-crane.png";
+import KeyVisualMobileImage from "@/assets/2026/keyvisual-mobile2.png";
 import KeyVisualTabletImage from "@/assets/2026/keyvisual-tablet.png";
 import KeyVisualImage from "@/assets/2026/keyvisual.png";
 import ScrollIndicator from "@/components/2026/ScrollIndicator.astro";
 import type { ImageMetadata } from "astro";
 import { Image, getImage } from "astro:assets";
 
-// モバイル用の画像はまだないので、置かれていればそれを使い、なければタブレット用を出す
-const mobileImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/2026/keyvisual-mobile.png",
-  { eager: true },
-);
-const KeyVisualMobileImage = Object.values(mobileImages)[0]?.default;
-
 const optimize = (src: ImageMetadata) =>
   getImage({ src, format: "webp", layout: "constrained", width: src.width });
 
 const desktop = await optimize(KeyVisualImage);
 const tablet = await optimize(KeyVisualTabletImage);
-const mobile = KeyVisualMobileImage && (await optimize(KeyVisualMobileImage));
+const mobile = await optimize(KeyVisualMobileImage);
 ---
 
 <section id="kv" class="container">
   <div class="visual">
     <picture class="keyVisualPicture">
-      {
-        mobile && (
-          <source
-            media="(width <= 840px)"
-            srcset={mobile.srcSet.attribute}
-            sizes={mobile.attributes.sizes}
-            width={mobile.attributes.width}
-            height={mobile.attributes.height}
-          />
-        )
-      }
+      <source
+        media="(width <= 720px)"
+        srcset={mobile.srcSet.attribute}
+        sizes={mobile.attributes.sizes}
+        width={mobile.attributes.width}
+        height={mobile.attributes.height}
+      />
       <source
         media="(width <= 1080px)"
         srcset={tablet.srcSet.attribute}
@@ -133,6 +123,23 @@ const mobile = KeyVisualMobileImage && (await optimize(KeyVisualMobileImage));
 
     .scroll {
       margin-block: 8px 16px;
+    }
+  }
+
+  /*
+   * ヘッダーが2段になる幅（Header.astro と同じ 780px）では、KV をヘッダーの 10px 下から始める。
+   * タブレットのロゴ（高さ 40px）のままだとヘッダーは 98px なので 108px
+   */
+  @media (width <= 780px) {
+    .container {
+      padding-top: 108px;
+    }
+  }
+
+  /* モバイル: ロゴが高さ 32px になりヘッダーは 92px なので、Figma 通り top 102px */
+  @media (width <= 720px) {
+    .container {
+      padding-top: 102px;
     }
   }
 </style>

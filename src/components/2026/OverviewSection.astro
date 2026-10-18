@@ -147,23 +147,23 @@ const items = [
     }
   }
 
-  /* モバイル: 項目名と内容も縦に積む */
-  @media (width <= 840px) {
+  /* モバイル: 項目名と内容は横に並べたまま、文字と項目名の列を小さくする */
+  @media (width <= 720px) {
     .container {
-      padding: 32px 20px;
+      padding: 20px;
     }
 
     .list {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .item {
-      flex-direction: column;
-      gap: 8px;
+      gap: 16px;
+      align-items: center;
     }
 
     .label {
-      width: auto;
+      width: 60px;
     }
   }
 </style>

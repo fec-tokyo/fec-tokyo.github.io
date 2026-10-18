@@ -6,6 +6,7 @@ import Header from "@/components/2026/Header.astro";
 import KeyVisualSection from "@/components/2026/KeyVisualSection.astro";
 import MessageSection from "@/components/2026/MessageSection.astro";
 import NotesSection from "@/components/2026/NotesSection.astro";
+import OpeningAnimation from "@/components/2026/OpeningAnimation.astro";
 import OrganizersSection from "@/components/2026/OrganizersSection.astro";
 import OverviewSection from "@/components/2026/OverviewSection.astro";
 import SponsorsSection from "@/components/2026/SponsorsSection.astro";
@@ -18,6 +19,7 @@ import Layout from "@/layouts/Layout.astro";
 
 <Layout ogTitle="Frontend Conference Tokyo 2026">
   <Head slot="head" />
+  <OpeningAnimation />
   <div class="max-width">
     <Header />
   </div>
@@ -89,7 +91,7 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   /* モバイル: タイムテーブルとチケットも縦に積む */
-  @media (width <= 840px) {
+  @media (width <= 720px) {
     .event-info {
       grid-template-columns: minmax(0, 1fr);
       padding-inline: 20px;
