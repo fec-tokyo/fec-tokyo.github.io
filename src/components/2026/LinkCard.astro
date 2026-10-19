@@ -1,21 +1,25 @@
 ---
-import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
+import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 
 /*
- * タイムテーブル・チケットのセクションで使う、見出し・説明・リンクボタンを縦に並べた枠。
+ * タイムテーブル・プロポーザル・チケットのセクションで使う、見出し・説明・リンクボタンを縦に並べた枠。
+ * 説明は配列で渡すと1要素ずつ行を分ける。
  * href が null のときは、まだ公開前としてボタンを無効にして表示する。
  */
 type Props = {
   id: string;
   title: string;
-  description: string;
+  description: string | string[];
   label: string;
   href: string | null;
 };
 
 const { id, title, description, label, href } = Astro.props;
 const titleId = `${id}-title`;
+const descriptionLines = Array.isArray(description)
+  ? description
+  : [description];
 ---
 
 <section
@@ -24,10 +28,16 @@ const titleId = `${id}-title`;
   aria-labelledby={titleId}
 >
   <h2 id={titleId} class="title">{title}</h2>
-  <p class="description">{description}</p>
+  <p class="description">
+    {
+      descriptionLines.map((line) => (
+        <span class="descriptionLine">{line}</span>
+      ))
+    }
+  </p>
   <Button href={href ?? undefined} class="action" external>
     {label}
-    <OpenInNewIcon slot="iconRight" />
+    <ArrowCircleIcon slot="iconRight" />
   </Button>
 </section>
 
@@ -35,19 +45,21 @@ const titleId = `${id}-title`;
   .container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
     justify-content: center;
     padding: 32px;
+    container-type: inline-size;
     color: var(--color-off-white);
     border: 2px solid var(--color-off-white);
     border-radius: 16px;
   }
 
+  /* カードが狭いときは、いちばん長い見出し（「PROPOSALS」）がカードの幅に収まるまで小さくする */
   .title {
     margin: 0;
     font-family: Montserrat, sans-serif;
-    font-size: 44px;
+    font-size: min(44px, 100cqi / 7);
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
@@ -58,10 +70,17 @@ const titleId = `${id}-title`;
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
+    font-weight: 500;
+    line-height: 1.2;
     text-align: center;
     letter-spacing: 0.04em;
+
+    /* 行が幅に収まらないときは、文節の切れ目で折り返す（対応していないブラウザでは文字単位） */
+    word-break: auto-phrase;
+  }
+
+  .descriptionLine {
+    display: block;
   }
 
   .action {

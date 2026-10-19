@@ -1,0 +1,16 @@
+---
+import LinkCard from "@/components/2026/LinkCard.astro";
+import { PROPOSAL_URL } from "@/data/2026/links";
+---
+
+<LinkCard
+  id="proposals"
+  title="Proposals"
+  description={[
+    // 絵文字だけが次の行に送られないよう、前の文字とつなぐ（U+2060 WORD JOINER）
+    "あなたの知見や試行錯誤を聞かせてください\u2060🙌",
+    "初登壇も大歓迎！",
+  ]}
+  label="プロポーザルを応募する"
+  href={PROPOSAL_URL}
+/>

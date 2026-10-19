@@ -51,40 +51,66 @@ const mobile = await optimize(KeyVisualMobileImage);
 </section>
 
 <style scoped>
+  /*
+   * KV は「画面の左右端から 120px（タブレット以下は 20px）」「ヘッダーの下端から 10px」「KV とスクロール誘導の間 16px」「スクロール誘導の下端からセクションの下端まで 16px」の
+   * 枠に収まる範囲で、縦横比を保ったまま最大まで広げる。
+   * セクションは画面の高さ以上にして、開いた時点で次のセクション（Message）が画面に入らないようにする。
+   * 枠より画面が縦長のときは、KV とスクロール誘導をまとめて上下の中央に置く。
+   */
   .container {
     /*
-     * 鶴は KV の右にはみ出す。ここで切ると画面に余白があっても最大幅（1440px）の端で羽が切れるので、
+     * 上の余白（ヘッダーの分）、左右の余白、下の余白、KV とスクロール誘導の間、スクロール誘導の高さ、KV 画像の縦横比。
+     * KV とスクロール誘導の間、スクロール誘導の下は全端末 16px
+     */
+    --kv-top: 70px;
+    --kv-side: 120px;
+    --kv-bottom: 16px;
+    --kv-scroll-gap: 16px;
+    --kv-scroll-height: 63px;
+    --kv-aspect-ratio: calc(2208 / 1200);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+
+    /*
+     * 鶴は KV の右にはみ出す。ここで切ると画面の端より手前で羽が切れるので、
      * 横スクロールが出ないようにする切り取りは画面幅の main（foundation.css）に任せている。
      */
-    padding: 70px 40px 0;
+    padding: var(--kv-top) var(--kv-side) var(--kv-bottom);
   }
 
   /*
-   * 1行目に KV、2行目にスクロール誘導を置き、鶴は2行にまたがって KV に重ねる。
-   * 鶴を absolute にすると KV の下にはみ出した分がセクションの高さに入らないため、
-   * グリッドで重ねて鶴やスクロール誘導の下端まで高さに含める。
+   * 1行目に KV、2行目にスクロール誘導を置き、鶴は KV に重ねる。
+   * 鶴が KV の下にはみ出した分で高さが増えると、スクロール誘導が画面の下端からの余白を越えてしまうので、
+   * 鶴は absolute にして高さに含めない。
    */
   .visual {
+    position: relative;
     display: grid;
-
-    /* 鶴の幅に引っぱられて列が広がらないように固定する */
     grid-template-rows: auto auto;
     grid-template-columns: minmax(0, 1fr);
+    width: min(
+      100%,
+      (
+          100svh - var(--kv-top) - var(--kv-bottom) - var(--kv-scroll-gap) -
+            var(--kv-scroll-height)
+        ) *
+        var(--kv-aspect-ratio)
+    );
+    margin-inline: auto;
   }
 
   .keyVisualPicture {
     grid-area: 1 / 1;
   }
 
-  .crane {
-    grid-area: 1 / 1 / 3;
-  }
-
-  /* Figma では KV の 16px 下に中央揃え */
+  /* KV の下に中央揃え */
   .scroll {
     grid-area: 2 / 1;
     justify-self: center;
-    margin-block: 16px 20px;
+    margin-top: var(--kv-scroll-gap);
   }
 
   .keyVisual {
@@ -101,8 +127,9 @@ const mobile = await optimize(KeyVisualMobileImage);
    * KV の右端からはみ出すのはデザイン通り。
    */
   .crane {
-    align-self: start;
-    justify-self: start;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: calc(560 / 1360 * 100%);
     height: auto;
     margin-top: calc(415 / 1360 * 100%);
@@ -111,18 +138,16 @@ const mobile = await optimize(KeyVisualMobileImage);
     filter: drop-shadow(10px -2px 6px rgb(16 16 16 / 24%));
   }
 
-  /* タブレット: 鶴はタブレット用の KV に描き込まれているので重ねない。スクロール誘導は KV の 8px 下 */
+  /* タブレット: 鶴はタブレット用の KV に描き込まれているので重ねない。スクロール誘導は縮めているので高さ 56px */
   @media (width <= 1080px) {
     .container {
-      padding-inline: 20px;
+      --kv-side: 20px;
+      --kv-scroll-height: 56px;
+      --kv-aspect-ratio: calc(1032 / 1299);
     }
 
     .crane {
       display: none;
-    }
-
-    .scroll {
-      margin-block: 8px 16px;
     }
   }
 
@@ -132,14 +157,15 @@ const mobile = await optimize(KeyVisualMobileImage);
    */
   @media (width <= 780px) {
     .container {
-      padding-top: 108px;
+      --kv-top: 108px;
     }
   }
 
   /* モバイル: ロゴが高さ 32px になりヘッダーは 92px なので、Figma 通り top 102px */
   @media (width <= 720px) {
     .container {
-      padding-top: 102px;
+      --kv-top: 102px;
+      --kv-aspect-ratio: calc(720 / 1192);
     }
   }
 </style>

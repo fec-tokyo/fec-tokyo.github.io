@@ -1,6 +1,6 @@
 ---
-import ArrowIcon from "@/assets/icon/icon-arrow.svg";
 import LogomarkOnetone from "@/assets/logo/logomark-onetone.svg";
+import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 import { TICKET_URL, TOP_URL } from "@/data/2026/links";
 import { NEWS } from "@/data/2026/news";
@@ -32,9 +32,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
         </span>
       </span>
     </span>
-    <span class="newsArrow">
-      <ArrowIcon aria-hidden="true" />
-    </span>
+    <ArrowCircleIcon class="newsArrow" />
   </a>
   <Button href={TICKET_URL} size="medium" class="ticket" external>
     チケットを購入する
@@ -307,22 +305,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   }
 
   .newsArrow {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
     color: var(--color-black);
-    border: 1px solid var(--color-black);
-    border-radius: 30px;
-    transition:
-      color 200ms ease,
-      background-color 200ms ease;
-  }
-
-  .newsArrow :global(svg) {
-    display: block;
   }
 
   /* メニュー */
@@ -374,8 +357,8 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     }
 
     .menuClose:hover {
-      color: var(--color-black);
-      background-color: var(--color-off-white);
+      color: var(--color-off-white);
+      background-color: var(--color-black);
     }
   }
 
@@ -418,7 +401,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     inset: 0;
     z-index: -1;
     content: "";
-    background-color: var(--color-black);
+    background-color: var(--color-white);
 
     /* 閉じているときは開くボタンと同じ形（--origin-* は JS で設定） */
     clip-path: inset(
@@ -467,7 +450,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
 
   /*
    * ヘッダーのハンバーガーボタンと同じ位置・大きさに重ねる（--origin-* は JS で設定）。
-   * 黒いパネルの上なので影は消して白い枠線を付け、枠線の分だけ padding を減らしている。
+   * 白いパネルの上なので影は消して黒い枠線を付け、× も黒にする。枠線の分だけ padding を減らしている。
    */
   .menuClose {
     position: absolute;
@@ -475,8 +458,9 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     right: var(--origin-right);
     z-index: 1;
     padding: 12px 15px;
+    color: var(--color-black);
     background-color: transparent;
-    border: 1px solid var(--color-off-white);
+    border: 1px solid var(--color-black);
     filter: none;
     transition:
       color 200ms ease,

@@ -7,8 +7,8 @@ import type { HTMLAttributes } from "astro/types";
  *
  * <Button href={URL} size="large" variant="black" external>
  *   <XIcon slot="iconLeft" />
- *   公式アカウントをフォローする
- *   <OpenInNewIcon slot="iconRight" />
+ *   @fec_tokyoをフォロー
+ *   <ArrowCircleIcon slot="iconRight" />
  * </Button>
  */
 type Props = Omit<HTMLAttributes<"a">, "href"> & {
@@ -84,7 +84,7 @@ const externalAttributes = external
 
   /* padding はホバー時のボーダー分を差し引いている */
   .large {
-    padding: 11px 31px;
+    padding: 7px 31px;
     font-size: 16px;
   }
 

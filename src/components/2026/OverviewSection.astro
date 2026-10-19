@@ -1,10 +1,9 @@
 ---
 import DividerImage from "@/assets/2026/sections/overview/divider.svg";
-import TitleImage from "@/assets/2026/sections/overview/title.svg";
 
 const items = [
-  { label: "開催日時", value: "2026年12月09日（土）10:00~18:00（予定）" },
-  { label: "会場", value: "住友不動産渋谷タワー（Abema Towers）" },
+  { label: "開催日時", value: "2026年12月05日（土）10:00~18:00" },
+  { label: "会場", value: "住友不動産渋谷タワー Abema Towers" },
   {
     label: "対象",
     value: "フロントエンドやWeb技術に携わる全てのエンジニア・デザイナー",
@@ -22,15 +21,8 @@ const items = [
   aria-labelledby="overview-title"
   style={`--divider-image: url(${DividerImage.src})`}
 >
-  <h2 id="overview-title" class="title">
-    <img
-      src={TitleImage.src}
-      alt="開催概要"
-      width={TitleImage.width}
-      height={TitleImage.height}
-      class="titleImage"
-    />
-  </h2>
+  {/* デザインには見出しがないので、見た目からは消して読み上げには残す */}
+  <h2 id="overview-title" class="title">開催概要</h2>
   <dl class="list">
     {
       items.map((item) => (
@@ -45,33 +37,29 @@ const items = [
 
 <style scoped>
   .container {
-    display: flex;
-    gap: 80px;
-    align-items: center;
-    padding: 40px 80px;
+    position: relative;
+    padding: 40px;
+    container-type: inline-size;
     color: var(--color-off-white);
     border: 2px solid var(--color-off-white);
     border-radius: 24px;
   }
 
   .title {
-    flex-shrink: 0;
-    margin: 0;
-  }
-
-  .titleImage {
-    display: block;
-    width: 200px;
-    height: auto;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 
   .list {
     display: flex;
-    flex: 1 1 0;
     flex-direction: column;
 
-    /* 項目の間 32px（点線の上下に 16px ずつ） */
-    gap: 32px;
+    /* 項目の間 33px（点線 1px の上下に 16px ずつ） */
+    gap: 33px;
     min-width: 0;
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
@@ -87,7 +75,7 @@ const items = [
   }
 
   /*
-   * 項目の間の点線（Figma の Line）。上の項目との間 32px の真ん中に置く。
+   * 項目の間の点線（Figma の Line）。上の項目との間 33px の真ん中に置く。
    * SVG は幅 756px で、それより広いときは横に繰り返す。
    */
   .item + .item {
@@ -110,32 +98,24 @@ const items = [
     width: 120px;
   }
 
+  /* モバイルになるまでは、内容を1行に収めて折り返さない */
   .value {
     min-width: 0;
     margin: 0;
+    white-space: nowrap;
 
     /* foundation.css の text-autospace: normal だと「Web」の前後に隙間が入るので、Figma に合わせて切る */
     text-autospace: no-autospace;
   }
 
-  /* タブレット: 表だけを置き、項目名の列を狭める */
+  /* タブレット: 項目名の列を狭める */
   @media (width <= 1080px) {
-    .container {
-      padding: 40px;
-    }
-
-    /* タブレットのデザインには見出しの画像がないので、見た目からは消して読み上げには残す */
-    .title {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      white-space: nowrap;
-      clip-path: inset(50%);
-    }
-
+    /*
+     * 内容は折り返さないので、いちばん長い行（主催、16px で約 31.4 文字分）が
+     * 項目名の列（80px）と間（32px）を除いた幅に収まるよう、狭い画面では文字を小さくする
+     */
     .list {
-      font-size: 16px;
+      font-size: min(16px, (100cqi - 80px - 32px) / 31.5);
     }
 
     .item {
@@ -164,6 +144,10 @@ const items = [
 
     .label {
       width: 60px;
+    }
+
+    .value {
+      white-space: normal;
     }
   }
 </style>

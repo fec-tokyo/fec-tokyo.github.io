@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import CloudImage from "@/assets/2026/about-cloud.svg";
 import PhotoMaskImage from "@/assets/2026/about-photo-mask.svg";
 import KasumiLargeImage from "@/assets/2026/sections/about/kasumi-large.svg";
 import KasumiSmall1Image from "@/assets/2026/sections/about/kasumi-small-1.svg";
@@ -10,8 +9,8 @@ import Photo1Image from "@/assets/2026/sections/about/photo-1.jpg";
 import Photo2Image from "@/assets/2026/sections/about/photo-2.jpg";
 import Photo3Image from "@/assets/2026/sections/about/photo-3.jpg";
 import Photo4Image from "@/assets/2026/sections/about/photo-4.jpg";
-import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
 import XIcon from "@/assets/icon/icon-x.svg";
+import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 import { TICKET_URL, X_URL } from "@/data/2026/links";
 
@@ -31,10 +30,8 @@ const photos = [
   id="about"
   class="container"
   aria-labelledby="about-title"
-  style={`--cloud-image: url(${CloudImage.src}); --photo-mask-image: url(${PhotoMaskImage.src})`}
+  style={`--photo-mask-image: url(${PhotoMaskImage.src})`}
 >
-  {/* 上のセクションに 160px かぶさる雲。画面幅いっぱいに横に繰り返す */}
-  <div class="cloud" aria-hidden="true"></div>
   <div class="contents">
     <div class="text">
       <h2 id="about-title" class="title">
@@ -50,12 +47,12 @@ const photos = [
       <div class="actions">
         <Button href={TICKET_URL} class="action" external>
           チケットを購入する
-          <OpenInNewIcon slot="iconRight" />
+          <ArrowCircleIcon slot="iconRight" />
         </Button>
         <Button href={X_URL} variant="black" class="action" external>
           <XIcon slot="iconLeft" />
-          公式アカウントをフォローする
-          <OpenInNewIcon slot="iconRight" />
+          @fec_tokyoをフォロー
+          <ArrowCircleIcon slot="iconRight" />
         </Button>
       </div>
     </div>
@@ -131,7 +128,7 @@ const photos = [
   import Fade from "embla-carousel-fade";
 
   // 操作されていない間は一定間隔で次の写真へ送る。動きを減らす設定のときは自動で送らない
-  const AUTOPLAY_INTERVAL = 5000;
+  const AUTOPLAY_INTERVAL = 3000;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const carousels = document.querySelectorAll<HTMLElement>("#about .carousel");
@@ -166,36 +163,11 @@ const photos = [
 </script>
 
 <style scoped>
-  /*
-   * 雲の1枚分の幅。1440px 以上では Figma と同じ大きさで並べ、それより狭い画面では幅に合わせて縮める。
-   * 雲の高さ・位置と上の余白は、この幅を基準に Figma（1440px）の比率で決める。
-   */
   .container {
-    --cloud-width: min(var(--width-desktop), 100vw);
-
     position: relative;
   }
 
   /*
-   * 雲の SVG は幅 1440px・高さ 571px（上下に影の余白 32px を含む）。左右の端は同じ高さで切れているので、
-   * 横に並べると継ぎ目なくつながる。Figma では雲がセクションの上に 160px（影込みで 192px）はみ出す。
-   */
-  .cloud {
-    position: absolute;
-    top: calc(var(--cloud-width) * -192 / 1440);
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: calc(var(--cloud-width) * 571 / 1440);
-    pointer-events: none;
-    background-image: var(--cloud-image);
-    background-repeat: repeat-x;
-    background-position: top center;
-    background-size: var(--cloud-width) 100%;
-  }
-
-  /*
-   * 上の余白は雲の下端に合わせる（1440px で 320px）。
    * 1440px ではテキスト（648px）と写真（592px）で幅 1240px ちょうどになる。
    * それより狭いと写真がテキストの下に回り込む。
    */
@@ -207,7 +179,7 @@ const photos = [
     justify-content: space-between;
     max-width: var(--width-desktop);
     /* 左の余白は他のセクションとそろえて 120px、右は Figma どおり 80px（タブレットでは左右 40px） */
-    padding: calc(var(--cloud-width) * 320 / 1440) 80px 0 120px;
+    padding: 40px 80px 40px 120px;
     margin-inline: auto;
   }
 
@@ -246,7 +218,7 @@ const photos = [
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.8;
     letter-spacing: 0.02em;
 
@@ -313,11 +285,14 @@ const photos = [
   }
 
   /*
-   * 霞は青海波の柄をくり抜いた白い1本のパス。
-   * Figma の配置（592×560）の高さに合わせ、幅は SVG の縦横比で決まる（height: auto）。
+   * 霞は、霞の形を白と黒の青海波の柄で塗った SVG。Figma では柄を「加算（plus-lighter）」で重ねていて、
+   * 黒は下の色に何も足さないので透け、白い柄だけが見える。
+   * SVG の中の指定は画像の中だけで閉じてしまうので、画像そのものにも同じ重ね方を指定する。
+   * Figma の配置（592×560）の大きさに合わせ、高さは SVG の縦横比で決まる（height: auto）。
    */
   .kasumi {
     pointer-events: none;
+    mix-blend-mode: plus-lighter;
   }
 
   /* Figma で左右反転して置かれているもの */
@@ -327,49 +302,40 @@ const photos = [
     transform: scaleX(-1);
   }
 
-  /* 高さ 60px（341×120 の SVG） */
+  /* 189×60 */
   .kasumiSmall1 {
     top: calc(434 / 560 * 100%);
     left: calc(384 / 592 * 100%);
-    width: calc(170.5 / 592 * 100%);
+    width: calc(189 / 592 * 100%);
   }
 
-  /* 高さ 60px（342×120 の SVG） */
+  /* 171×60 */
   .kasumiSmall2 {
     top: calc(66 / 560 * 100%);
     left: calc(19 / 592 * 100%);
     width: calc(171 / 592 * 100%);
   }
 
-  /* 高さ 160px（546×400 の SVG）。右端を写真エリアの右端にそろえる */
+  /* 232×160。右端を写真エリアの右端にそろえる */
   .kasumiTop {
     top: 0;
     right: 0;
-    width: calc(218.4 / 592 * 100%);
+    width: calc(232 / 592 * 100%);
   }
 
-  /* 高さ 160px（521×400 の SVG） */
+  /* 240×160 */
   .kasumiLarge {
     top: calc(400 / 560 * 100%);
     left: 0;
-    width: calc(208.4 / 592 * 100%);
+    width: calc(240 / 592 * 100%);
   }
 
   /* タブレット: テキストと写真を縦に積む */
   @media (width <= 1080px) {
-    /*
-     * 雲の本体の半分が上のセクションにかぶさり、テキストは上から 1080px 幅で 207px（画面幅に比例）。
-     * Figma の 834px 版（雲の本体の高さ 294px、テキストは上から 160px）と同じ比率にしている。
-     * 雲の SVG は上下に影の余白（1440px で 32px）を含むので、その分も上にずらす。
-     */
-    .cloud {
-      top: calc(var(--cloud-width) * -286 / 1440);
-    }
-
     .contents {
       flex-wrap: wrap;
       justify-content: center;
-      padding: calc(var(--cloud-width) * 207 / 1080) 40px 0;
+      padding: 40px 40px 0;
     }
 
     .text {
@@ -404,9 +370,8 @@ const photos = [
 
   /* モバイル */
   @media (width <= 720px) {
-    /* テキストは雲の下端から始める。Figma の 440px 版では上から 78px */
     .contents {
-      padding: calc(var(--cloud-width) * 78 / 440) 20px 0;
+      padding: 40px 20px 0;
     }
 
     /* 48px。狭い画面では「フロントエンドの」（8文字）が幅に収まるよう縮める */
