@@ -11,33 +11,44 @@ import ScrollDownText from "@/assets/2026/text-scroll-down.svg";
 </div>
 
 <style scoped>
+  /*
+   * 寸法はすべて --u の倍数で書く。--u は既定で 1px で、使う側から --scroll-indicator-unit で長さを渡すと、
+   * 画面の大きさに合わせて伸び縮みさせられる（KeyVisualPartsSection）。そのときはタブレット以下の縮小（zoom）も
+   * --scroll-indicator-zoom: 1 で止める。
+   */
   .scrollIndicator {
+    --u: var(--scroll-indicator-unit, 1px);
+
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: calc(6 * var(--u));
     align-items: center;
   }
 
   .mouse {
     display: flex;
     justify-content: center;
-    width: 28px;
-    height: 48px;
-    padding-top: 10px;
-    border: 2px solid var(--color-white);
-    border-radius: 16px;
+    width: calc(28 * var(--u));
+    height: calc(48 * var(--u));
+    padding-top: calc(10 * var(--u));
+
+    /* 小さくしても線が消えないよう、1px より細くはしない */
+    border: max(1px, 2 * var(--u)) solid var(--color-white);
+    border-radius: calc(16 * var(--u));
   }
 
   .wheel {
-    width: 8px;
-    height: 8px;
+    width: calc(8 * var(--u));
+    height: calc(8 * var(--u));
     background-color: var(--color-white);
-    border-radius: 10px;
+    border-radius: calc(10 * var(--u));
     animation: scroll-wheel 1.6s ease-in-out infinite;
   }
 
   .scrollIndicator img {
     display: block;
+    width: calc(100 * var(--u));
+    height: calc(9 * var(--u));
   }
 
   /* ホイールの点が下に流れて消え、元の位置に戻る */
@@ -57,7 +68,14 @@ import ScrollDownText from "@/assets/2026/text-scroll-down.svg";
 
     100% {
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(calc(14 * var(--u)));
+    }
+  }
+
+  /* タブレットとモバイルのデザインでは、マウスの幅が 28px → 25px になるよう全体を縮めている */
+  @media (width <= 1080px) {
+    .scrollIndicator {
+      zoom: var(--scroll-indicator-zoom, calc(25 / 28));
     }
   }
 

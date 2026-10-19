@@ -3,8 +3,8 @@ type News = {
   url: string;
 };
 
-// TODO: お知らせの URL が決まったら差し替える
+// お知らせごとに URL を決めるので、チケット販売ページと同じ URL でも links.ts は参照せずに書く
 export const NEWS: News = {
   text: "アーリーアクセスチケットの販売を開始しました！",
-  url: "#",
+  url: "https://fortee.jp/fec-tokyo-2026/ticket-shop/index",
 };

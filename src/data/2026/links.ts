@@ -2,10 +2,14 @@
 // プレビュー用ビルドでは base が /preview/ になるので BASE_URL を前に付ける
 export const TOP_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/2026/`;
 
-// TODO: チケット販売ページの URL が決まったら差し替える
-export const TICKET_URL = "#";
+// チケット販売ページ（fortee）
+export const TICKET_URL = "https://fortee.jp/fec-tokyo-2026/ticket-shop/index";
 
 export const X_URL = "https://x.com/fec_tokyo";
+
+// プロポーザル（登壇の応募）を受け付ける fortee のページ
+export const PROPOSAL_URL =
+  "https://fortee.jp/fec-tokyo-2026/speaker/proposal/cfp";
 
 // TODO: タイムテーブルが公開されたら URL を入れる。null の間はボタンを無効にして表示する
 export const TIMETABLE_URL: string | null = null;

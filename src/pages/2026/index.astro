@@ -3,30 +3,38 @@ import AboutSection from "@/components/2026/AboutSection.astro";
 import Footer from "@/components/2026/Footer.astro";
 import Head from "@/components/2026/Head.astro";
 import Header from "@/components/2026/Header.astro";
-import KeyVisualSection from "@/components/2026/KeyVisualSection.astro";
+import KeyVisualPartsSection from "@/components/2026/KeyVisualPartsSection.astro";
 import MessageSection from "@/components/2026/MessageSection.astro";
 import NotesSection from "@/components/2026/NotesSection.astro";
+import OpeningAnimation from "@/components/2026/OpeningAnimation.astro";
 import OrganizersSection from "@/components/2026/OrganizersSection.astro";
 import OverviewSection from "@/components/2026/OverviewSection.astro";
+import ProposalsSection from "@/components/2026/ProposalsSection.astro";
 import SponsorsSection from "@/components/2026/SponsorsSection.astro";
 import TicketsSection from "@/components/2026/TicketsSection.astro";
 import TimetableSection from "@/components/2026/TimetableSection.astro";
-import "@/css/2026/vars.css";
 import "@/css/2026/styles.css";
+import "@/css/2026/vars.css";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout ogTitle="Frontend Conference Tokyo 2026">
+<Layout ogTitle="フロントエンドカンファレンス東京 2026">
   <Head slot="head" />
+  <OpeningAnimation />
   <div class="max-width">
     <Header />
   </div>
   <main>
     <div class="background-shippo page-top">
-      <div class="max-width">
-        <KeyVisualSection />
-        <MessageSection />
-      </div>
+      {
+        /* KV は画面いっぱいに表示するので、.max-width で囲まない（1枚絵の KeyVisualSection.astro も残している） */
+      }
+      <KeyVisualPartsSection />
+      <!-- <KeyVisualSection /> -->
+      {
+        /* KV は画面上部に sticky で残し、MessageSection がその上に重なって流れてくる。KV が残るのはこの div の中だけ */
+      }
+      <MessageSection />
     </div>
     {
       /* About の雲は画面幅いっぱいに並べるので .max-width で囲まない。中身の幅は各セクションで決めている */
@@ -38,6 +46,7 @@ import Layout from "@/layouts/Layout.astro";
           <OverviewSection />
         </div>
         <TimetableSection />
+        <ProposalsSection />
         <TicketsSection />
       </div>
       <SponsorsSection />
@@ -65,12 +74,12 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   /*
-   * 開催概要・タイムテーブル・チケットの3セクション。
-   * 開催概要は横幅いっぱい、その下にタイムテーブルとチケットを同じ幅・同じ高さで並べる。
+   * 開催概要・タイムテーブル・プロポーザル・チケットの4セクション。
+   * 開催概要は横幅いっぱい、その下にタイムテーブル・プロポーザル・チケットを同じ幅・同じ高さで並べる。
    */
   .event-info {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
     max-width: var(--width-desktop);
     padding: 40px 120px;
@@ -81,19 +90,36 @@ import Layout from "@/layouts/Layout.astro";
     grid-column: 1 / -1;
   }
 
-  /* タブレット: 並びはそのままで、余白を上下左右 40px にする */
+  /*
+   * 3枚のカードは、いちばん長いボタン（「プロポーザルを応募する」）がカードに収まる幅までは横に並べ、
+   * それより狭い画面（1300px 以下）では縦に積む
+   */
+  @media (width <= 1300px) {
+    .event-info {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* タブレット: 余白を上下左右 40px にする */
   @media (width <= 1080px) {
     .event-info {
       padding: 40px;
     }
   }
 
-  /* モバイル: タイムテーブルとチケットも縦に積む */
-  @media (width <= 840px) {
+  /* モバイル */
+  @media (width <= 720px) {
     .event-info {
-      grid-template-columns: minmax(0, 1fr);
       padding-inline: 20px;
     }
+  }
+
+  /*
+   * foundation.css の main は overflow-x: hidden で、main 自体がスクロールの枠になり KV の sticky が効かない。
+   * clip ならスクロールの枠にならずに横のはみ出しだけ切れるので、2026 ではこちらにする
+   */
+  main {
+    overflow: clip visible;
   }
 
   .max-width {

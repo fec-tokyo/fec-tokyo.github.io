@@ -1,0 +1,1695 @@
+---
+/*
+ * KV をイラストのパーツごとに並べ、画面いっぱいに表示するセクション。
+ * 1枚絵の KeyVisualSection.astro とは別のコンポーネントにしている。
+ *
+ * Figma には画面の縦横比ごとのデザイン（16:9 / 3:2 / 4:3 / 1:1 / 2:3 / 9:16 / 9:20）がある。
+ * 画面と同じか、画面より縦長のデザインのうち一番横長のものを選び、そのデザインの配置を画面の高さに合わせて拡大・縮小する。
+ * 画面の方が横長な分は、提灯・雲・端の霞を画面の左右端に寄せて埋める（デザインより縦長の画面にすると、高さが余って中央のパーツが下に寄るため）。
+ * 9:20 より縦長の画面だけは、9:20 のデザインを画面の幅に合わせ、余った高さは下で扱う。
+ * デザインごとの値は下の frames にまとめ、そこから縦横比ごとのスタイルを作っている。
+ */
+import BackgroundLogo from "@/assets/2026/kv-parts/bg-logo.svg";
+import Cloud from "@/assets/2026/kv-parts/cloud-left.svg";
+import CraneA from "@/assets/2026/kv-parts/crane-a.png";
+import CraneB from "@/assets/2026/kv-parts/crane-b.png";
+import CraneC from "@/assets/2026/kv-parts/crane-c.png";
+import CraneD from "@/assets/2026/kv-parts/crane-d.png";
+import Daruma from "@/assets/2026/kv-parts/daruma.png";
+import LanternLeft from "@/assets/2026/kv-parts/lantern-left.png";
+import LanternRight from "@/assets/2026/kv-parts/lantern-right.png";
+import LanternSmallLeft from "@/assets/2026/kv-parts/lantern-small-left.png";
+import LanternSmallRight from "@/assets/2026/kv-parts/lantern-small-right.png";
+import Mist1 from "@/assets/2026/kv-parts/mist-1.svg";
+import Mist2 from "@/assets/2026/kv-parts/mist-2.svg";
+import Mist3 from "@/assets/2026/kv-parts/mist-3.svg";
+import Mist4 from "@/assets/2026/kv-parts/mist-4.svg";
+import SunTablet from "@/assets/2026/kv-parts/sun-tablet.png";
+import Sun from "@/assets/2026/kv-parts/sun.png";
+import ScrollIndicator from "@/components/2026/ScrollIndicator.astro";
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+
+type PartName =
+  | "backgroundLogo"
+  | "lanternLeft"
+  | "lanternRight"
+  | "cloudLeft"
+  | "cloudRight"
+  | "sun"
+  | "daruma"
+  | "scroll"
+  | "craneALeft"
+  | "craneBLeft"
+  | "craneCLeft"
+  | "craneDLeft"
+  | "craneARight"
+  | "craneBRight"
+  | "craneCRight"
+  | "craneDRight"
+  | "mist1"
+  | "mist2"
+  | "mist3"
+  | "mist3Flip"
+  | "mist4";
+
+/*
+ * Figma での配置。x / y / boxWidth / boxHeight は回転した後に占める枠、width / height は回転する前の大きさ。
+ * rotate と flip は Figma の回転と上下反転（左右反転は 180° 回転 + 上下反転で表している）。
+ * parts の並びは重なり順（後ろが手前）。16:9・3:2・4:3 は、鶴が太陽に重ならないよう Figma と違って鶴を太陽より奥にしている。
+ */
+type Placement = {
+  part: PartName;
+  x: number;
+  y: number;
+  boxWidth: number;
+  boxHeight: number;
+  width: number;
+  height: number;
+  rotate?: number;
+  flip?: boolean;
+};
+
+type Frame = {
+  name: string;
+  width: number;
+  height: number;
+  /*
+   * この縦横比（幅 / 高さ）以上の画面で使う。基本はデザインの縦横比と同じで、一番縦長のデザインには付けない。
+   * デザインより少し小さい比率にしたときは、その比率までは幅に合わせて少しだけ縮める
+   */
+  minAspectRatio?: string;
+  parts: Placement[];
+};
+
+const frames: Frame[] = [
+  {
+    name: "16:9",
+    minAspectRatio: "16/9",
+    width: 1920,
+    height: 1080,
+    parts: [
+      {
+        part: "mist1",
+        x: 989.1,
+        y: -14,
+        boxWidth: 374.58,
+        boxHeight: 143,
+        width: 374.58,
+        height: 143,
+      },
+      {
+        part: "mist4",
+        x: 556,
+        y: -14,
+        boxWidth: 413.1,
+        boxHeight: 143,
+        width: 413.1,
+        height: 143,
+      },
+      {
+        part: "backgroundLogo",
+        x: -180,
+        y: -500,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "lanternRight",
+        x: 1200,
+        y: 0,
+        boxWidth: 720,
+        boxHeight: 333,
+        width: 720,
+        height: 333,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 720,
+        boxHeight: 333,
+        width: 720,
+        height: 333,
+      },
+      {
+        part: "cloudLeft",
+        x: -177,
+        y: 640,
+        boxWidth: 1119.66,
+        boxHeight: 500,
+        width: 1119.66,
+        height: 500,
+      },
+      {
+        part: "cloudRight",
+        x: 977.35,
+        y: 640,
+        boxWidth: 1119.65,
+        boxHeight: 500,
+        width: 1119.65,
+        height: 500,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneALeft",
+        x: 403.99,
+        y: 703.06,
+        boxWidth: 186.6,
+        boxHeight: 176.94,
+        width: 186.6,
+        height: 176.94,
+      },
+      {
+        part: "craneBLeft",
+        x: 97.76,
+        y: 543.25,
+        boxWidth: 323.92,
+        boxHeight: 263,
+        width: 285.34,
+        height: 204.05,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 194.44,
+        y: 240,
+        boxWidth: 445.62,
+        boxHeight: 408.44,
+        width: 366.08,
+        height: 306.25,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: 81,
+        y: 478.56,
+        boxWidth: 178.97,
+        boxHeight: 103.94,
+        width: 170.32,
+        height: 84.86,
+        rotate: -173.38,
+        flip: true,
+      },
+      {
+        part: "craneARight",
+        x: 1329.47,
+        y: 703.06,
+        boxWidth: 186.6,
+        boxHeight: 176.94,
+        width: 186.6,
+        height: 176.94,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneBRight",
+        x: 1498.38,
+        y: 543.25,
+        boxWidth: 323.92,
+        boxHeight: 263,
+        width: 285.34,
+        height: 204.05,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 1280,
+        y: 240,
+        boxWidth: 445.62,
+        boxHeight: 408.44,
+        width: 366.08,
+        height: 306.25,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 1660.09,
+        y: 478.56,
+        boxWidth: 178.97,
+        boxHeight: 103.94,
+        width: 170.32,
+        height: 84.86,
+        rotate: -6.62,
+      },
+      {
+        part: "sun",
+        x: 640,
+        y: 120,
+        boxWidth: 640,
+        boxHeight: 640,
+        width: 640,
+        height: 640,
+      },
+      {
+        part: "daruma",
+        x: 619,
+        y: 560,
+        boxWidth: 682,
+        boxHeight: 800,
+        width: 682,
+        height: 800,
+      },
+      {
+        part: "scroll",
+        x: 910,
+        y: 970,
+        boxWidth: 99.88,
+        boxHeight: 62.69,
+        width: 99.88,
+        height: 62.69,
+      },
+      {
+        part: "mist2",
+        x: 1558.18,
+        y: -14,
+        boxWidth: 441.82,
+        boxHeight: 200,
+        width: 441.82,
+        height: 200,
+      },
+      {
+        part: "mist3",
+        x: -80,
+        y: -14,
+        boxWidth: 470.08,
+        boxHeight: 200,
+        width: 470.08,
+        height: 200,
+      },
+    ],
+  },
+  {
+    name: "3:2",
+    minAspectRatio: "3/2",
+    width: 1440,
+    height: 960,
+    parts: [
+      {
+        part: "mist1",
+        x: 745.33,
+        y: -11,
+        boxWidth: 298.62,
+        boxHeight: 114,
+        width: 298.62,
+        height: 114,
+      },
+      {
+        part: "mist4",
+        x: 396,
+        y: -11,
+        boxWidth: 329.33,
+        boxHeight: 114,
+        width: 329.33,
+        height: 114,
+      },
+      {
+        part: "backgroundLogo",
+        x: -180,
+        y: -500,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "lanternRight",
+        x: 880,
+        y: 0,
+        boxWidth: 560,
+        boxHeight: 259,
+        width: 560,
+        height: 259,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 560,
+        boxHeight: 259,
+        width: 560,
+        height: 259,
+      },
+      {
+        part: "cloudLeft",
+        x: -180,
+        y: 623,
+        boxWidth: 882.29,
+        boxHeight: 394,
+        width: 882.29,
+        height: 394,
+      },
+      {
+        part: "cloudRight",
+        x: 737.71,
+        y: 623,
+        boxWidth: 882.29,
+        boxHeight: 394,
+        width: 882.29,
+        height: 394,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneALeft",
+        x: 275.87,
+        y: 566.83,
+        boxWidth: 147.82,
+        boxHeight: 140.17,
+        width: 147.82,
+        height: 140.17,
+      },
+      {
+        part: "craneBLeft",
+        x: 33.27,
+        y: 440.23,
+        boxWidth: 256.61,
+        boxHeight: 208.35,
+        width: 226.04,
+        height: 161.64,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 109.87,
+        y: 200,
+        boxWidth: 353.02,
+        boxHeight: 323.56,
+        width: 290,
+        height: 242.61,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: 20,
+        y: 388.99,
+        boxWidth: 141.78,
+        boxHeight: 82.34,
+        width: 134.93,
+        height: 67.22,
+        rotate: -173.38,
+        flip: true,
+      },
+      {
+        part: "craneARight",
+        x: 1017.31,
+        y: 566.83,
+        boxWidth: 147.82,
+        boxHeight: 140.17,
+        width: 147.82,
+        height: 140.17,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneBRight",
+        x: 1151.12,
+        y: 440.23,
+        boxWidth: 256.61,
+        boxHeight: 208.35,
+        width: 226.04,
+        height: 161.64,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 978.12,
+        y: 200,
+        boxWidth: 353.02,
+        boxHeight: 323.56,
+        width: 290,
+        height: 242.61,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 1279.22,
+        y: 388.99,
+        boxWidth: 141.78,
+        boxHeight: 82.34,
+        width: 134.93,
+        height: 67.22,
+        rotate: -6.62,
+      },
+      {
+        part: "sun",
+        x: 440,
+        y: 120,
+        boxWidth: 560,
+        boxHeight: 560,
+        width: 560,
+        height: 560,
+      },
+      {
+        part: "daruma",
+        x: 447,
+        y: 499,
+        boxWidth: 546,
+        boxHeight: 640,
+        width: 546,
+        height: 640,
+      },
+      {
+        part: "scroll",
+        x: 670,
+        y: 836,
+        boxWidth: 95.6,
+        boxHeight: 60,
+        width: 95.6,
+        height: 60,
+      },
+      {
+        part: "mist2",
+        x: 1166.55,
+        y: -11,
+        boxWidth: 353.45,
+        boxHeight: 160,
+        width: 353.45,
+        height: 160,
+      },
+      {
+        part: "mist3",
+        x: -80,
+        y: -11,
+        boxWidth: 376.06,
+        boxHeight: 160,
+        width: 376.06,
+        height: 160,
+      },
+    ],
+  },
+  {
+    name: "4:3",
+    minAspectRatio: "4/3",
+    width: 1440,
+    height: 1080,
+    parts: [
+      {
+        part: "mist1",
+        x: 745.33,
+        y: -11,
+        boxWidth: 298.62,
+        boxHeight: 114,
+        width: 298.62,
+        height: 114,
+      },
+      {
+        part: "mist4",
+        x: 396,
+        y: -11,
+        boxWidth: 329.33,
+        boxHeight: 114,
+        width: 329.33,
+        height: 114,
+      },
+      {
+        part: "backgroundLogo",
+        x: -180,
+        y: -500,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "lanternRight",
+        x: 880,
+        y: 0,
+        boxWidth: 560,
+        boxHeight: 259,
+        width: 560,
+        height: 259,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 560,
+        boxHeight: 259,
+        width: 560,
+        height: 259,
+      },
+      {
+        part: "cloudLeft",
+        x: -180,
+        y: 763,
+        boxWidth: 882.29,
+        boxHeight: 394,
+        width: 882.29,
+        height: 394,
+      },
+      {
+        part: "cloudRight",
+        x: 737.71,
+        y: 763,
+        boxWidth: 882.29,
+        boxHeight: 394,
+        width: 882.29,
+        height: 394,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneALeft",
+        x: 275.87,
+        y: 711.83,
+        boxWidth: 147.82,
+        boxHeight: 140.17,
+        width: 147.82,
+        height: 140.17,
+      },
+      {
+        part: "craneBLeft",
+        x: 33.27,
+        y: 585.23,
+        boxWidth: 256.61,
+        boxHeight: 208.35,
+        width: 226.04,
+        height: 161.64,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 65,
+        y: 276,
+        boxWidth: 353.02,
+        boxHeight: 323.56,
+        width: 290,
+        height: 242.61,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: 20,
+        y: 518,
+        boxWidth: 141.78,
+        boxHeight: 82.34,
+        width: 134.93,
+        height: 67.22,
+        rotate: -173.38,
+        flip: true,
+      },
+      {
+        part: "craneARight",
+        x: 1016.31,
+        y: 711.83,
+        boxWidth: 147.82,
+        boxHeight: 140.17,
+        width: 147.82,
+        height: 140.17,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneBRight",
+        x: 1150.12,
+        y: 585.23,
+        boxWidth: 256.61,
+        boxHeight: 208.35,
+        width: 226.04,
+        height: 161.64,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 1021.98,
+        y: 276,
+        boxWidth: 353.02,
+        boxHeight: 323.56,
+        width: 290,
+        height: 242.61,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 1278.22,
+        y: 518,
+        boxWidth: 141.78,
+        boxHeight: 82.34,
+        width: 134.93,
+        height: 67.22,
+        rotate: -6.62,
+      },
+      {
+        part: "sun",
+        x: 410,
+        y: 180,
+        boxWidth: 620,
+        boxHeight: 620,
+        width: 620,
+        height: 620,
+      },
+      {
+        part: "mist2",
+        x: 1166.55,
+        y: -11,
+        boxWidth: 353.45,
+        boxHeight: 160,
+        width: 353.45,
+        height: 160,
+      },
+      {
+        part: "mist3",
+        x: -80,
+        y: -11,
+        boxWidth: 376.06,
+        boxHeight: 160,
+        width: 376.06,
+        height: 160,
+      },
+      {
+        part: "daruma",
+        x: 413,
+        y: 609,
+        boxWidth: 614,
+        boxHeight: 720,
+        width: 614,
+        height: 720,
+      },
+      {
+        part: "scroll",
+        x: 670,
+        y: 969,
+        boxWidth: 99.88,
+        boxHeight: 62.69,
+        width: 99.88,
+        height: 62.69,
+      },
+    ],
+  },
+  {
+    name: "1:1",
+    minAspectRatio: "1/1",
+    width: 1080,
+    height: 1080,
+    parts: [
+      {
+        part: "mist1",
+        x: 563.88,
+        y: -10,
+        boxWidth: 261.95,
+        boxHeight: 100,
+        width: 261.95,
+        height: 100,
+      },
+      {
+        part: "mist4",
+        x: 255,
+        y: -10,
+        boxWidth: 288.88,
+        boxHeight: 100,
+        width: 288.88,
+        height: 100,
+      },
+      {
+        part: "backgroundLogo",
+        x: -360,
+        y: -430,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "lanternRight",
+        x: 560,
+        y: 0,
+        boxWidth: 519.3,
+        boxHeight: 240,
+        width: 519.3,
+        height: 240,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 520,
+        boxHeight: 240,
+        width: 520,
+        height: 240,
+      },
+      {
+        part: "cloudLeft",
+        x: -188,
+        y: 820,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+      },
+      {
+        part: "cloudRight",
+        x: 550.78,
+        y: 820,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "sun",
+        x: 250,
+        y: 180,
+        boxWidth: 580,
+        boxHeight: 580,
+        width: 580,
+        height: 580,
+      },
+      {
+        part: "daruma",
+        x: 233,
+        y: 580,
+        boxWidth: 614,
+        boxHeight: 720,
+        width: 614,
+        height: 720,
+      },
+      {
+        part: "scroll",
+        x: 492,
+        y: 950,
+        boxWidth: 95.6,
+        boxHeight: 60,
+        width: 95.6,
+        height: 60,
+      },
+      {
+        part: "mist2",
+        x: 890.73,
+        y: -10,
+        boxWidth: 309.27,
+        boxHeight: 140,
+        width: 309.27,
+        height: 140,
+      },
+      {
+        part: "mist3",
+        x: -120,
+        y: -10,
+        boxWidth: 329.05,
+        boxHeight: 140,
+        width: 329.05,
+        height: 140,
+      },
+      {
+        part: "craneBRight",
+        x: 889.36,
+        y: 878.26,
+        boxWidth: 136.76,
+        boxHeight: 111.03,
+        width: 120.47,
+        height: 86.14,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 752,
+        y: 540,
+        boxWidth: 308,
+        boxHeight: 282.29,
+        width: 253.02,
+        height: 211.67,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 870.83,
+        y: 772.93,
+        boxWidth: 184.46,
+        boxHeight: 107.13,
+        width: 175.55,
+        height: 87.46,
+        rotate: -6.62,
+      },
+      {
+        part: "craneBLeft",
+        x: 53.88,
+        y: 878.26,
+        boxWidth: 136.76,
+        boxHeight: 111.03,
+        width: 120.47,
+        height: 86.14,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 20,
+        y: 540,
+        boxWidth: 308,
+        boxHeight: 282.29,
+        width: 253.02,
+        height: 211.67,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: 24.7,
+        y: 772.93,
+        boxWidth: 184.46,
+        boxHeight: 107.13,
+        width: 175.55,
+        height: 87.46,
+        rotate: -173.38,
+        flip: true,
+      },
+    ],
+  },
+  {
+    name: "2:3",
+    minAspectRatio: "2/3",
+    width: 960,
+    height: 1440,
+    parts: [
+      {
+        part: "backgroundLogo",
+        x: -420,
+        y: -360,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "cloudLeft",
+        x: -248,
+        y: 1170,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+      },
+      {
+        part: "cloudRight",
+        x: 490.78,
+        y: 1170,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "sun",
+        x: 120,
+        y: 180,
+        boxWidth: 720,
+        boxHeight: 720,
+        width: 720,
+        height: 720,
+      },
+      {
+        part: "daruma",
+        x: 70,
+        y: 839,
+        boxWidth: 818,
+        boxHeight: 960,
+        width: 818,
+        height: 960,
+      },
+      {
+        part: "scroll",
+        x: 430,
+        y: 1324,
+        boxWidth: 99.88,
+        boxHeight: 62.69,
+        width: 99.88,
+        height: 62.69,
+      },
+      {
+        part: "mist3",
+        x: -220,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+      },
+      {
+        part: "mist3Flip",
+        x: 541.89,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneBRight",
+        x: 814.88,
+        y: 1037.51,
+        boxWidth: 124.33,
+        boxHeight: 100.94,
+        width: 109.51,
+        height: 78.31,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 690,
+        y: 730,
+        boxWidth: 280,
+        boxHeight: 256.63,
+        width: 230.02,
+        height: 192.43,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 798.03,
+        y: 941.75,
+        boxWidth: 167.69,
+        boxHeight: 97.39,
+        width: 159.59,
+        height: 79.51,
+        rotate: -6.62,
+      },
+      {
+        part: "craneBLeft",
+        x: 20.8,
+        y: 1037.51,
+        boxWidth: 124.33,
+        boxHeight: 100.94,
+        width: 109.51,
+        height: 78.31,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: -10,
+        y: 730,
+        boxWidth: 280,
+        boxHeight: 256.63,
+        width: 230.02,
+        height: 192.43,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: -5.72,
+        y: 941.75,
+        boxWidth: 167.69,
+        boxHeight: 97.39,
+        width: 159.59,
+        height: 79.51,
+        rotate: -173.38,
+        flip: true,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 360,
+        boxHeight: 328,
+        width: 360,
+        height: 328,
+      },
+      {
+        part: "lanternRight",
+        x: 600,
+        y: 0,
+        boxWidth: 360,
+        boxHeight: 328,
+        width: 360,
+        height: 328,
+      },
+    ],
+  },
+  {
+    name: "9:16",
+    // iPhone SE（375×667、0.5622）が 9/16（0.5625）をわずかに下回るので、少しだけ縦長まで使う
+    minAspectRatio: "14/25",
+    width: 1080,
+    height: 1920,
+    parts: [
+      {
+        part: "backgroundLogo",
+        x: -360,
+        y: -178,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "cloudLeft",
+        x: -188,
+        y: 1650,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+      },
+      {
+        part: "cloudRight",
+        x: 550.78,
+        y: 1650,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "sun",
+        x: 60,
+        y: 180,
+        boxWidth: 960,
+        boxHeight: 960,
+        width: 960,
+        height: 960,
+      },
+      {
+        part: "daruma",
+        x: 79,
+        y: 1240,
+        boxWidth: 921,
+        boxHeight: 1080,
+        width: 921,
+        height: 1080,
+      },
+      {
+        part: "scroll",
+        x: 492,
+        y: 1800,
+        boxWidth: 95.6,
+        boxHeight: 60,
+        width: 95.6,
+        height: 60,
+      },
+      {
+        part: "mist3",
+        x: -180,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+      },
+      {
+        part: "mist3Flip",
+        x: 601.89,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 400,
+        boxHeight: 365,
+        width: 400,
+        height: 365,
+      },
+      {
+        part: "lanternRight",
+        x: 680,
+        y: 0,
+        boxWidth: 400,
+        boxHeight: 365,
+        width: 400,
+        height: 365,
+      },
+      {
+        part: "craneBRight",
+        x: 905.42,
+        y: 1365.55,
+        boxWidth: 171.91,
+        boxHeight: 139.59,
+        width: 151.43,
+        height: 108.3,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 640,
+        y: 988,
+        boxWidth: 386.9,
+        boxHeight: 357.59,
+        width: 313.47,
+        height: 262.25,
+        rotate: -21.12,
+      },
+      {
+        part: "craneDRight",
+        x: 849.34,
+        y: 1238.44,
+        boxWidth: 230.66,
+        boxHeight: 148.33,
+        width: 213.2,
+        height: 106.23,
+        rotate: -12.03,
+      },
+      {
+        part: "craneBLeft",
+        x: 2.67,
+        y: 1365.55,
+        boxWidth: 171.91,
+        boxHeight: 139.59,
+        width: 151.43,
+        height: 108.3,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 53.1,
+        y: 988,
+        boxWidth: 386.9,
+        boxHeight: 357.59,
+        width: 313.47,
+        height: 262.25,
+        rotate: -158.88,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: 0,
+        y: 1238.45,
+        boxWidth: 230.66,
+        boxHeight: 148.33,
+        width: 213.2,
+        height: 106.23,
+        rotate: -167.97,
+        flip: true,
+      },
+    ],
+  },
+  {
+    name: "9:20",
+    width: 900,
+    height: 2000,
+    parts: [
+      {
+        part: "backgroundLogo",
+        x: -420,
+        y: -230,
+        boxWidth: 1800,
+        boxHeight: 1800,
+        width: 1800,
+        height: 1800,
+      },
+      {
+        part: "cloudLeft",
+        x: -278,
+        y: 1730,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+      },
+      {
+        part: "cloudRight",
+        x: 460.78,
+        y: 1730,
+        boxWidth: 716.58,
+        boxHeight: 320,
+        width: 716.58,
+        height: 320,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "sun",
+        x: 10,
+        y: 248,
+        boxWidth: 880,
+        boxHeight: 880,
+        width: 880,
+        height: 880,
+      },
+      {
+        part: "daruma",
+        x: 41,
+        y: 1360,
+        boxWidth: 818,
+        boxHeight: 960,
+        width: 818,
+        height: 960,
+      },
+      {
+        part: "scroll",
+        x: 402,
+        y: 1880,
+        boxWidth: 95.6,
+        boxHeight: 60,
+        width: 95.6,
+        height: 60,
+      },
+      {
+        part: "mist3",
+        x: -220,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+      },
+      {
+        part: "mist3Flip",
+        x: 541.89,
+        y: -20,
+        boxWidth: 658.11,
+        boxHeight: 280,
+        width: 658.11,
+        height: 280,
+        rotate: 180,
+        flip: true,
+      },
+      {
+        part: "craneBLeft",
+        x: 2.94,
+        y: 1401,
+        boxWidth: 180.33,
+        boxHeight: 146.41,
+        width: 158.85,
+        height: 113.59,
+        rotate: -167,
+        flip: true,
+      },
+      {
+        part: "craneCLeft",
+        x: 48.94,
+        y: 1054,
+        boxWidth: 361.06,
+        boxHeight: 330.92,
+        width: 296.6,
+        height: 248.13,
+        rotate: -161.07,
+        flip: true,
+      },
+      {
+        part: "craneDLeft",
+        x: -0.06,
+        y: 1289,
+        boxWidth: 243.24,
+        boxHeight: 141.26,
+        width: 231.48,
+        height: 115.33,
+        rotate: -173.38,
+        flip: true,
+      },
+      {
+        part: "craneBRight",
+        x: 716.72,
+        y: 1401,
+        boxWidth: 180.33,
+        boxHeight: 146.41,
+        width: 158.85,
+        height: 113.59,
+        rotate: -13,
+      },
+      {
+        part: "craneCRight",
+        x: 490,
+        y: 1054,
+        boxWidth: 361.06,
+        boxHeight: 330.92,
+        width: 296.6,
+        height: 248.13,
+        rotate: -18.93,
+      },
+      {
+        part: "craneDRight",
+        x: 656.82,
+        y: 1289,
+        boxWidth: 243.24,
+        boxHeight: 141.26,
+        width: 231.48,
+        height: 115.33,
+        rotate: -6.62,
+      },
+      {
+        part: "lanternLeft",
+        x: 0,
+        y: 0,
+        boxWidth: 360,
+        boxHeight: 328,
+        width: 360,
+        height: 328,
+      },
+      {
+        part: "lanternRight",
+        x: 540,
+        y: 0,
+        boxWidth: 360,
+        boxHeight: 328,
+        width: 360,
+        height: 328,
+      },
+    ],
+  },
+];
+
+/*
+ * パーツをどこを基準に置くか。
+ * - x: stage はデザインの枠（画面の中央に置いた、デザインの幅 × --unit の枠）から、left / right は画面の左右端から
+ * - y: top は画面の上端から、stage は枠の上端から（画面がデザインより縦長のときは余った分だけ下げて下端にそろえる）、
+ *   bottom は画面の下端から
+ * - fluid: 大きさも位置も画面幅に比例させる（雲）
+ */
+const anchors: Record<
+  PartName,
+  { x: "stage" | "left" | "right"; y: "top" | "stage" | "bottom"; fluid?: true }
+> = {
+  backgroundLogo: { x: "stage", y: "stage" },
+  lanternLeft: { x: "left", y: "top" },
+  lanternRight: { x: "right", y: "top" },
+  cloudLeft: { x: "left", y: "bottom", fluid: true },
+  cloudRight: { x: "right", y: "bottom", fluid: true },
+  sun: { x: "stage", y: "stage" },
+  daruma: { x: "stage", y: "stage" },
+  scroll: { x: "stage", y: "bottom" },
+  craneALeft: { x: "stage", y: "stage" },
+  craneBLeft: { x: "stage", y: "stage" },
+  craneCLeft: { x: "stage", y: "stage" },
+  craneDLeft: { x: "stage", y: "stage" },
+  craneARight: { x: "stage", y: "stage" },
+  craneBRight: { x: "stage", y: "stage" },
+  craneCRight: { x: "stage", y: "stage" },
+  craneDRight: { x: "stage", y: "stage" },
+  mist1: { x: "stage", y: "top" },
+  mist2: { x: "right", y: "top" },
+  mist3: { x: "left", y: "top" },
+  mist3Flip: { x: "right", y: "top" },
+  mist4: { x: "stage", y: "top" },
+};
+
+const round = (value: number, digits = 2) => Number(value.toFixed(digits));
+// スクロール誘導の高さの下限（px）
+const SCROLL_MIN_HEIGHT = 40;
+// この幅（px）より狭い画面では、スクロール誘導を画面の下端に寄せる
+const SCROLL_NARROW_WIDTH = 390;
+const mediaOf = (frame: Frame) =>
+  frame.minAspectRatio ? `(min-aspect-ratio: ${frame.minAspectRatio})` : "";
+
+// 1つのデザインでの、パーツの位置・大きさ・回転のスタイル
+const placementStyle = (frame: Frame, placement: Placement, zIndex: number) => {
+  const anchor = anchors[placement.part];
+  const unit = anchor.fluid ? "var(--unit-fluid)" : "var(--unit)";
+  // 回転した後の枠の中心に、回転する前の要素の中心を合わせる
+  const left = placement.x + placement.boxWidth / 2 - placement.width / 2;
+  const top = placement.y + placement.boxHeight / 2 - placement.height / 2;
+  const right = frame.width - left - placement.width;
+  const bottom = frame.height - top - placement.height;
+  const styles = ["display: block", `z-index: ${zIndex}`];
+
+  if (placement.part === "scroll") {
+    /*
+     * スクロール誘導もほかのパーツと同じく、Figma の大きさを --unit 倍する（ScrollIndicator の寸法の 1px を、
+     * Figma での倍率 × --unit にする。16:9 の幅 99.88px が等倍）。位置は中央と下端からの距離で置く。
+     * スマホでは小さくなりすぎるので、高さ（等倍で 63px）は SCROLL_MIN_HEIGHT より小さくしない
+     */
+    styles.push(
+      `--scroll-indicator-unit: max(${SCROLL_MIN_HEIGHT} / 63 * 1px, ${round(placement.boxWidth / 99.88, 4)} * var(--unit))`,
+      "--scroll-indicator-zoom: 1",
+      `left: calc(var(--stage-left) + ${round(placement.x + placement.boxWidth / 2)} * var(--unit))`,
+      `bottom: calc(${round(frame.height - placement.y - placement.boxHeight)} * var(--unit))`,
+    );
+    return styles.join("; ");
+  }
+
+  styles.push(`width: calc(${round(placement.width)} * ${unit})`);
+  if (anchor.x === "stage") {
+    styles.push(`left: calc(var(--stage-left) + ${round(left)} * ${unit})`);
+  } else if (anchor.x === "left") {
+    styles.push(`left: calc(${round(left)} * ${unit})`);
+  } else {
+    styles.push(`right: calc(${round(right)} * ${unit})`);
+  }
+  if (anchor.y === "top") {
+    styles.push(`top: calc(${round(top)} * ${unit})`);
+  } else if (anchor.y === "stage") {
+    styles.push(`top: calc(${round(top)} * ${unit} + var(--extra))`);
+  } else {
+    styles.push(`bottom: calc(${round(bottom)} * ${unit})`);
+  }
+  const transforms = [
+    placement.rotate ? `rotate(${placement.rotate}deg)` : "",
+    placement.flip ? "scaleY(-1)" : "",
+  ].filter(Boolean);
+  if (transforms.length > 0) styles.push(`transform: ${transforms.join(" ")}`);
+  return styles.join("; ");
+};
+
+/*
+ * 縦横比ごとのスタイル。一番縦長のデザインを基本にして、横長のデザインほど後ろに書いて上書きする。
+ * どのデザインにも全パーツの表示・非表示を書くので、前のデザインのパーツが残ることはない。
+ */
+const allParts = Object.keys(anchors) as PartName[];
+const frameStyles = [...frames]
+  .reverse()
+  .map((frame) => {
+    const rules = [
+      `#kv { --frame-width: ${frame.width}; --frame-height: ${frame.height}; }`,
+      ...allParts.map((part) => {
+        const index = frame.parts.findIndex((p) => p.part === part);
+        const style =
+          index === -1
+            ? "display: none"
+            : placementStyle(frame, frame.parts[index], index);
+        return `#kv [data-part="${part}"] { ${style}; }`;
+      }),
+    ].join("\n");
+    const media = mediaOf(frame);
+    return media ? `@media ${media} {\n${rules}\n}` : rules;
+  })
+  .concat(
+    /*
+     * 幅 390px より狭いスマホ（iPhone SE など）は、だるまのお腹の赤い部分が低く、スクロール誘導が顔にかかるので、
+     * 画面の下端から 8px に下げる。どのデザインより後に書いて上書きする
+     */
+    `@media (width < ${SCROLL_NARROW_WIDTH}px) { #kv [data-part="scroll"] { bottom: 8px; } }`,
+  )
+  .join("\n");
+
+/*
+ * 画像はデザインごとの表示幅（Figma の幅 × --unit）に足りる大きさを選ばせる。
+ * Figma の幅の 0.5〜4.5 倍（画面の高さ 2160px 前後で 2.25 倍、それを高解像度の画面で 2 倍）の幅で作り、元画像より大きい幅は作らない。
+ * sizes は縦横比ごとに、そのデザインでの表示幅を CSS と同じ式で書く。
+ */
+const sizesFor = (parts: PartName[], targetFrames: Frame[]) =>
+  targetFrames
+    .map((frame, index) => {
+      const placement = frame.parts.find((p) => parts.includes(p.part));
+      const width = placement?.width ?? 0;
+      const size = `min(${round((width / frame.height) * 100)}vh, ${round((width / frame.width) * 100)}vw)`;
+      const media = mediaOf(frame);
+      return index === targetFrames.length - 1 || !media
+        ? size
+        : `${media} ${size}`;
+    })
+    .join(", ");
+
+const optimize = async (
+  src: ImageMetadata,
+  parts: PartName[],
+  targetFrames: Frame[],
+) => {
+  const maxWidth = Math.max(
+    ...targetFrames.flatMap((frame) =>
+      frame.parts.filter((p) => parts.includes(p.part)).map((p) => p.width),
+    ),
+  );
+  const widths = [
+    ...new Set(
+      [0.5, 0.75, 1, 1.5, 2, 3, 4.5].map((scale) =>
+        Math.min(Math.round(maxWidth * scale), src.width),
+      ),
+    ),
+  ];
+  const image = await getImage({ src, widths, format: "webp", quality: 90 });
+  return {
+    src: image.src,
+    srcset: image.srcSet.attribute,
+    sizes: sizesFor(parts, targetFrames),
+  };
+};
+
+// 2:3 と 9:16 は、太陽と提灯をタブレット以下用の画像に替える
+const wideFrames = frames.filter((frame) => frame.width >= frame.height);
+const tallFrames = frames.filter((frame) => frame.width < frame.height);
+const tallMedia = `(max-aspect-ratio: ${frames.find((frame) => frame.name === "1:1")?.minAspectRatio})`;
+
+const sun = await optimize(Sun, ["sun"], wideFrames);
+const sunTablet = await optimize(SunTablet, ["sun"], tallFrames);
+const lanterns = await Promise.all(
+  (
+    [
+      ["lanternLeft", LanternLeft, LanternSmallLeft],
+      ["lanternRight", LanternRight, LanternSmallRight],
+    ] as const
+  ).map(async ([part, wide, tall]) => ({
+    part,
+    wide: await optimize(wide, [part], wideFrames),
+    tall: await optimize(tall, [part], tallFrames),
+  })),
+);
+const daruma = await optimize(Daruma, ["daruma"], frames);
+const cranes = await Promise.all(
+  (
+    [
+      ["craneA", CraneA],
+      ["craneB", CraneB],
+      ["craneC", CraneC],
+      ["craneD", CraneD],
+    ] as const
+  ).flatMap(([name, src]) =>
+    (["Left", "Right"] as const).map(async (side) => {
+      const part = `${name}${side}` as PartName;
+      return { part, ...(await optimize(src, [part], frames)) };
+    }),
+  ),
+);
+const mists: { part: PartName; src: string }[] = [
+  { part: "mist1", src: Mist1.src },
+  { part: "mist2", src: Mist2.src },
+  { part: "mist3", src: Mist3.src },
+  { part: "mist3Flip", src: Mist3.src },
+  { part: "mist4", src: Mist4.src },
+];
+---
+
+<section id="kv" class="container">
+  <Fragment set:html={`<style>${frameStyles}</style>`} />
+  <img
+    src={BackgroundLogo.src}
+    alt=""
+    class="part"
+    data-part="backgroundLogo"
+  />
+  {
+    lanterns.map(({ part, wide, tall }) => (
+      <picture>
+        <source media={tallMedia} srcset={tall.srcset} sizes={tall.sizes} />
+        <img
+          src={wide.src}
+          srcset={wide.srcset}
+          sizes={wide.sizes}
+          alt=""
+          class="part"
+          data-part={part}
+        />
+      </picture>
+    ))
+  }
+  <img src={Cloud.src} alt="" class="part" data-part="cloudLeft" />
+  <img src={Cloud.src} alt="" class="part" data-part="cloudRight" />
+  {
+    cranes.map((crane) => (
+      <img
+        src={crane.src}
+        srcset={crane.srcset}
+        sizes={crane.sizes}
+        alt=""
+        loading="lazy"
+        class="part"
+        data-part={crane.part}
+      />
+    ))
+  }
+  <picture>
+    <source
+      media={tallMedia}
+      srcset={sunTablet.srcset}
+      sizes={sunTablet.sizes}
+    />
+    <img
+      src={sun.src}
+      srcset={sun.srcset}
+      sizes={sun.sizes}
+      alt="フロントエンドカンファレンス東京 二〇二六 大師走祭 12.05 ABEMA TOWERS"
+      class="part"
+      data-part="sun"
+      fetchpriority="high"
+    />
+  </picture>
+  <img
+    src={daruma.src}
+    srcset={daruma.srcset}
+    sizes={daruma.sizes}
+    alt=""
+    class="part"
+    data-part="daruma"
+  />
+  <div class="part" data-part="scroll">
+    <ScrollIndicator />
+  </div>
+  {
+    mists.map((mist) => (
+      <img src={mist.src} alt="" class="part" data-part={mist.part} />
+    ))
+  }
+</section>
+
+<style scoped>
+  /*
+   * 各パーツの位置と大きさは、選んだデザインの値を --unit 倍したもの（スタイルは frameStyles で作っている）。
+   * --unit はデザインの高さで画面の高さになる比率で、デザインより縦長の画面では、デザインの幅で画面の幅になる比率で止める。
+   * パーツはデザインの枠（幅 --frame-width × --unit、--stage-left が左端）を画面の中央に置いて、それを基準にする。
+   * 提灯・雲と、端にかかる霞は画面の左右端を基準にするので、デザインより横長の画面では枠の外側に広がる。
+   * 雲は大きさも画面幅に比例させる（--unit-fluid はデザインの幅で画面の幅になる比率）。
+   * デザインより縦長の画面では、提灯・霞は上端に残し、ほかのパーツは余った分（--extra）だけ下げて下端にそろえる。
+   * --unit などは子孫で計算されるので、cqw はこのセクションの幅になる。
+   */
+  .container {
+    --unit: min(100svh / var(--frame-height), 100cqw / var(--frame-width));
+    --unit-fluid: calc(100cqw / var(--frame-width));
+    --stage-left: calc(50% - var(--frame-width) / 2 * var(--unit));
+    --extra: max(0px, 100svh - var(--frame-height) * var(--unit));
+
+    /* スクロールしても画面上部に残し、次のセクションがその上に重なる（index.astro で親の div に入れている） */
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    container-type: inline-size;
+    overflow: hidden;
+
+    /* Figma の塗り: 上から 20% まで藍色、下端でクリーム色になるグラデーションに、白いノイズを重ねる */
+    background-color: #00555f;
+    background-image:
+      var(--texture-noise-subtle),
+      linear-gradient(180deg, #00555f 20%, var(--color-cream) 100%);
+  }
+
+  /* 表示するかどうかと位置・大きさは、縦横比ごとのスタイル（frameStyles）で決める */
+  .part {
+    position: absolute;
+    display: none;
+    max-width: none;
+    height: auto;
+    pointer-events: none;
+  }
+
+  /* 背景のロゴ（SVG 側で白の 10%）は、下の色とオーバーレイで合成する */
+  [data-part="backgroundLogo"] {
+    mix-blend-mode: overlay;
+  }
+
+  [data-part="scroll"] {
+    translate: -50% 0;
+  }
+</style>
