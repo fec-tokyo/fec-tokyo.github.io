@@ -1,0 +1,480 @@
+---
+import GitHubIcon from "@/assets/2026/menu/github.svg";
+import NoteIcon from "@/assets/2026/menu/note.svg";
+import XIcon from "@/assets/2026/menu/x.svg";
+import LogomarkOnetone from "@/assets/logo/logomark-onetone.svg";
+import {
+  CODE_OF_CONDUCT_URL,
+  GITHUB_URL,
+  HIGHLIGHTS_URL,
+  NOTE_URL,
+  NOTES_URL,
+  PRIVACY_POLICY_URL,
+  PROPOSAL_LIST_URL,
+  PROPOSAL_URL,
+  TICKET_URL,
+  TOP_URL,
+  X_URL,
+} from "@/data/2026/links";
+
+// ハンバーガーメニューの中身（Header.astro の dialog の中に置く）
+type Link = {
+  href: string;
+  text: string;
+  // 別タブで開く
+  external?: boolean;
+};
+
+const proposalLinks: Link[] = [
+  { href: PROPOSAL_URL, text: "プロポーザルを応募する", external: true },
+  { href: PROPOSAL_LIST_URL, text: "プロポーザルをみる", external: true },
+  {
+    href: HIGHLIGHTS_URL,
+    text: "フロカン東京2026の見どころ",
+    external: true,
+  },
+];
+
+const otherLinks: Link[] = [
+  { href: CODE_OF_CONDUCT_URL, text: "行動規範", external: true },
+  { href: PRIVACY_POLICY_URL, text: "プライバシーポリシー", external: true },
+  { href: NOTES_URL, text: "注意事項" },
+];
+
+// X と note は白い角丸の中にアイコンを置く。GitHub のアイコンは角丸ごと描かれている
+const socialLinks = [
+  { href: X_URL, label: "X", icon: XIcon, framed: true },
+  { href: NOTE_URL, label: "note", icon: NoteIcon, framed: true },
+  { href: GITHUB_URL, label: "GitHub", icon: GitHubIcon, framed: false },
+];
+
+const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
+---
+
+<div class="content">
+  <a
+    href={TOP_URL}
+    class="logoLink section"
+    aria-label="Frontend Conference Tokyo"
+  >
+    <LogomarkOnetone aria-hidden="true" />
+  </a>
+  <nav class="sections" aria-label="サイト内のリンク">
+    <section class="section ticket" aria-labelledby="menu-ticket-title">
+      <h2 id="menu-ticket-title" class="title">Ticket</h2>
+      <a href={TICKET_URL} class="link" {...externalAttributes}>
+        アーリーバードチケットを購入する
+      </a>
+    </section>
+    <section class="section proposals" aria-labelledby="menu-proposals-title">
+      <h2 id="menu-proposals-title" class="title">Proposals</h2>
+      <ul class="links">
+        {
+          proposalLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="link"
+                {...(link.external && externalAttributes)}
+              >
+                {link.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <section class="section guests" aria-labelledby="menu-guests-title">
+      <h2 id="menu-guests-title" class="title">Guest Speakers</h2>
+      <p class="comingSoon">後日公開予定</p>
+    </section>
+    <section class="section social" aria-labelledby="menu-social-title">
+      <h2 id="menu-social-title" class="title">Social Media</h2>
+      <ul class="socialLinks">
+        {
+          socialLinks.map(({ href, label, icon: Icon, framed }) => (
+            <li>
+              <a
+                href={href}
+                class:list={["socialLink", { framed }]}
+                aria-label={label}
+                {...externalAttributes}
+              >
+                <Icon aria-hidden="true" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <section class="section other" aria-labelledby="menu-other-title">
+      <h2 id="menu-other-title" class="otherTitle">Other Links</h2>
+      <div class="otherBody">
+        <ul class="otherLinks">
+          {
+            otherLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="link"
+                  data-menu-close-on-click={!link.external || undefined}
+                  {...(link.external && externalAttributes)}
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="copyright">
+          ©2026 フロントエンドカンファレンス東京 実行委員会
+        </p>
+      </div>
+    </section>
+  </nav>
+</div>
+
+<style scoped>
+  /*
+   * PC: 左右2列。上から「Proposals・Guest Speakers」「Ticket・Social Media」の2段を同じ高さで並べ、
+   * 一番下に Other Links を横幅いっぱいに置く。パネルの高さが足りないときは中身をスクロールさせる。
+   * 縦長の画面では1列に積む（下のメディアクエリ）。
+   */
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    height: 100%;
+    padding: 10px 10px 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    color: var(--color-off-white);
+  }
+
+  .logoLink {
+    display: block;
+    align-self: flex-start;
+    margin-left: 30px;
+    color: var(--color-off-white);
+  }
+
+  .logoLink :global(svg) {
+    display: block;
+    width: auto;
+    height: 36px;
+  }
+
+  .sections {
+    display: grid;
+    flex: 1 0 auto;
+    grid-template-areas:
+      "proposals guests"
+      "ticket social"
+      "other other";
+    grid-template-rows: 1fr 1fr auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 20px;
+    padding-inline: 30px;
+  }
+
+  .ticket {
+    grid-area: ticket;
+  }
+
+  .proposals {
+    grid-area: proposals;
+  }
+
+  .guests {
+    grid-area: guests;
+  }
+
+  .social {
+    grid-area: social;
+  }
+
+  .other {
+    grid-area: other;
+  }
+
+  .ticket,
+  .proposals,
+  .guests,
+  .social {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .link {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    color: inherit;
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+  }
+
+  /* 段の高さいっぱいに広げる。柄は七宝ではなく青海波を黒地に薄く重ねる */
+  .comingSoon {
+    display: flex;
+    flex: 1 0 auto;
+    align-items: center;
+    align-self: stretch;
+    justify-content: center;
+    padding-block: 40px;
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    background-color: var(--color-black);
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--color-black) 88%, transparent),
+        color-mix(in srgb, var(--color-black) 88%, transparent)
+      ),
+      url("../../assets/2026/seigaiha.svg");
+    border: 1px solid var(--color-off-white);
+    border-radius: 16px;
+  }
+
+  .socialLinks {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    transition: opacity 200ms ease;
+  }
+
+  .socialLink :global(svg) {
+    display: block;
+  }
+
+  .framed {
+    background-color: var(--color-off-white);
+  }
+
+  .other {
+    display: flex;
+    gap: 40px;
+    align-items: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-off-white);
+  }
+
+  .otherTitle {
+    flex-shrink: 0;
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .otherBody {
+    display: flex;
+    flex: 1 0 0;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .otherLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .otherLinks .link {
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .copyright {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  @media (hover: hover) {
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .socialLink:hover {
+      opacity: 0.7;
+    }
+  }
+
+  /*
+   * メニューを開くときは、背景が広がり終わってから（200ms 後）、ロゴ・各セクションの順にフェードインしながら下から上がってくる。
+   * 閉じるときは中身全体を Header.astro でフェードアウトさせるので、閉じている途中（closing）も表示したままにする。
+   * 閉じ終わると transition なしで初期の位置に戻り、次に開いたときにまた同じように出てくる。
+   * --index は画面上で上から（左から）見える順で、レイアウトごとに決めている。
+   */
+  .section {
+    --index: 0;
+
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .proposals {
+    --index: 1;
+  }
+
+  .guests {
+    --index: 2;
+  }
+
+  .ticket {
+    --index: 3;
+  }
+
+  .social {
+    --index: 4;
+  }
+
+  .other {
+    --index: 5;
+  }
+
+  :global(dialog:is([data-open="true"], [data-open="closing"])) .section {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 600ms var(--easing-out),
+      transform 600ms var(--easing-out);
+    transition-delay: calc(200ms + var(--index) * 60ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section {
+      transform: none;
+    }
+
+    :global(dialog:is([data-open="true"], [data-open="closing"])) .section {
+      transition: none;
+    }
+  }
+
+  /*
+   * 縦長の画面（モバイル、縦向きのタブレット）: HTML の順（Ticket、Proposals、Guest Speakers、Social Media、Other Links）に1列に積む
+   */
+  @media (width <= 720px), (orientation: portrait) {
+    .content {
+      padding-bottom: 20px;
+    }
+
+    .logoLink {
+      margin-left: 10px;
+    }
+
+    .sections {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      padding-inline: 10px;
+    }
+
+    .ticket,
+    .proposals,
+    .guests,
+    .social {
+      gap: 12px;
+    }
+
+    .ticket {
+      --index: 1;
+    }
+
+    .proposals {
+      --index: 2;
+    }
+
+    .guests {
+      --index: 3;
+    }
+
+    .social {
+      --index: 4;
+    }
+
+    .other {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .link {
+      font-size: 16px;
+    }
+
+    .comingSoon {
+      flex-grow: 0;
+    }
+
+    .socialLinks {
+      gap: 12px;
+    }
+
+    .otherBody {
+      flex-direction: column;
+      gap: 20px;
+      align-items: stretch;
+      align-self: stretch;
+    }
+
+    .otherLinks .link {
+      font-size: 14px;
+    }
+
+    .copyright {
+      font-size: 10px;
+      text-align: center;
+    }
+  }
+</style>
