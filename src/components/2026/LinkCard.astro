@@ -83,14 +83,28 @@ const descriptionLines = Array.isArray(description)
     display: block;
   }
 
-  .action {
+  /*
+   * ボタンの文字は折り返さないので、カードが狭いときは、いちばん長い文言（「プロポーザルを応募する」11文字）が
+   * 収まるまで左右の余白と文字を小さくする。
+   * 文字の幅は 11文字 + 字間で 11.22em、ほかにアイコン 24px・間 8px・ボーダー 2px（Button.astro）。
+   * Button.astro の .large より優先させるため、.container から指定している
+   */
+  .container .action {
+    --action-padding-inline: min(31px, 8cqi);
+
     width: 100%;
     max-width: 320px;
+    padding-inline: var(--action-padding-inline);
+    font-size: min(
+      16px,
+      (100cqi - 34px - var(--action-padding-inline) * 2) / 11.22
+    );
   }
 
-  /* タブレット: 角丸を開催概要の枠とそろえる */
+  /* タブレット: 角丸を開催概要の枠とそろえ、横に3枚並べても中身が入るよう左右の余白を詰める */
   @media (width <= 1080px) {
     .container {
+      padding-inline: 20px;
       border-radius: 24px;
     }
   }
