@@ -1,5 +1,4 @@
 ---
-import TitleHorizontalImage from "@/assets/2026/sections/notes/title-horizontal.svg";
 import TitleImage from "@/assets/2026/sections/notes/title.svg";
 import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
 ---
@@ -7,21 +6,13 @@ import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
 <section id="notes" class="container" aria-labelledby="notes-title">
   <div class="card background-seigaiha">
     <h2 id="notes-title" class="title">
-      <picture>
-        <source
-          media="(width <= 720px)"
-          srcset={TitleHorizontalImage.src}
-          width={TitleHorizontalImage.width}
-          height={TitleHorizontalImage.height}
-        />
-        <img
-          src={TitleImage.src}
-          alt="注意事項"
-          width={TitleImage.width}
-          height={TitleImage.height}
-          class="titleImage"
-        />
-      </picture>
+      <img
+        src={TitleImage.src}
+        alt="注意事項"
+        width={TitleImage.width}
+        height={TitleImage.height}
+        class="titleImage"
+      />
     </h2>
     <ul class="list">
       <li>
@@ -126,25 +117,24 @@ import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
     }
   }
 
-  /* モバイル: 横書きの見出しをリストの上に置き、余白を詰める */
+  /* モバイル: リストだけを置き、余白を詰める */
   @media (width <= 720px) {
     .container {
       padding: 20px;
     }
 
     .card {
-      flex-direction: column;
-      gap: 20px;
       padding: 20px;
-      backdrop-filter: blur(2px);
     }
 
-    .titleImage {
-      width: 238px;
-    }
-
-    .list {
-      align-self: stretch;
+    /* モバイルのデザインには見出しの画像がないので、見た目からは消して読み上げには残す */
+    .title {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+      clip-path: inset(50%);
     }
   }
 </style>
