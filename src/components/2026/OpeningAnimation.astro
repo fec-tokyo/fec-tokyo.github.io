@@ -138,6 +138,8 @@ const SHADE_STOPS = 12;
   // のれんが捲れはじめる時刻
   const NOREN_START =
     DURATION_RISE + DURATION_LOGO_IN + DURATION_LOGO_HOLD + DURATION_LOGO_OUT;
+  // KV のパーツを、のれんが上がりきるこの時間だけ前から出しはじめる
+  const KV_REVEAL_LEAD = 100;
 
   /*
    * 1枚ごとの設定。左から順に並べ、並べた数だけのれんを割る
@@ -418,12 +420,15 @@ const SHADE_STOPS = 12;
     document.documentElement.style.overflow = "hidden";
     /*
      * 流れている間と終わった後を html の data-opening で知らせる。KV（KeyVisualPartsSection.astro）は、
-     * 流れている間はパーツを隠し、終わったらフェードインさせる
+     * 流れている間はパーツを隠し、のれんが上がりきる少し前（KV_REVEAL_LEAD）からフェードインさせる
      */
     document.documentElement.dataset.opening = "playing";
+    const reveal = () => {
+      document.documentElement.dataset.opening = "done";
+    };
     const finish = () => {
       document.documentElement.style.removeProperty("overflow");
-      document.documentElement.dataset.opening = "done";
+      reveal();
     };
     // 途中で止まっても、CSS で覆いを消すのと同じ 6 秒後にはスクロールでき、KV も表示されるようにする
     setTimeout(finish, 6000);
@@ -472,6 +477,9 @@ const SHADE_STOPS = 12;
           logo.remove();
         }
         drawCurtains((elapsed - NOREN_START) / DURATION_NOREN, width, height);
+        if (elapsed >= NOREN_START + DURATION_NOREN - KV_REVEAL_LEAD) {
+          reveal();
+        }
       } else {
         opening.remove();
         finish();
