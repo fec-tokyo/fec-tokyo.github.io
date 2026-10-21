@@ -1753,12 +1753,13 @@ const mists: { part: PartName; src: string }[] = [
 
   /*
    * オープニング（OpeningAnimation.astro）が流れている間は、雲・鶴・提灯・太陽・だるまを隠しておき、
-   * のれんが上がりきる 100ms 前（OpeningAnimation.astro の KV_REVEAL_LEAD）からこの順に、10px 下から上がりながらフェードインさせる。
-   * 前のパーツが出きる 100ms 前に次のパーツが出はじめるよう、表示の時間から 100ms 引いた分ずつずらして続けて出す。
+   * のれんが上がりきる 500ms 前（OpeningAnimation.astro の KV_REVEAL_LEAD）からこの順に、10px 下から上がりながらフェードインさせる。
+   * 前のパーツが出はじめてから 200ms ずつずらして続けて出す。
    * オープニングを流さないとき（動きを減らす設定など）は data-opening が付かないので、最初から表示する
    */
   .container {
     --reveal-duration: 600ms;
+    --reveal-stagger: 200ms;
   }
 
   [data-part^="cloud"] {
@@ -1801,7 +1802,7 @@ const mists: { part: PartName; src: string }[] = [
       [data-part="daruma"]
     ) {
     animation: kv-reveal var(--reveal-duration) ease-out
-      calc(var(--reveal-order) * (var(--reveal-duration) - 100ms)) both;
+      calc(var(--reveal-order) * var(--reveal-stagger)) both;
   }
 
   /* 回転・反転は transform で付けているので、ずらすのは translate で行う */
