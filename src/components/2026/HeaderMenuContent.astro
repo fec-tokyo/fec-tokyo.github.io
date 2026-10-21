@@ -226,14 +226,23 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     list-style: none;
   }
 
+  /*
+   * hover で下線が左から右へ伸びる。折り返したときも行ごとに引けるように、text-decoration ではなく背景で描く
+   */
   .link {
+    padding-bottom: 0.2em;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 20px;
     font-weight: 700;
     line-height: 1;
     color: inherit;
     text-decoration: none;
-    text-underline-offset: 0.2em;
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 0% 1px;
+    box-decoration-break: clone;
+    transition: background-size 300ms var(--easing-out);
   }
 
   /* 段の高さいっぱいに広げる。柄は七宝ではなく青海波を黒地に薄く重ねる */
@@ -341,7 +350,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
 
   @media (hover: hover) {
     .link:hover {
-      text-decoration: underline;
+      background-size: 100% 1px;
     }
 
     .socialLink:hover {
@@ -392,6 +401,10 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .link {
+      transition: none;
+    }
+
     .section {
       transform: none;
     }
