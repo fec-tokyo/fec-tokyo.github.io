@@ -88,9 +88,12 @@ const paragraphs = [
    * それより下にあったものは画面に入ったら、前の段落が出始めてから PARAGRAPH_STAGGER たつまで待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
-   * About（#about）の上端が画面に入ったら、面を About の藍色にディゾルブさせ、同時に文字部分を透明にする（data-dissolved）。
+   * About（#about）の高さの DISSOLVE_THRESHOLD（30%）分が画面に入ったら、面を About の藍色にディゾルブさせ、同時に文字部分を透明にする（data-dissolved）。
    * スクロール量には連動させず、CSS の transition で 300ms かけて自動で切り替える。About が画面の下に戻ったら元に戻す。
    */
+
+  // About の高さのうち、どれだけ画面に入ったらディゾルブさせるか（0〜1）
+  const DISSOLVE_THRESHOLD = 0.3;
 
   // 前の要素が出終わってから次の要素を出し始めるまでの間（ms）。マイナスなので、前の要素が出終わる前に重ねて出し始める
   const REVEAL_LAG = -100;
@@ -169,9 +172,11 @@ const paragraphs = [
           ready = true;
           reveal([...seen]);
         }
-        // About の上端が画面に入った（または画面より上に過ぎた）らディゾルブさせる
+        // About の高さの DISSOLVE_THRESHOLD 分が画面に入った（または画面より上に過ぎた）らディゾルブさせる
+        const aboutRect = about?.getBoundingClientRect();
         const dissolved =
-          !!about && about.getBoundingClientRect().top < innerHeight;
+          !!aboutRect &&
+          aboutRect.top < innerHeight - aboutRect.height * DISSOLVE_THRESHOLD;
         body.toggleAttribute("data-dissolved", dissolved);
       };
       const requestUpdate = () => {
