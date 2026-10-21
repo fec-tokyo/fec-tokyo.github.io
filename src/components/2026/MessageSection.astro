@@ -441,10 +441,10 @@ const paragraphs = [
   .message {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 44px;
     align-items: center;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 1;
     text-align: center;
@@ -454,7 +454,7 @@ const paragraphs = [
   .paragraph {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     align-items: center;
     margin: 0;
   }
@@ -462,6 +462,11 @@ const paragraphs = [
   .line {
     display: block;
     white-space: nowrap;
+  }
+
+  /* 締めの「“フロントエンドの未来の話をしよう”」だけ、Figma のとおり本文より大きくする（18px に対して 21px） */
+  .paragraph:last-child .line:last-child {
+    font-size: calc(21em / 18);
   }
 
   /*
