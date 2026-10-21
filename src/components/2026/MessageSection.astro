@@ -1,10 +1,9 @@
 ---
 /*
  * KV の下に重なって流れてくるメッセージのセクション。
- * 上端に雲を並べ、その下のクリーム色の青海波の面に、見出し・メッセージ・開催概要の表を中央ぞろえで縦に並べる。
+ * 上端に雲を並べ、その下のクリーム色の青海波の面に、見出しとメッセージを中央ぞろえで縦に並べる。
  */
 import CloudImage from "@/assets/2026/sections/message/cloud.svg";
-import DividerImage from "@/assets/2026/sections/message/divider.svg";
 import TitleLineImage from "@/assets/2026/sections/message/title-line.svg";
 import SeigaihaImage from "@/assets/2026/seigaiha.svg";
 
@@ -26,27 +25,13 @@ const paragraphs = [
   ["AIがつくった未来を生きるのではなく", "AIと共に、未来をつくっていく｡"],
   ["さあ、いまこそ", "“フロントエンドの未来の話をしよう”"],
 ];
-
-// OverviewSection.astro の表と同じ内容
-const items = [
-  { label: "開催日時", value: "2026年12月05日（土）10:00~18:00" },
-  { label: "会場", value: "住友不動産渋谷タワー Abema Towers" },
-  {
-    label: "対象",
-    value: "フロントエンドやWeb技術に携わる全てのエンジニア・デザイナー",
-  },
-  {
-    label: "主催",
-    value: "フロントエンドカンファレンス東京実行委員会（主宰：平井 柊太）",
-  },
-];
 ---
 
 <section
   id="message"
   class="container"
   aria-labelledby="message-title"
-  style={`--cloud-image: url(${CloudImage.src}); --divider-image: url(${DividerImage.src}); --seigaiha-image: url(${SeigaihaImage.src})`}
+  style={`--cloud-image: url(${CloudImage.src}); --seigaiha-image: url(${SeigaihaImage.src})`}
 >
   {/* セクションの上端に並べる雲。画面幅いっぱいに横に繰り返す */}
   <div class="cloud" aria-hidden="true"></div>
@@ -62,7 +47,9 @@ const items = [
       <div class="content" data-message-content>
         <hgroup class="heading" data-reveal>
           <h2 id="message-title" class="title">
-            WHY NOW?
+            <span class="titleText">
+              <span class="titleTextInner">WHY NOW?</span>
+            </span>
             <img
               src={TitleLineImage.src}
               alt=""
@@ -84,16 +71,6 @@ const items = [
             ))
           }
         </div>
-        <dl class="list" data-reveal>
-          {
-            items.map((item) => (
-              <div class="item">
-                <dt class="label">{item.label}</dt>
-                <dd class="value">{item.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
       </div>
       <div class="hold" aria-hidden="true"></div>
     </div>
@@ -105,7 +82,7 @@ const items = [
    * 文字部分（data-message-content）は、画面の上下中央に固定する。画面より高いときは、下端をそろえて全体が見える位置で固定する。
    * 面の上端は文字部分の上に同じだけあけておき、面の上端が画面の上端に届いたちょうどそのときに固定が始まるようにしている。
    *
-   * 見出し・段落・表（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
+   * 見出し・段落（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
    * そのとき画面に入っているものを上から順に少しずつ遅らせてフェードインさせる。それより下にあったものは画面に入ったら出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
@@ -210,11 +187,14 @@ const items = [
   /*
    * Figma のとおり、高さ 50px の雲の下にセクションの面を続ける。
    * KV の上に重なって流れてくるので、雲のすき間からは KV が透けて見える。
+   * 雲の高さの分だけ KV（高さ 100svh）に重ね、ページを開いたときに画面の下端に雲だけが見えるようにする。
    */
   .container {
     --color-message-base: #f6eedd;
+    --cloud-height: 50px;
 
     position: relative;
+    margin-top: calc(var(--cloud-height) * -1);
   }
 
   /*
@@ -250,7 +230,7 @@ const items = [
   .cloud {
     --cloud-gradient-opacity: 60%;
 
-    height: 50px;
+    height: var(--cloud-height);
     pointer-events: none;
     background-image:
       linear-gradient(
@@ -270,12 +250,12 @@ const items = [
       linear-gradient(var(--color-white) 10px, var(--color-message-base));
     background-position:
       0 0,
-      center 50px,
+      center var(--cloud-height),
       0 0;
     mask-image: var(--cloud-image);
     mask-repeat: repeat-x;
     mask-position: top center;
-    mask-size: 240px 50px;
+    mask-size: 240px var(--cloud-height);
   }
 
   /* ディゾルブ先の面。About と同じ藍色 + ノイズ（.background-aizome と同じ）を、--dissolve の不透明度で重ねる */
@@ -328,8 +308,52 @@ const items = [
     }
   }
 
+  /*
+   * 見出しは全体を動かさず、中身を順に出す。
+   * 1. 下線が中央から左右へ伸びる  2. 英字が下線の下からせり上がる  3. 日本語がフェードインする
+   */
+  .heading {
+    --heading-delay: calc(var(--reveal-index, 0) * 120ms);
+  }
+
+  .titleLine {
+    transition: scale 600ms var(--easing-out) var(--heading-delay);
+  }
+
+  .titleTextInner {
+    transition: translate 700ms var(--easing-out)
+      calc(var(--heading-delay) + 600ms);
+  }
+
+  .subtitle {
+    transition: opacity 600ms var(--easing-out)
+      calc(var(--heading-delay) + 1100ms);
+  }
+
+  @media (scripting: enabled) {
+    .heading[data-reveal]:not([data-revealed]) {
+      opacity: 1;
+      translate: none;
+    }
+
+    .heading:not([data-revealed]) .titleLine {
+      scale: 0 1;
+    }
+
+    .heading:not([data-revealed]) .titleTextInner {
+      translate: 0 100%;
+    }
+
+    .heading:not([data-revealed]) .subtitle {
+      opacity: 0;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
+    [data-reveal],
+    .titleLine,
+    .titleTextInner,
+    .subtitle {
       transition: none;
     }
   }
@@ -355,6 +379,16 @@ const items = [
     line-height: 1;
     text-align: center;
     letter-spacing: 0.04em;
+  }
+
+  /* 英字を下線の下からせり上がらせるため、下端だけで切り抜く（上と左右は字形がはみ出しても切らない） */
+  .titleText {
+    display: block;
+    clip-path: inset(-0.5em -0.5em 0);
+  }
+
+  .titleTextInner {
+    display: block;
   }
 
   .titleLine {
@@ -398,64 +432,6 @@ const items = [
     white-space: nowrap;
   }
 
-  .list {
-    display: flex;
-    flex-direction: column;
-
-    /* 項目の間 25px（点線の上下に 12px ずつ） */
-    gap: 25px;
-    width: 100%;
-    max-width: 640px;
-    padding: 20px 24px;
-    margin: 0;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-black);
-    border-radius: 16px;
-  }
-
-  .item {
-    display: flex;
-    align-items: center;
-  }
-
-  /*
-   * 項目の間の点線（Figma の Line）。上の項目との間 25px の真ん中に置く。
-   * SVG は幅 590px で、それより広いときは横に繰り返す。
-   */
-  .item + .item {
-    position: relative;
-  }
-
-  .item + .item::before {
-    position: absolute;
-    top: -13px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    content: "";
-    background-image: var(--divider-image);
-    background-repeat: repeat-x;
-  }
-
-  .label {
-    flex-shrink: 0;
-    width: 120px;
-  }
-
-  .value {
-    flex: 1 0 0;
-    min-width: 0;
-    margin: 0;
-
-    /* foundation.css の text-autospace: normal だと「Web」の前後に隙間が入るので、Figma に合わせて切る */
-    text-autospace: no-autospace;
-  }
-
   /*
    * モバイル: デザインはまだないので、メッセージは Figma の行のまま折り返さず、
    * いちばん長い行（21文字 + 字間）が幅に収まるよう、画面幅に合わせて文字を小さくする（最大 16px）
@@ -468,18 +444,6 @@ const items = [
     .message {
       gap: 32px;
       font-size: min(16px, (100vw - 40px) / 22.5);
-    }
-
-    .list {
-      padding: 16px 20px;
-    }
-
-    .item {
-      gap: 16px;
-    }
-
-    .label {
-      width: 60px;
     }
   }
 </style>

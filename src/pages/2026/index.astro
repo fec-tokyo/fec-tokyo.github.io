@@ -90,16 +90,6 @@ import Layout from "@/layouts/Layout.astro";
     grid-column: 1 / -1;
   }
 
-  /*
-   * 3枚のカードは、いちばん長いボタン（「プロポーザルを応募する」）がカードに収まる幅までは横に並べ、
-   * それより狭い画面（1300px 以下）では縦に積む
-   */
-  @media (width <= 1300px) {
-    .event-info {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-
   /* タブレット: 余白を上下左右 40px にする */
   @media (width <= 1080px) {
     .event-info {
@@ -107,9 +97,13 @@ import Layout from "@/layouts/Layout.astro";
     }
   }
 
-  /* モバイル */
+  /*
+   * 3枚のカードは折り返さずに横に並べる（狭いときはカードの中身を縮めて収める。LinkCard.astro）。
+   * モバイルだけは横に並べると読めない大きさになるので、縦に積む
+   */
   @media (width <= 720px) {
     .event-info {
+      grid-template-columns: minmax(0, 1fr);
       padding-inline: 20px;
     }
   }

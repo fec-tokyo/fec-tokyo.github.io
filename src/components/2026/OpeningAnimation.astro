@@ -13,6 +13,7 @@ const SHADE_STOPS = 12;
    * 3. 壁が縦に4枚（モバイルは2枚）に割れ、のれん1枚ずつ裾から手前へくるりと丸まって
    *    捲れ上がり、揺れながらはけていく。捲れる向きと順番は script の CURTAINS_* で決める
    * それぞれの時間は script の DURATION_* で決める。
+   * 流しはじめにページを一番上までスクロールし、流れている間はスクロールさせない。
    * のれんの形と陰影は毎フレーム SVG を描き直して作る（下の script）。
    * 飾りなので支援技術には読ませない。
    */
@@ -23,10 +24,6 @@ const SHADE_STOPS = 12;
   }
   <svg viewBox="0 0 100 100" preserveAspectRatio="none" data-opening-svg>
     <defs>
-      {/* 返った裾が表に落とす影をぼかす */}
-      <filter id="opening-blur" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="6"></feGaussianBlur>
-      </filter>
       {
         /*
          * 1枚ごとの、捲れて見えている裏に重ねる陰。黒の濃さを段ごとに変える。
@@ -105,9 +102,9 @@ const SHADE_STOPS = 12;
     fill: var(--color-orange);
   }
 
+  /* 返った裾が表に落とす影。ぼかすと iOS Safari で毎フレームの描き直しが重いので、ずらして重ねるだけにする */
   .shadow {
     fill: rgb(0 0 0 / 20%);
-    filter: url("#opening-blur");
   }
 
   .back {
@@ -194,7 +191,9 @@ const SHADE_STOPS = 12;
   const curtains = curtainGroups
     .slice(0, CURTAINS.length)
     .map((curtain) => curtain.querySelectorAll("path"));
-  const shades = [...(opening?.querySelectorAll("linearGradient") ?? [])];
+  const shades = [...(opening?.querySelectorAll("linearGradient") ?? [])].map(
+    (gradient) => ({ gradient, stops: gradient.querySelectorAll("stop") }),
+  );
 
   const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
   const easeInOutSine = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
@@ -240,9 +239,22 @@ const SHADE_STOPS = 12;
    * 捲れた裏に重ねる陰。返った裾の端から折り目、丸まりの谷へ向かって暗くする。
    * 横から見ると布は半円を描いて返っていて、正面からは半円の下半分が見える。
    * 面の向きは谷に近づくほど急に下を向くので、陰も谷のそばで急に濃くなる（円の式）。
+   * 段ごとの濃さは変わらないので最初に一度だけ決め、毎フレームは位置だけ動かす。
    */
+  shades.forEach(({ stops }) => {
+    stops[0].setAttribute("offset", "0");
+    stops[0].setAttribute("stop-opacity", "0");
+    for (let i = 1; i < stops.length; i++) {
+      const u = (i - 1) / (stops.length - 2);
+      stops[i].setAttribute(
+        "stop-opacity",
+        `${CREASE_DARKNESS + (VALLEY_DARKNESS - CREASE_DARKNESS) * (1 - Math.sqrt(1 - u * u))}`,
+      );
+    }
+  });
+
   const setShade = (
-    gradient: SVGLinearGradientElement,
+    { gradient, stops }: (typeof shades)[number],
     hem: Point,
     crease: Point,
     valley: Point,
@@ -257,18 +269,11 @@ const SHADE_STOPS = 12;
       0,
       1,
     );
-    const stops = gradient.querySelectorAll("stop");
-    stops[0].setAttribute("offset", "0");
-    stops[0].setAttribute("stop-opacity", "0");
     for (let i = 1; i < stops.length; i++) {
       const u = (i - 1) / (stops.length - 2);
       stops[i].setAttribute(
         "offset",
         `${creaseOffset + (1 - creaseOffset) * u}`,
-      );
-      stops[i].setAttribute(
-        "stop-opacity",
-        `${CREASE_DARKNESS + (VALLEY_DARKNESS - CREASE_DARKNESS) * (1 - Math.sqrt(1 - u * u))}`,
       );
     }
   };
@@ -280,11 +285,19 @@ const SHADE_STOPS = 12;
    * 布の長さは変わらないので、折り目が進むほど返った裾は長くなり、最後は画面の外へ抜けていく。
    */
   const drawCurtain = (
-    [front, roll, rollShade, shadow, back, shade]: NodeListOf<SVGPathElement>,
+    paths: NodeListOf<SVGPathElement>,
     index: number,
     q: number,
     size: { width: number; height: number; gap: number; swing: number },
   ) => {
+    const [front, roll, rollShade, shadow, back, shade] = paths;
+    // 捲れきったら布はすべて画面の外なので、消して以降は描かない
+    if (q >= 1) {
+      if (back.hasAttribute("d")) {
+        paths.forEach((path) => path.removeAttribute("d"));
+      }
+      return;
+    }
     const { width, height, gap, swing } = size;
     const { sway, angle } = CURTAINS[index];
     const left = (index * width) / CURTAINS.length + gap;
@@ -396,21 +409,42 @@ const SHADE_STOPS = 12;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (opening && svg && backdrop && wall && logo && !reducedMotion.matches) {
+    /*
+     * ページの一番上から見せる。再読み込みや戻るでブラウザが前のスクロール位置に戻さないよう、復元を止めてから動かす。
+     * 流れている間はページのスクロールを止める（のれんの隙間から見えるページが動かないように）
+     */
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+    document.documentElement.style.overflow = "hidden";
+    const unlockScroll = () =>
+      document.documentElement.style.removeProperty("overflow");
+    // 途中で止まっても、CSS で覆いを消すのと同じ 6 秒後にはスクロールできるようにする
+    setTimeout(unlockScroll, 6000);
     const start = performance.now();
+    // 画面の大きさが変わったときだけ座標を合わせ直す。毎フレーム設定すると SVG 全体を計算し直すため
+    let lastWidth = 0;
+    let lastHeight = 0;
 
     const tick = (now: number) => {
       const elapsed = now - start;
       // 座標を画面のピクセルに合わせる。丸まりが縦横で歪まないように
       const width = window.innerWidth;
       const height = window.innerHeight;
-      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      const resized = width !== lastWidth || height !== lastHeight;
+      if (resized) {
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        lastWidth = width;
+        lastHeight = height;
+      }
 
       if (elapsed < NOREN_START) {
         // 1. 壁が下から伸びる。伸びきったら画面を覆ったまま止めておく
         const p = easeOutCubic(clamp(elapsed / DURATION_RISE, 0, 1));
-        for (const rect of [backdrop, wall]) {
-          rect.setAttribute("width", `${width}`);
-          rect.setAttribute("height", `${height}`);
+        if (resized) {
+          for (const rect of [backdrop, wall]) {
+            rect.setAttribute("width", `${width}`);
+            rect.setAttribute("height", `${height}`);
+          }
         }
         wall.setAttribute("y", `${height * (1 - p)}`);
 
@@ -433,6 +467,7 @@ const SHADE_STOPS = 12;
         drawCurtains((elapsed - NOREN_START) / DURATION_NOREN, width, height);
       } else {
         opening.remove();
+        unlockScroll();
         return;
       }
       requestAnimationFrame(tick);

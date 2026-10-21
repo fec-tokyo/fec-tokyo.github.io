@@ -2,6 +2,7 @@
 import LogomarkOnetone from "@/assets/logo/logomark-onetone.svg";
 import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
+import HeaderMenuContent from "@/components/2026/HeaderMenuContent.astro";
 import { TICKET_URL, TOP_URL } from "@/data/2026/links";
 import { NEWS } from "@/data/2026/news";
 
@@ -75,7 +76,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
       </span>
     </button>
     <div class="drawerContent" data-menu-panel>
-      {/* メニューの中身は未定 */}
+      <HeaderMenuContent />
     </div>
   </dialog>
 </header>
@@ -142,6 +143,11 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
 
     button.addEventListener("click", open);
     closeButton.addEventListener("click", close);
+
+    // ページ内へのリンク（注意事項など）は、移動先が見えるようにメニューを閉じる
+    panel
+      .querySelectorAll<HTMLAnchorElement>("[data-menu-close-on-click]")
+      .forEach((link) => link.addEventListener("click", close));
 
     // dialog は画面全体を覆っているので、パネルの外をクリックしたら閉じる
     drawer.addEventListener("click", (event) => {
@@ -357,8 +363,8 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     }
 
     .menuClose:hover {
-      color: var(--color-off-white);
-      background-color: var(--color-black);
+      color: var(--color-black);
+      background-color: var(--color-off-white);
     }
   }
 
@@ -374,10 +380,10 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   /*
    * ハンバーガーメニュー（dialog の既定の余白や最大サイズは打ち消す）
    * dialog は画面全体を覆う透明な枠で、開いた後のパネルは画面の上端から 10px。
-   * 下端は高さ 600px まで（画面が低ければ下端から 10px）、モバイルでは画面の下端から 10px。
+   * 下端は高さ 600px まで（画面が低ければ下端から 10px）、縦長の画面では画面の下端から 10px。
    * 右端は開くボタンの右端から 10px 外側で、左端も画面の左端から同じ距離にして左右対称にする。
    * 背景（::before）を clip-path で切り抜き、開くボタンの形から右上を起点に左下へ広げる。
-   * 中身は動かさずに表示する。
+   * 中身は背景に合わせて動かさず、広がり終わってからセクションごとに出す（HeaderMenuContent.astro）。
    */
   .drawer {
     --panel-inset: 10px calc(var(--origin-right) - 10px)
@@ -401,7 +407,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     inset: 0;
     z-index: -1;
     content: "";
-    background-color: var(--color-white);
+    background-color: var(--color-black);
 
     /* 閉じているときは開くボタンと同じ形（--origin-* は JS で設定） */
     clip-path: inset(
@@ -421,6 +427,8 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   .drawerContent {
     position: absolute;
     inset: var(--panel-inset);
+    overflow: hidden;
+    border-radius: var(--panel-radius);
     transition: opacity 200ms ease;
   }
 
@@ -450,7 +458,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
 
   /*
    * ヘッダーのハンバーガーボタンと同じ位置・大きさに重ねる（--origin-* は JS で設定）。
-   * 白いパネルの上なので影は消して黒い枠線を付け、× も黒にする。枠線の分だけ padding を減らしている。
+   * 黒いパネルの上なので影は消して白い枠線を付ける。枠線の分だけ padding を減らしている。
    */
   .menuClose {
     position: absolute;
@@ -458,9 +466,9 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     right: var(--origin-right);
     z-index: 1;
     padding: 12px 15px;
-    color: var(--color-black);
+    color: var(--color-off-white);
     background-color: transparent;
-    border: 1px solid var(--color-black);
+    border: 1px solid var(--color-off-white);
     filter: none;
     transition:
       color 200ms ease,
@@ -485,14 +493,17 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     }
   }
 
-  /* モバイル: ロゴは高さ 32px にする。パネルは画面の下端まで */
+  /* モバイル: ロゴは高さ 32px にする */
   @media (width <= 720px) {
     /* 幅は viewBox の比率に合わせて決まる */
     .logoLink :global(svg) {
       width: auto;
       height: 32px;
     }
+  }
 
+  /* 縦長の画面（モバイル、縦向きのタブレット）: 中身を1列に積むので、パネルは画面の下端まで伸ばす */
+  @media (width <= 720px), (orientation: portrait) {
     .drawer {
       --panel-inset: 10px calc(var(--origin-right) - 10px);
     }
