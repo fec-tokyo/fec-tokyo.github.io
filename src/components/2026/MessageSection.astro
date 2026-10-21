@@ -83,8 +83,9 @@ const paragraphs = [
    * 面の上端は文字部分の上に同じだけあけておき、面の上端が画面の上端に届いたちょうどそのときに固定が始まるようにしている。
    *
    * 見出し・段落（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
-   * そのとき画面に入っているものを上から順に1つずつ出す。前の要素のアニメーションが終わる 100ms 前（REVEAL_LAG）から次を始める。
-   * それより下にあったものは画面に入ったら、前の要素が出終わる 100ms 前まで待ってから同じように出す。
+   * そのとき画面に入っているものを上から順に出す。段落は見出しが出終わる 100ms 前（REVEAL_LAG）から、
+   * 1つ1つの出終わりを待たずに PARAGRAPH_STAGGER ずつずらして続けて出す。
+   * それより下にあったものは画面に入ったら、前の段落が出始めてから PARAGRAPH_STAGGER たつまで待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
    * セクションの下端が画面の下端に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
@@ -95,6 +96,9 @@ const paragraphs = [
 
   // 前の要素が出終わってから次の要素を出し始めるまでの間（ms）。マイナスなので、前の要素が出終わる前に重ねて出し始める
   const REVEAL_LAG = -100;
+
+  // 段落を続けて出すときの、前の段落が出始めてから次の段落を出し始めるまでの間（ms）
+  const PARAGRAPH_STAGGER = 200;
 
   // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（英字は 500ms 後から 700ms、最後の日本語は 1100ms 後から 600ms）に合わせる
   const HEADING_DURATION = 1700;
@@ -108,28 +112,20 @@ const paragraphs = [
 
       const content = body.querySelector<HTMLElement>("[data-message-content]");
 
-      // 段落のフェードインの長さ（ms）。CSS の --duration-inview から読む（ビルドで 1500ms が 1.5s に書き換わることがあるので単位も見る）
-      const durationValue = getComputedStyle(body)
-        .getPropertyValue("--duration-inview")
-        .trim();
-      const paragraphDuration =
-        (parseFloat(durationValue) || 0) *
-        (durationValue.endsWith("ms") ? 1 : 1000);
-
-      // 最後に出した要素のアニメーションが終わる時刻（performance.now() 基準）
-      let queueEnd = -Infinity;
+      // 次の要素を出し始めてよい時刻（performance.now() 基準）
+      let nextStart = -Infinity;
 
       const reveal = (elements: HTMLElement[]) => {
         const now = performance.now();
         elements
           .sort((a, b) => targets.indexOf(a) - targets.indexOf(b))
           .forEach((el) => {
-            const start = Math.max(now, queueEnd + REVEAL_LAG);
+            const start = Math.max(now, nextStart);
             el.style.setProperty("--reveal-delay", `${start - now}ms`);
             el.dataset.revealed = "true";
-            queueEnd =
-              start +
-              (el.matches(".heading") ? HEADING_DURATION : paragraphDuration);
+            nextStart = el.matches(".heading")
+              ? start + HEADING_DURATION + REVEAL_LAG
+              : start + PARAGRAPH_STAGGER;
           });
       };
 
