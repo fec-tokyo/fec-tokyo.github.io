@@ -1526,7 +1526,7 @@ const frameStyles = [...frames]
 
 /*
  * 画像はデザインごとの表示幅（Figma の幅 × --unit）に足りる大きさを選ばせる。
- * Figma の幅の 0.5〜4.5 倍（画面の高さ 2160px 前後で 2.25 倍、それを高解像度の画面で 2 倍）の幅で作り、元画像より大きい幅は作らない。
+ * Figma の幅の 0.5〜3 倍（画面の高さ 1440px の高解像度の画面で約 2.67 倍）の幅で作り、元画像より大きい幅は作らない。
  * sizes は縦横比ごとに、そのデザインでの表示幅を CSS と同じ式で書く。
  */
 const sizesFor = (parts: PartName[], targetFrames: Frame[]) =>
@@ -1554,12 +1554,19 @@ const optimize = async (
   );
   const widths = [
     ...new Set(
-      [0.5, 0.75, 1, 1.5, 2, 3, 4.5].map((scale) =>
+      [0.5, 0.75, 1, 1.5, 2, 3].map((scale) =>
         Math.min(Math.round(maxWidth * scale), src.width),
       ),
     ),
   ];
-  const image = await getImage({ src, widths, format: "webp", quality: 90 });
+  // src（srcset に対応していないブラウザ向け）も元画像の大きさではなく、srcset の一番大きい幅にする
+  const image = await getImage({
+    src,
+    widths,
+    width: Math.max(...widths),
+    format: "webp",
+    quality: 80,
+  });
   return {
     src: image.src,
     srcset: image.srcSet.attribute,
