@@ -382,12 +382,13 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
    * dialog は画面全体を覆う透明な枠で、開いた後のパネルは画面の上端から 10px。
    * 下端は高さ 600px まで（画面が低ければ下端から 10px）、縦長の画面では画面の下端から 10px。
    * 右端は開くボタンの右端から 10px 外側で、左端も画面の左端から同じ距離にして左右対称にする。
+   * 狭い画面では開くボタンが画面の右端近く（またははみ出した位置）に来るので、左右とも画面の端から 10px は空ける。
    * 背景（::before）を clip-path で切り抜き、開くボタンの形から右上を起点に左下へ広げる。
    * 中身は背景に合わせて動かさず、広がり終わってからセクションごとに出す（HeaderMenuContent.astro）。
    */
   .drawer {
-    --panel-inset: 10px calc(var(--origin-right) - 10px)
-      max(10px, 100dvh - 10px - 600px);
+    --panel-inline: max(10px, var(--origin-right) - 10px);
+    --panel-inset: 10px var(--panel-inline) max(10px, 100dvh - 10px - 600px);
     --panel-radius: 24px;
 
     inset: 0;
@@ -397,6 +398,9 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     max-height: none;
     padding: 0;
     margin: 0;
+
+    /* パネルの外は透明な枠なので、dialog 自体はスクロールさせない（中身のスクロールは .content が受け持つ） */
+    overflow: hidden;
     background-color: transparent;
     border: none;
     isolation: isolate;
@@ -505,7 +509,7 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
   /* 縦長の画面（モバイル、縦向きのタブレット）: 中身を1列に積むので、パネルは画面の下端まで伸ばす */
   @media (width <= 720px), (orientation: portrait) {
     .drawer {
-      --panel-inset: 10px calc(var(--origin-right) - 10px);
+      --panel-inset: 10px var(--panel-inline);
     }
   }
 
