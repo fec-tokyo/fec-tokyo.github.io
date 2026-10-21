@@ -1760,7 +1760,7 @@ const mists: { part: PartName; src: string }[] = [
   }
 
   /*
-   * オープニング（OpeningAnimation.astro）が流れている間は、雲・鶴・提灯・太陽・だるまを隠しておき、
+   * オープニング（OpeningAnimation.astro）が流れている間は、雲・鶴・提灯・太陽・だるま・スクロール誘導を隠しておき、
    * のれんが上がりきる 500ms 前（OpeningAnimation.astro の KV_REVEAL_LEAD）からこの順に、10px 下から上がりながらフェードインさせる。
    * 前のパーツが出はじめてから 200ms ずつずらして続けて出す。
    * オープニングを流さないとき（動きを減らす設定など）は data-opening が付かないので、最初から表示する
@@ -1790,13 +1790,18 @@ const mists: { part: PartName; src: string }[] = [
     --reveal-order: 4;
   }
 
+  [data-part="scroll"] {
+    --reveal-order: 5;
+  }
+
   :global(:root[data-opening="playing"])
     .part:is(
       [data-part^="cloud"],
       [data-part^="crane"],
       [data-part^="lantern"],
       [data-part="sun"],
-      [data-part="daruma"]
+      [data-part="daruma"],
+      [data-part="scroll"]
     ) {
     opacity: 0;
   }
@@ -1807,7 +1812,8 @@ const mists: { part: PartName; src: string }[] = [
       [data-part^="crane"],
       [data-part^="lantern"],
       [data-part="sun"],
-      [data-part="daruma"]
+      [data-part="daruma"],
+      [data-part="scroll"]
     ) {
     animation: kv-reveal var(--reveal-duration) ease-out
       calc(var(--reveal-order) * var(--reveal-stagger)) both;
@@ -1818,6 +1824,18 @@ const mists: { part: PartName; src: string }[] = [
     from {
       opacity: 0;
       translate: 0 10px;
+    }
+  }
+
+  /* スクロール誘導は中央寄せに translate: -50% 0 を使っているので、それを保ったまま 10px 下から上げる */
+  :global(:root[data-opening="done"]) .part[data-part="scroll"] {
+    animation-name: kv-reveal-scroll;
+  }
+
+  @keyframes kv-reveal-scroll {
+    from {
+      opacity: 0;
+      translate: -50% 10px;
     }
   }
 </style>
