@@ -130,19 +130,16 @@ const paragraphs = [
           });
       };
 
-      // 文字部分の高さから、固定する位置（--content-top）と面の上端からの余白（--content-offset）を決める
-      const measure = () => {
-        if (!content) return;
-        const space = innerHeight - content.offsetHeight;
-        body.style.setProperty(
-          "--content-top",
-          `${space >= 0 ? space / 2 : space}px`,
-        );
-        body.style.setProperty(
-          "--content-offset",
-          `${Math.max(0, space / 2)}px`,
-        );
-      };
+      // 文字部分の高さを CSS に渡す。固定する位置と面の上端からの余白は、CSS でこれと 100svh から決める。
+      // アドレスバーの出入りでは文字部分の高さは変わらないので、そのときは書き換えない
+      if (content) {
+        new ResizeObserver(() => {
+          body.style.setProperty(
+            "--content-height",
+            `${content.offsetHeight}px`,
+          );
+        }).observe(content);
+      }
 
       // 見えた（または過ぎた）要素を覚え、面が画面を覆った後なら出す
       const markSeen = (elements: HTMLElement[]) => {
@@ -189,17 +186,9 @@ const paragraphs = [
         ticking = true;
         requestAnimationFrame(update);
       };
-      measure();
       update();
       addEventListener("scroll", requestUpdate, { passive: true });
-      addEventListener("resize", () => {
-        measure();
-        requestUpdate();
-      });
-      document.fonts.ready.then(() => {
-        measure();
-        requestUpdate();
-      });
+      addEventListener("resize", requestUpdate);
     });
 </script>
 
@@ -230,10 +219,23 @@ const paragraphs = [
    * 背景画像には不透明度を付けられないので、白い柄の上に 60% の地の色を重ね、柄が 40% だけ透けるようにしている。
    */
   .body {
+    /*
+     * 文字部分を固定する位置（--content-top）と面の上端からの余白（--content-offset）。
+     * アドレスバーの出入りで動かないよう、画面の高さは 100svh を使い、1px のブレが出ないよう整数 px に切り捨てる。
+     * 画面より高いときは、下端をそろえる位置で固定し、余白は 0 にする。
+     * --content-height は JS で決めるので、JS が動かないときはどちらも無効になり、下の代わりの値を使う
+     */
+    --content-space: calc(100svh - var(--content-height));
+    --content-top: min(
+      round(down, var(--content-space) / 2, 1px),
+      var(--content-space)
+    );
+    --content-offset: max(0px, round(down, var(--content-space) / 2, 1px));
+
     position: relative;
 
     /*
-     * 上は、文字部分を画面の上下中央に置いたときの上の余白（JS で決める。JS が動かないときは 120px）。
+     * 上は、文字部分を画面の上下中央に置いたときの上の余白（JS が動かないときは 120px）。
      * 下は、文字の固定が外れてからセクションが終わるまでの少しの余白（画面の高さの 10%）
      */
     padding: var(--content-offset, 120px) 20px 10svh;
