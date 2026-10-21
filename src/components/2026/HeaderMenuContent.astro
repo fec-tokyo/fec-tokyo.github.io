@@ -429,7 +429,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     .sections {
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 40px;
       padding-inline: 10px;
     }
 
@@ -437,7 +437,18 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     .proposals,
     .guests,
     .social {
+      gap: 16px;
+    }
+
+    .title {
+      font-size: 32px;
+    }
+
+    /* 項目の高さを文字の高さに揃える（行の高さが親の font-size の normal のままだと 23px ほどになる） */
+    .links {
       gap: 12px;
+      font-size: 14px;
+      line-height: 1;
     }
 
     .ticket {
@@ -463,11 +474,13 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     }
 
     .link {
-      font-size: 16px;
+      font-size: 14px;
+      letter-spacing: 0.04em;
     }
 
     .comingSoon {
       flex-grow: 0;
+      font-size: 16px;
     }
 
     .socialLinks {
