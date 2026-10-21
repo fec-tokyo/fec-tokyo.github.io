@@ -127,13 +127,16 @@ const photos = [
   import EmblaCarousel from "embla-carousel";
   import Fade from "embla-carousel-fade";
 
-  // 操作されていない間は一定間隔で次の写真へ送る。動きを減らす設定のときは自動で送らない
+  // 操作されていない間は一定間隔で次の写真へ送る
   const AUTOPLAY_INTERVAL = 3000;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const carousels = document.querySelectorAll<HTMLElement>("#about .carousel");
 
   for (const carousel of carousels) {
+    // 動きを減らす設定のときはカルーセルにせず、最初の写真で止めておく
+    if (reducedMotion.matches) continue;
+
     // 横に流さず、写真を重ねてフェードで切り替える
     const embla = EmblaCarousel(carousel, { loop: true }, [Fade()]);
     let timer: number | undefined;
@@ -142,12 +145,7 @@ const photos = [
     const start = () => {
       stop();
       // カーソルを乗せている・フォーカスしている・タブが裏にある間は止めておく
-      if (
-        reducedMotion.matches ||
-        carousel.matches(":hover, :focus-within") ||
-        document.hidden
-      )
-        return;
+      if (carousel.matches(":hover, :focus-within") || document.hidden) return;
       timer = window.setInterval(() => embla.scrollNext(), AUTOPLAY_INTERVAL);
     };
 
@@ -264,6 +262,14 @@ const photos = [
 
   .carousel:active {
     cursor: grabbing;
+  }
+
+  /* 動きを減らす設定のときは JS がカルーセルにしないので、つかめる見た目にしない */
+  @media (prefers-reduced-motion: reduce) {
+    .carousel,
+    .carousel:active {
+      cursor: auto;
+    }
   }
 
   .carouselTrack {

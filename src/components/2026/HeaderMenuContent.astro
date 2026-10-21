@@ -64,9 +64,14 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
   <nav class="sections" aria-label="サイト内のリンク">
     <section class="section ticket" aria-labelledby="menu-ticket-title">
       <h2 id="menu-ticket-title" class="title">Ticket</h2>
-      <a href={TICKET_EARLY_BIRD_URL} class="link" {...externalAttributes}>
-        アーリーバードチケットを購入する
-      </a>
+      {
+        /* flex の子にすると block になって下線の位置が他のリンクとずれるので、包んで inline のままにする */
+      }
+      <p class="ticketLink">
+        <a href={TICKET_EARLY_BIRD_URL} class="link" {...externalAttributes}>
+          アーリーバードチケットを購入する
+        </a>
+      </p>
     </section>
     <section class="section proposals" aria-labelledby="menu-proposals-title">
       <h2 id="menu-proposals-title" class="title">Proposals</h2>
@@ -228,8 +233,15 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     list-style: none;
   }
 
+  .ticketLink {
+    margin: 0;
+    line-height: 1;
+  }
+
   /*
-   * hover で下線が左から右へ伸びる。折り返したときも行ごとに引けるように、text-decoration ではなく背景で描く
+   * hover で下線が左から右へ伸びる。折り返したときも行ごとに引けるように、text-decoration ではなく背景で描く。
+   * inline のボックスは文字の上下の余白（Noto Sans JP では上下とも約 0.225em）まで含むので、
+   * 下線はその分だけボックスの下端から上に寄せ、文字の下端から 0.2em の位置に引く
    */
   .link {
     padding-bottom: 0.2em;
@@ -241,7 +253,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     text-decoration: none;
     background-image: linear-gradient(currentcolor, currentcolor);
     background-repeat: no-repeat;
-    background-position: left bottom;
+    background-position: left 0 bottom 0.225em;
     background-size: 0% 1px;
     box-decoration-break: clone;
     transition: background-size 300ms var(--easing-out);
