@@ -461,8 +461,13 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
       gap: 12px;
     }
 
+    /*
+     * PC の flex: 1 0 0 のままだと縦に積んだときの高さの基準が 0 になり、Safari は折り返しを有効にしていると
+     * 項目ごとに列を折り返して横に並べてしまう。縦に積むときは折り返さない
+     */
     .otherBody {
-      flex-direction: column;
+      flex: none;
+      flex-flow: column nowrap;
       gap: 20px;
       align-items: stretch;
       align-self: stretch;
