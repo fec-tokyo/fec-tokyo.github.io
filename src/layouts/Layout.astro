@@ -25,7 +25,7 @@ const canonicalURL = new URL(Astro.url, Astro.site);
     <meta charset="UTF-8" />
     <slot name="head" />
     <meta name="viewport" content="width=device-width" />
-    <meta color-scheme="dark" />
+    <meta name="color-scheme" content="dark" />
     {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.ico`} />
     <meta name="generator" content={Astro.generator} />
@@ -37,8 +37,8 @@ const canonicalURL = new URL(Astro.url, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.toString()} />
     <meta property="og:site_name" content="Frontend Conference Tokyo" />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:site" content="@fec_tokyo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@fec_tokyo" />
   </head>
   <body>
     <slot />
