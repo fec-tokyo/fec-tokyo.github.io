@@ -98,8 +98,8 @@ const paragraphs = [
   // 段落を続けて出すときの、前の段落が出始めてから次の段落を出し始めるまでの間（ms）
   const PARAGRAPH_STAGGER = 200;
 
-  // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（英字は 500ms 後から 700ms、最後の日本語は 1100ms 後から 600ms）に合わせる
-  const HEADING_DURATION = 1700;
+  // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（英字は 300ms 後から 500ms、最後の日本語は 700ms 後から 400ms）に合わせる
+  const HEADING_DURATION = 1100;
 
   document
     .querySelectorAll<HTMLElement>("[data-message-body]")
@@ -351,17 +351,17 @@ const paragraphs = [
   }
 
   .titleLine {
-    transition: scale 600ms var(--easing-out) var(--heading-delay);
+    transition: scale 400ms var(--easing-out) var(--heading-delay);
   }
 
   .titleTextInner {
-    transition: translate 700ms var(--easing-out)
-      calc(var(--heading-delay) + 500ms);
+    transition: translate 500ms var(--easing-out)
+      calc(var(--heading-delay) + 300ms);
   }
 
   .subtitle {
-    transition: opacity 600ms var(--easing-out)
-      calc(var(--heading-delay) + 1100ms);
+    transition: opacity 400ms var(--easing-out)
+      calc(var(--heading-delay) + 700ms);
   }
 
   @media (scripting: enabled) {
