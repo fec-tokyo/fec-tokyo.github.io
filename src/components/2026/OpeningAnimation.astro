@@ -416,10 +416,17 @@ const SHADE_STOPS = 12;
     history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
     document.documentElement.style.overflow = "hidden";
-    const unlockScroll = () =>
+    /*
+     * 流れている間と終わった後を html の data-opening で知らせる。KV（KeyVisualPartsSection.astro）は、
+     * 流れている間はパーツを隠し、終わったらフェードインさせる
+     */
+    document.documentElement.dataset.opening = "playing";
+    const finish = () => {
       document.documentElement.style.removeProperty("overflow");
-    // 途中で止まっても、CSS で覆いを消すのと同じ 6 秒後にはスクロールできるようにする
-    setTimeout(unlockScroll, 6000);
+      document.documentElement.dataset.opening = "done";
+    };
+    // 途中で止まっても、CSS で覆いを消すのと同じ 6 秒後にはスクロールでき、KV も表示されるようにする
+    setTimeout(finish, 6000);
     const start = performance.now();
     // 画面の大きさが変わったときだけ座標を合わせ直す。毎フレーム設定すると SVG 全体を計算し直すため
     let lastWidth = 0;
@@ -467,7 +474,7 @@ const SHADE_STOPS = 12;
         drawCurtains((elapsed - NOREN_START) / DURATION_NOREN, width, height);
       } else {
         opening.remove();
-        unlockScroll();
+        finish();
         return;
       }
       requestAnimationFrame(tick);
