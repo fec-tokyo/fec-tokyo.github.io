@@ -1429,17 +1429,13 @@ const SCROLL_MIN_HEIGHT = 40;
  */
 const SCROLL_MIN_BOTTOM = 50 + 8;
 /*
- * 提灯・鶴・太陽・だるま・雲に付ける影。1枚絵の KeyVisualSection.astro の鶴と同じ値で、ずれとぼかしはほかの寸法と同じく --unit 倍する。
+ * 提灯・鶴に付ける影。1枚絵の KeyVisualSection.astro の鶴と同じ値で、ずれとぼかしはほかの寸法と同じく --unit 倍する。
  * filter は回転・反転の前にかかるので、回転・反転したパーツは、画面上で同じ向きに落ちるようずれを逆に回しておく
  */
 const SHADOW = { x: 10, y: -2, blur: 6, color: "rgb(16 16 16 / 24%)" };
 const shadowParts: PartName[] = [
   "lanternLeft",
   "lanternRight",
-  "cloudLeft",
-  "cloudRight",
-  "sun",
-  "daruma",
   "craneALeft",
   "craneBLeft",
   "craneCLeft",
@@ -1757,9 +1753,14 @@ const mists: { part: PartName; src: string }[] = [
 
   /*
    * オープニング（OpeningAnimation.astro）が流れている間は、雲・鶴・提灯・太陽・だるまを隠しておき、
-   * 終わったらこの順に 100ms ずつずらして、上から 10px 下りながらフェードインさせる。
+   * 終わったらこの順に、10px 下から上がりながらフェードインさせる。
+   * 前のパーツが出きる 100ms 前に次のパーツが出はじめるよう、表示の時間から 100ms 引いた分ずつずらして続けて出す。
    * オープニングを流さないとき（動きを減らす設定など）は data-opening が付かないので、最初から表示する
    */
+  .container {
+    --reveal-duration: 600ms;
+  }
+
   [data-part^="cloud"] {
     --reveal-order: 0;
   }
@@ -1799,14 +1800,15 @@ const mists: { part: PartName; src: string }[] = [
       [data-part="sun"],
       [data-part="daruma"]
     ) {
-    animation: kv-reveal 600ms ease-out calc(var(--reveal-order) * 100ms) both;
+    animation: kv-reveal var(--reveal-duration) ease-out
+      calc(var(--reveal-order) * (var(--reveal-duration) - 100ms)) both;
   }
 
   /* 回転・反転は transform で付けているので、ずらすのは translate で行う */
   @keyframes kv-reveal {
     from {
       opacity: 0;
-      translate: 0 -10px;
+      translate: 0 10px;
     }
   }
 </style>
