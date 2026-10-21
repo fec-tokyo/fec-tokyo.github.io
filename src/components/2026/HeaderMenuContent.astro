@@ -152,7 +152,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     flex-direction: column;
     gap: 40px;
     height: 100%;
-    padding: 10px 10px 40px;
+    padding: 10px 10px 20px;
     overflow-y: auto;
     overscroll-behavior: contain;
     color: var(--color-off-white);
@@ -313,7 +313,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
   .other {
     display: flex;
     gap: 40px;
-    align-items: flex-end;
+    align-items: center;
     padding-top: 16px;
     border-top: 1px solid var(--color-off-white);
   }
@@ -339,12 +339,15 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     min-width: 0;
   }
 
+  /* 項目の高さを文字の高さ（14px）に揃えて、見出しやコピーライトと上下中央で揃うようにする */
   .otherLinks {
     display: flex;
     flex-wrap: wrap;
     gap: 12px 20px;
     padding: 0;
     margin: 0;
+    font-size: 14px;
+    line-height: 1;
     list-style: none;
   }
 
@@ -433,10 +436,6 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
    * 縦長の画面（モバイル、縦向きのタブレット）: HTML の順（Ticket、Proposals、Guest Speakers、Social Media、Other Links）に1列に積む
    */
   @media (width <= 720px), (orientation: portrait) {
-    .content {
-      padding-bottom: 20px;
-    }
-
     .logoLink {
       margin-left: 10px;
     }
