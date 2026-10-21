@@ -88,11 +88,9 @@ const paragraphs = [
    * それより下にあったものは画面に入ったら、前の段落が出始めてから PARAGRAPH_STAGGER たつまで待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
-   * セクションの下端が画面の下端に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
-   * 面を About の藍色にディゾルブさせ（--dissolve: 0 → 1）、同時に文字部分を透明にする。
-   * セクションの下端が画面に入る時点では、どちらも変わり切っていて、すぐ下に About の中身が続く。
+   * About（#about）の上端が画面に入ったら、面を About の藍色にディゾルブさせ、同時に文字部分を透明にする（data-dissolved）。
+   * スクロール量には連動させず、CSS の transition で 300ms かけて自動で切り替える。About が画面の下に戻ったら元に戻す。
    */
-  const FADE_SCREENS = 0.4;
 
   // 前の要素が出終わってから次の要素を出し始めるまでの間（ms）。マイナスなので、前の要素が出終わる前に重ねて出し始める
   const REVEAL_LAG = -100;
@@ -111,6 +109,7 @@ const paragraphs = [
       let ready = false;
 
       const content = body.querySelector<HTMLElement>("[data-message-content]");
+      const about = document.querySelector<HTMLElement>("#about");
 
       // 次の要素を出し始めてよい時刻（performance.now() 基準）
       let nextStart = -Infinity;
@@ -170,18 +169,10 @@ const paragraphs = [
           ready = true;
           reveal([...seen]);
         }
-        // セクションの下端が、画面の下端より FADE_SCREENS 枚分下にあるときに 0、画面の下端に届いたときに 1
-        const progress = Math.min(
-          1,
-          Math.max(
-            0,
-            1 -
-              (body.getBoundingClientRect().bottom - innerHeight) /
-                (innerHeight * FADE_SCREENS),
-          ),
-        );
-        body.style.setProperty("--dissolve", String(progress));
-        if (content) content.style.opacity = String(1 - progress);
+        // About の上端が画面に入った（または画面より上に過ぎた）らディゾルブさせる
+        const dissolved =
+          !!about && about.getBoundingClientRect().top < innerHeight;
+        body.toggleAttribute("data-dissolved", dissolved);
       };
       const requestUpdate = () => {
         if (ticking) return;
@@ -289,14 +280,19 @@ const paragraphs = [
     mask-size: calc(var(--cloud-height) * 4.8) var(--cloud-height);
   }
 
-  /* ディゾルブ先の面。About と同じ藍色 + ノイズ（.background-aizome と同じ）を、--dissolve の不透明度で重ねる */
+  /* ディゾルブ先の面。About と同じ藍色 + ノイズ（.background-aizome と同じ）を、data-dissolved のときに 300ms でフェードインさせる */
   .dissolve {
     position: absolute;
     inset: 0;
     pointer-events: none;
     background-color: var(--color-aizome);
     background-image: var(--texture-noise-subtle);
-    opacity: var(--dissolve, 0);
+    opacity: 0;
+    transition: opacity 300ms var(--easing-out);
+  }
+
+  .body[data-dissolved] .dissolve {
+    opacity: 1;
   }
 
   /* 文字部分はディゾルブの面より手前に置く */
@@ -310,6 +306,12 @@ const paragraphs = [
     flex-direction: column;
     gap: 64px;
     align-items: center;
+    transition: opacity 300ms var(--easing-out);
+  }
+
+  /* 面のディゾルブと同時に、文字部分を透明にする */
+  .body[data-dissolved] .content {
+    opacity: 0;
   }
 
   /* 固定は JS が位置を決めるときだけ。hold の高さ分スクロールする間、文字部分を固定したまま見せる */
@@ -320,7 +322,7 @@ const paragraphs = [
     }
 
     .hold {
-      height: 100svh;
+      height: 150svh;
     }
   }
 
@@ -383,6 +385,8 @@ const paragraphs = [
 
   @media (prefers-reduced-motion: reduce) {
     [data-reveal],
+    .dissolve,
+    .content,
     .titleLine,
     .titleTextInner,
     .subtitle {
