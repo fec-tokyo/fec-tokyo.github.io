@@ -220,6 +220,13 @@ const paragraphs = [
     margin-top: calc(var(--cloud-height) * -1);
   }
 
+  /* 縦長の画面（縦横比 9:16 以下）では、KV に対して雲が大きく見えるので高さ 20px にする */
+  @media (aspect-ratio <= 9 / 16) {
+    .container {
+      --cloud-height: 20px;
+    }
+  }
+
   /*
    * Figma の塗りは「#F6EEDD + 白い青海波のタイル（68×40）を不透明度 40%・オーバーレイで重ねたもの」。
    * 白は地より明るいので、オーバーレイは普通の重ね方と同じ結果になる。
@@ -246,12 +253,14 @@ const paragraphs = [
 
   /*
    * 雲。SVG は1つ分の部品（幅 240px・高さ 50px）で、それをマスクにして横に繰り返し、雲の形に切り抜く。
+   * 雲の高さを変えても形が変わらないよう、部品の幅と白の範囲は高さに比例させる（高さ 50px のとき幅 240px・白 10px）。
    * 塗りは Figma と同じく、上端から 10px までは白・下端で地の色になるグラデーションに、白い青海波を 40% で重ねる。
    * 面と同じく、柄の上にグラデーションを 60% で重ねて柄を 40% だけ透かし、いちばん下に同じグラデーションを敷いている。
-   * 青海波は面の柄と継ぎ目なくつながるよう、面の上端（雲の上から 50px）を起点にしている。
+   * 青海波は面の柄と継ぎ目なくつながるよう、面の上端（雲の下端）を起点にしている。
    */
   .cloud {
     --cloud-gradient-opacity: 60%;
+    --cloud-white-height: calc(var(--cloud-height) / 5);
 
     height: var(--cloud-height);
     pointer-events: none;
@@ -262,7 +271,7 @@ const paragraphs = [
             var(--color-white) var(--cloud-gradient-opacity),
             transparent
           )
-          10px,
+          var(--cloud-white-height),
         color-mix(
           in srgb,
           var(--color-message-base) var(--cloud-gradient-opacity),
@@ -270,7 +279,10 @@ const paragraphs = [
         )
       ),
       var(--seigaiha-image),
-      linear-gradient(var(--color-white) 10px, var(--color-message-base));
+      linear-gradient(
+        var(--color-white) var(--cloud-white-height),
+        var(--color-message-base)
+      );
     background-position:
       0 0,
       center var(--cloud-height),
@@ -278,7 +290,7 @@ const paragraphs = [
     mask-image: var(--cloud-image);
     mask-repeat: repeat-x;
     mask-position: top center;
-    mask-size: 240px var(--cloud-height);
+    mask-size: calc(var(--cloud-height) * 4.8) var(--cloud-height);
   }
 
   /* ディゾルブ先の面。About と同じ藍色 + ノイズ（.background-aizome と同じ）を、--dissolve の不透明度で重ねる */
