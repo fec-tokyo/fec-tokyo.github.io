@@ -83,7 +83,8 @@ const paragraphs = [
    * 面の上端は文字部分の上に同じだけあけておき、面の上端が画面の上端に届いたちょうどそのときに固定が始まるようにしている。
    *
    * 見出し・段落（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
-   * そのとき画面に入っているものを上から順に少しずつ遅らせてフェードインさせる。それより下にあったものは画面に入ったら出す。
+   * そのとき画面に入っているものを上から順に1つずつ出す。前の要素のアニメーションが終わってから REVEAL_GAP だけ待って次を始める。
+   * それより下にあったものは画面に入ったら、前の要素が出終わるのを待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
    * セクションの下端が画面の下端に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
@@ -91,6 +92,12 @@ const paragraphs = [
    * セクションの下端が画面に入る時点では、どちらも変わり切っていて、すぐ下に About の中身が続く。
    */
   const FADE_SCREENS = 0.4;
+
+  // 前の要素が出終わってから次の要素を出し始めるまでの待ち時間（ms）
+  const REVEAL_GAP = 100;
+
+  // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（最後の日本語は 1100ms 後から 600ms）に合わせる
+  const HEADING_DURATION = 1700;
 
   document
     .querySelectorAll<HTMLElement>("[data-message-body]")
@@ -101,12 +108,28 @@ const paragraphs = [
 
       const content = body.querySelector<HTMLElement>("[data-message-content]");
 
+      // 段落のフェードインの長さ（ms）。CSS の --duration-inview から読む（ビルドで 1500ms が 1.5s に書き換わることがあるので単位も見る）
+      const durationValue = getComputedStyle(body)
+        .getPropertyValue("--duration-inview")
+        .trim();
+      const paragraphDuration =
+        (parseFloat(durationValue) || 0) *
+        (durationValue.endsWith("ms") ? 1 : 1000);
+
+      // 最後に出した要素のアニメーションが終わる時刻（performance.now() 基準）
+      let queueEnd = -Infinity;
+
       const reveal = (elements: HTMLElement[]) => {
+        const now = performance.now();
         elements
           .sort((a, b) => targets.indexOf(a) - targets.indexOf(b))
-          .forEach((el, i) => {
-            el.style.setProperty("--reveal-index", String(i));
+          .forEach((el) => {
+            const start = Math.max(now, queueEnd + REVEAL_GAP);
+            el.style.setProperty("--reveal-delay", `${start - now}ms`);
             el.dataset.revealed = "true";
+            queueEnd =
+              start +
+              (el.matches(".heading") ? HEADING_DURATION : paragraphDuration);
           });
       };
 
@@ -298,7 +321,7 @@ const paragraphs = [
     transition:
       opacity var(--duration-inview) var(--easing-out),
       translate var(--duration-inview) var(--easing-out);
-    transition-delay: calc(var(--reveal-index, 0) * 120ms);
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
   @media (scripting: enabled) {
@@ -313,7 +336,7 @@ const paragraphs = [
    * 1. 下線が中央から左右へ伸びる  2. 英字が下線の下からせり上がる  3. 日本語がフェードインする
    */
   .heading {
-    --heading-delay: calc(var(--reveal-index, 0) * 120ms);
+    --heading-delay: var(--reveal-delay, 0ms);
   }
 
   .titleLine {
