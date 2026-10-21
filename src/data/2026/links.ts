@@ -5,6 +5,10 @@ export const TOP_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/2026/`;
 // チケット販売ページ（fortee）
 export const TICKET_URL = "https://fortee.jp/fec-tokyo-2026/ticket-shop/index";
 
+// アーリーバードチケットの販売ページ（fortee）
+export const TICKET_EARLY_BIRD_URL =
+  "https://fortee.jp/fec-tokyo-2026/ticket-shop/index/e89cacf2-5a76-4671-92b1-a878e27da802";
+
 export const X_URL = "https://x.com/fec_tokyo";
 
 export const NOTE_URL = "https://note.com/fec_tokyo";
