@@ -1428,6 +1428,27 @@ const SCROLL_MIN_HEIGHT = 40;
  * 画面が小さく KV が縮んでも雲にかからないよう、雲の高さに 8px のすき間を足した分より下げない
  */
 const SCROLL_MIN_BOTTOM = 50 + 8;
+/*
+ * 提灯・鶴・太陽・だるま・雲に付ける影。1枚絵の KeyVisualSection.astro の鶴と同じ値で、ずれとぼかしはほかの寸法と同じく --unit 倍する。
+ * filter は回転・反転の前にかかるので、回転・反転したパーツは、画面上で同じ向きに落ちるようずれを逆に回しておく
+ */
+const SHADOW = { x: 10, y: -2, blur: 6, color: "rgb(16 16 16 / 24%)" };
+const shadowParts: PartName[] = [
+  "lanternLeft",
+  "lanternRight",
+  "cloudLeft",
+  "cloudRight",
+  "sun",
+  "daruma",
+  "craneALeft",
+  "craneBLeft",
+  "craneCLeft",
+  "craneDLeft",
+  "craneARight",
+  "craneBRight",
+  "craneCRight",
+  "craneDRight",
+];
 const mediaOf = (frame: Frame) =>
   frame.minAspectRatio ? `(min-aspect-ratio: ${frame.minAspectRatio})` : "";
 
@@ -1477,6 +1498,14 @@ const placementStyle = (frame: Frame, placement: Placement, zIndex: number) => {
     placement.flip ? "scaleY(-1)" : "",
   ].filter(Boolean);
   if (transforms.length > 0) styles.push(`transform: ${transforms.join(" ")}`);
+  if (shadowParts.includes(placement.part)) {
+    const radian = ((placement.rotate ?? 0) * Math.PI) / 180;
+    const x = SHADOW.x * Math.cos(radian) + SHADOW.y * Math.sin(radian);
+    const y = -SHADOW.x * Math.sin(radian) + SHADOW.y * Math.cos(radian);
+    styles.push(
+      `filter: drop-shadow(calc(${round(x)} * ${unit}) calc(${round(placement.flip ? -y : y)} * ${unit}) calc(${SHADOW.blur} * ${unit}) ${SHADOW.color})`,
+    );
+  }
   return styles.join("; ");
 };
 
@@ -1724,5 +1753,60 @@ const mists: { part: PartName; src: string }[] = [
 
   [data-part="scroll"] {
     translate: -50% 0;
+  }
+
+  /*
+   * オープニング（OpeningAnimation.astro）が流れている間は、雲・鶴・提灯・太陽・だるまを隠しておき、
+   * 終わったらこの順に 100ms ずつずらして、上から 10px 下りながらフェードインさせる。
+   * オープニングを流さないとき（動きを減らす設定など）は data-opening が付かないので、最初から表示する
+   */
+  [data-part^="cloud"] {
+    --reveal-order: 0;
+  }
+
+  [data-part^="crane"] {
+    --reveal-order: 1;
+  }
+
+  [data-part^="lantern"] {
+    --reveal-order: 2;
+  }
+
+  [data-part="sun"] {
+    --reveal-order: 3;
+  }
+
+  [data-part="daruma"] {
+    --reveal-order: 4;
+  }
+
+  :global(:root[data-opening="playing"])
+    .part:is(
+      [data-part^="cloud"],
+      [data-part^="crane"],
+      [data-part^="lantern"],
+      [data-part="sun"],
+      [data-part="daruma"]
+    ) {
+    opacity: 0;
+  }
+
+  :global(:root[data-opening="done"])
+    .part:is(
+      [data-part^="cloud"],
+      [data-part^="crane"],
+      [data-part^="lantern"],
+      [data-part="sun"],
+      [data-part="daruma"]
+    ) {
+    animation: kv-reveal 600ms ease-out calc(var(--reveal-order) * 100ms) both;
+  }
+
+  /* 回転・反転は transform で付けているので、ずらすのは translate で行う */
+  @keyframes kv-reveal {
+    from {
+      opacity: 0;
+      translate: 0 -10px;
+    }
   }
 </style>
