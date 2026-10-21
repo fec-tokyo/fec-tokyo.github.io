@@ -13,7 +13,7 @@ import {
   PRIVACY_POLICY_URL,
   PROPOSAL_LIST_URL,
   PROPOSAL_URL,
-  TICKET_URL,
+  TICKET_EARLY_BIRD_URL,
   TOP_URL,
   X_URL,
 } from "@/data/2026/links";
@@ -68,7 +68,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
         /* flex の子にすると block になって下線の位置が他のリンクとずれるので、包んで inline のままにする */
       }
       <p class="ticketLink">
-        <a href={TICKET_URL} class="link" {...externalAttributes}>
+        <a href={TICKET_EARLY_BIRD_URL} class="link" {...externalAttributes}>
           アーリーバードチケットを購入する
         </a>
       </p>
