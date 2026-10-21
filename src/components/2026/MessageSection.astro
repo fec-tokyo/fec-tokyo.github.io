@@ -83,8 +83,8 @@ const paragraphs = [
    * 面の上端は文字部分の上に同じだけあけておき、面の上端が画面の上端に届いたちょうどそのときに固定が始まるようにしている。
    *
    * 見出し・段落（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
-   * そのとき画面に入っているものを上から順に1つずつ出す。前の要素のアニメーションが終わってから REVEAL_GAP だけ待って次を始める。
-   * それより下にあったものは画面に入ったら、前の要素が出終わるのを待ってから同じように出す。
+   * そのとき画面に入っているものを上から順に1つずつ出す。前の要素のアニメーションが終わる 100ms 前（REVEAL_LAG）から次を始める。
+   * それより下にあったものは画面に入ったら、前の要素が出終わる 100ms 前まで待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
    * セクションの下端が画面の下端に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
@@ -93,10 +93,10 @@ const paragraphs = [
    */
   const FADE_SCREENS = 0.4;
 
-  // 前の要素が出終わってから次の要素を出し始めるまでの待ち時間（ms）
-  const REVEAL_GAP = 100;
+  // 前の要素が出終わってから次の要素を出し始めるまでの間（ms）。マイナスなので、前の要素が出終わる前に重ねて出し始める
+  const REVEAL_LAG = -100;
 
-  // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（最後の日本語は 1100ms 後から 600ms）に合わせる
+  // 見出しのアニメーションの長さ（ms）。CSS の .heading の中身の transition（英字は 500ms 後から 700ms、最後の日本語は 1100ms 後から 600ms）に合わせる
   const HEADING_DURATION = 1700;
 
   document
@@ -124,7 +124,7 @@ const paragraphs = [
         elements
           .sort((a, b) => targets.indexOf(a) - targets.indexOf(b))
           .forEach((el) => {
-            const start = Math.max(now, queueEnd + REVEAL_GAP);
+            const start = Math.max(now, queueEnd + REVEAL_LAG);
             el.style.setProperty("--reveal-delay", `${start - now}ms`);
             el.dataset.revealed = "true";
             queueEnd =
@@ -334,6 +334,7 @@ const paragraphs = [
   /*
    * 見出しは全体を動かさず、中身を順に出す。
    * 1. 下線が中央から左右へ伸びる  2. 英字が下線の下からせり上がる  3. 日本語がフェードインする
+   * それぞれ、前のものが出終わる 100ms 前から次を始める
    */
   .heading {
     --heading-delay: var(--reveal-delay, 0ms);
@@ -345,7 +346,7 @@ const paragraphs = [
 
   .titleTextInner {
     transition: translate 700ms var(--easing-out)
-      calc(var(--heading-delay) + 600ms);
+      calc(var(--heading-delay) + 500ms);
   }
 
   .subtitle {
