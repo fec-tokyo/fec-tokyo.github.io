@@ -1192,7 +1192,7 @@ const frames: Frame[] = [
       {
         part: "scroll",
         x: 476,
-        y: 1700,
+        y: 1740,
         boxWidth: 127.47,
         boxHeight: 80,
         width: 127.47,
@@ -1275,7 +1275,7 @@ const frames: Frame[] = [
       {
         part: "scroll",
         x: 386,
-        y: 1800,
+        y: 1840,
         boxWidth: 127.47,
         boxHeight: 80,
         width: 127.47,
@@ -1424,11 +1424,6 @@ const round = (value: number, digits = 2) => Number(value.toFixed(digits));
 // スクロール誘導の高さの下限（px）
 const SCROLL_MIN_HEIGHT = 40;
 /*
- * スクロール誘導の下端から画面の下端までの距離の下限（px）。KV の下端には MessageSection の雲（高さ 50px）が重なるので、
- * 画面が小さく KV が縮んでも雲にかからないよう、雲の高さに 8px のすき間を足した分より下げない
- */
-const SCROLL_MIN_BOTTOM = 50 + 8;
-/*
  * 提灯・鶴に付ける影。1枚絵の KeyVisualSection.astro の鶴と同じ値で、ずれとぼかしはほかの寸法と同じく --unit 倍する。
  * filter は回転・反転の前にかかるので、回転・反転したパーツは、画面上で同じ向きに落ちるようずれを逆に回しておく
  */
@@ -1469,7 +1464,7 @@ const placementStyle = (frame: Frame, placement: Placement, zIndex: number) => {
       `--scroll-indicator-unit: max(${SCROLL_MIN_HEIGHT} / 63 * 1px, ${round(placement.boxWidth / 99.88, 4)} * var(--unit))`,
       "--scroll-indicator-zoom: 1",
       `left: calc(var(--stage-left) + ${round(placement.x + placement.boxWidth / 2)} * var(--unit))`,
-      `bottom: max(${SCROLL_MIN_BOTTOM}px, ${round(frame.height - placement.y - placement.boxHeight)} * var(--unit))`,
+      `bottom: max(var(--scroll-min-bottom), ${round(frame.height - placement.y - placement.boxHeight)} * var(--unit))`,
     );
     return styles.join("; ");
   }
@@ -1747,8 +1742,21 @@ const mists: { part: PartName; src: string }[] = [
     mix-blend-mode: overlay;
   }
 
+  /*
+   * スクロール誘導の下端から画面の下端までの距離の下限（--scroll-min-bottom）。KV の下端には MessageSection の雲が重なるので、
+   * 画面が小さく KV が縮んでも雲にかからないよう、雲の高さ（MessageSection の --cloud-height）に 8px のすき間を足した分より下げない
+   */
   [data-part="scroll"] {
+    --scroll-min-bottom: calc(50px + 8px);
+
     translate: -50% 0;
+  }
+
+  /* 縦長の画面（縦横比 9:16 以下）では、MessageSection の雲が高さ 20px になる */
+  @media (aspect-ratio <= 9 / 16) {
+    [data-part="scroll"] {
+      --scroll-min-bottom: calc(20px + 8px);
+    }
   }
 
   /*
