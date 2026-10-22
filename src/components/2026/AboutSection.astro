@@ -9,8 +9,8 @@ import Photo1Image from "@/assets/2026/sections/about/photo-1.jpg";
 import Photo2Image from "@/assets/2026/sections/about/photo-2.jpg";
 import Photo3Image from "@/assets/2026/sections/about/photo-3.jpg";
 import Photo4Image from "@/assets/2026/sections/about/photo-4.jpg";
-import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
 import XIcon from "@/assets/icon/icon-x.svg";
+import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 import { TICKET_URL, X_URL } from "@/data/2026/links";
 
@@ -47,12 +47,12 @@ const photos = [
       <div class="actions">
         <Button href={TICKET_URL} class="action" external>
           チケットを購入する
-          <OpenInNewIcon slot="iconRight" />
+          <ArrowCircleIcon slot="iconRight" />
         </Button>
         <Button href={X_URL} variant="black" class="action" external>
           <XIcon slot="iconLeft" />
           @fec_tokyoをフォロー
-          <OpenInNewIcon slot="iconRight" />
+          <ArrowCircleIcon slot="iconRight" />
         </Button>
       </div>
     </div>
@@ -230,11 +230,6 @@ const photos = [
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-  }
-
-  /* Figma のこのボタンは上下 12px（Button の large は 8px）。Button の padding はボーダー分を差し引いているので 11px */
-  .actions .action {
-    padding-block: 11px;
   }
 
   .visual {
