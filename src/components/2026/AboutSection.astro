@@ -9,8 +9,8 @@ import Photo1Image from "@/assets/2026/sections/about/photo-1.jpg";
 import Photo2Image from "@/assets/2026/sections/about/photo-2.jpg";
 import Photo3Image from "@/assets/2026/sections/about/photo-3.jpg";
 import Photo4Image from "@/assets/2026/sections/about/photo-4.jpg";
+import OpenInNewIcon from "@/assets/icon/icon-open-in-new.svg";
 import XIcon from "@/assets/icon/icon-x.svg";
-import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 import { TICKET_URL, X_URL } from "@/data/2026/links";
 
@@ -47,12 +47,12 @@ const photos = [
       <div class="actions">
         <Button href={TICKET_URL} class="action" external>
           チケットを購入する
-          <ArrowCircleIcon slot="iconRight" />
+          <OpenInNewIcon slot="iconRight" />
         </Button>
         <Button href={X_URL} variant="black" class="action" external>
           <XIcon slot="iconLeft" />
           @fec_tokyoをフォロー
-          <ArrowCircleIcon slot="iconRight" />
+          <OpenInNewIcon slot="iconRight" />
         </Button>
       </div>
     </div>
@@ -211,12 +211,14 @@ const photos = [
     display: none;
   }
 
+  /* Figma では本文だけ左に 4px 寄せて、見出しの字面と左端をそろえている */
   .description {
-    max-width: 560px;
+    max-width: 564px;
+    padding-left: 4px;
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 1.8;
     letter-spacing: 0.02em;
 
@@ -228,6 +230,11 @@ const photos = [
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+  }
+
+  /* Figma のこのボタンは上下 12px（Button の large は 8px）。Button の padding はボーダー分を差し引いているので 11px */
+  .actions .action {
+    padding-block: 11px;
   }
 
   .visual {
@@ -359,6 +366,7 @@ const photos = [
 
     .description {
       max-width: none;
+      padding-left: 0;
       font-size: 15px;
       font-weight: 700;
       line-height: 2.2;
