@@ -8,7 +8,6 @@ import MessageSection from "@/components/2026/MessageSection.astro";
 import NotesSection from "@/components/2026/NotesSection.astro";
 import OpeningAnimation from "@/components/2026/OpeningAnimation.astro";
 import OrganizersSection from "@/components/2026/OrganizersSection.astro";
-import OverviewSection from "@/components/2026/OverviewSection.astro";
 import ProposalsSection from "@/components/2026/ProposalsSection.astro";
 import SponsorsSection from "@/components/2026/SponsorsSection.astro";
 import TicketsSection from "@/components/2026/TicketsSection.astro";
@@ -41,9 +40,6 @@ import Layout from "@/layouts/Layout.astro";
     <div class="background-aizome">
       <AboutSection />
       <div class="event-info">
-        <div class="event-info-overview">
-          <OverviewSection />
-        </div>
         <TimetableSection />
         <ProposalsSection />
         <TicketsSection />
@@ -73,8 +69,8 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   /*
-   * 開催概要・タイムテーブル・プロポーザル・チケットの4セクション。
-   * 開催概要は横幅いっぱい、その下にタイムテーブル・プロポーザル・チケットを同じ幅・同じ高さで並べる。
+   * タイムテーブル・プロポーザル・チケットの3セクション。
+   * 同じ幅・同じ高さで並べる。
    */
   .event-info {
     display: grid;
@@ -83,10 +79,6 @@ import Layout from "@/layouts/Layout.astro";
     max-width: var(--width-desktop);
     padding: 40px 120px;
     margin-inline: auto;
-  }
-
-  .event-info-overview {
-    grid-column: 1 / -1;
   }
 
   /* タブレット: 余白を上下左右 40px にする */
