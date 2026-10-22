@@ -44,3 +44,7 @@ export const CODE_OF_CONDUCT_URL =
 
 export const CANCEL_POLICY_URL =
   "https://docs.google.com/document/d/1pyHpjW8yNUDqbZa2p57PjCuEkYn6jWPCNPEQ3PWAq7o/edit?usp=sharing";
+
+// 会場（住友不動産渋谷タワー Abema Towers）の地図（Google マップ）
+export const VENUE_MAP_URL =
+  "https://www.google.com/maps/search/?api=1&query=%E4%BD%8F%E5%8F%8B%E4%B8%8D%E5%8B%95%E7%94%A3%E6%B8%8B%E8%B0%B7%E3%82%BF%E3%83%AF%E3%83%BC";
