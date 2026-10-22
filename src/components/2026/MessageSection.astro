@@ -69,7 +69,7 @@ const overviewItems = [
     }
     <div class="dissolveEdge" aria-hidden="true"></div>
     {
-      /* 文字部分は画面の上下中央に固定し（JS が動くとき）、hold の分スクロールする間そのまま見せる */
+      /* 文字部分は画面の上下中央（タブレット以下は上端から 140px）に固定し（JS が動くとき）、hold の分スクロールする間そのまま見せる */
     }
     <div class="pin">
       <div class="content" data-message-content>
@@ -123,7 +123,7 @@ const overviewItems = [
 
 <script>
   /*
-   * 文字部分（data-message-content）は、画面の上下中央に固定する。画面より高いときは、下端をそろえて全体が見える位置で固定する。
+   * 文字部分（data-message-content）は、画面の上下中央（タブレット以下は上端から 140px）に固定する。画面より高いときは、下端をそろえて全体が見える位置で固定する。
    * 面の上端は文字部分の上に同じだけあけておき、面の上端が画面の上端に届いたちょうどそのときに固定が始まるようにしている。
    *
    * 見出し・段落（data-reveal）は、KV が見えている間は出さず、面の上端が画面の上端に届いたら、
@@ -577,8 +577,17 @@ const overviewItems = [
     }
   }
 
-  /* タブレット以下: メッセージを小さくし、PC で1行につなげていた段落も2行に分ける。開催概要は幅 375px まで */
+  /*
+   * タブレット以下: 文字部分は上下中央ではなく、画面の上端から 140px の位置で固定する（面の上端からの余白も 140px）。
+   * 画面より高いときは PC と同じく、下端をそろえて全体が見える位置で固定する。
+   * メッセージを小さくし、PC で1行につなげていた段落も2行に分ける。開催概要は幅 375px まで
+   */
   @media (width <= 1080px) {
+    .body {
+      --content-top: min(140px, var(--content-space));
+      --content-offset: max(0px, min(140px, var(--content-space)));
+    }
+
     .content {
       gap: 40px;
     }
