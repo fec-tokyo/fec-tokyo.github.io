@@ -1,11 +1,12 @@
 ---
 /*
  * KV の下に重なって流れてくるメッセージのセクション。
- * 上端に雲を並べ、その下のクリーム色の青海波の面に、見出しとメッセージを中央ぞろえで縦に並べる。
+ * 上端に雲を並べ、その下のクリーム色の青海波の面に、見出し・メッセージ・開催概要を中央ぞろえで縦に並べる。
  */
 import CloudImage from "@/assets/2026/sections/message/cloud.svg";
 import TitleLineImage from "@/assets/2026/sections/message/title-line.svg";
 import SeigaihaImage from "@/assets/2026/seigaiha.svg";
+import { VENUE_MAP_URL } from "@/data/2026/links";
 
 // Figma の行の区切りどおりに段落ごと・行ごとに持つ
 const paragraphs = [
@@ -22,8 +23,31 @@ const paragraphs = [
     "第一線の知見・工夫・問い――",
     "持ち寄り、語り合い、次の世代へ紡いでいく｡",
   ],
-  ["AIがつくった未来を生きるのではなく", "AIと共に、未来をつくっていく｡"],
+  // PC では1行につなげて表示する（.paragraph.joined）
+  ["AIがつくった未来を生きるのではなく､", "AIと共に未来をつくっていく｡"],
   ["さあ、いまこそ", "“フロントエンドの未来の話をしよう”"],
+];
+
+// PC で1行につなげる段落の位置
+const JOINED_PARAGRAPH_INDEX = 3;
+
+// メッセージの下に置く開催概要。value は HTML として出す。
+// 開催場所は地図へのリンクを文中に入れる。テンプレートに書くと改行が「は」と「こちら」の間の空白になるので、文字列で持つ
+const overviewItems = [
+  { label: "開催日時", value: "2026年12月05日（土）10:00~18:00" },
+  {
+    label: "開催場所",
+    value: `住友不動産渋谷タワー Abema Towers（アクセスは<a href="${VENUE_MAP_URL}" target="_blank" rel="noopener noreferrer">こちら</a>）`,
+  },
+  {
+    label: "対象",
+    value: "フロントエンドやWeb技術に携わる全てのエンジニア・デザイナー",
+  },
+  { label: "主催", value: "フロントエンドカンファレンス東京実行委員会" },
+  {
+    label: "後援・協力",
+    value: "一般社団法人フロントエンドカンファレンスアソシエーション",
+  },
 ];
 ---
 
@@ -66,8 +90,14 @@ const paragraphs = [
         </hgroup>
         <div class="message">
           {
-            paragraphs.map((lines) => (
-              <p class="paragraph" data-reveal>
+            paragraphs.map((lines, index) => (
+              <p
+                class:list={[
+                  "paragraph",
+                  { joined: index === JOINED_PARAGRAPH_INDEX },
+                ]}
+                data-reveal
+              >
                 {lines.map((line) => (
                   <span class="line">{line}</span>
                 ))}
@@ -75,6 +105,16 @@ const paragraphs = [
             ))
           }
         </div>
+        <dl class="overview" data-reveal>
+          {
+            overviewItems.map(({ label, value }) => (
+              <div class="overviewItem">
+                <dt>{label}</dt>
+                <dd set:html={value} />
+              </div>
+            ))
+          }
+        </dl>
       </div>
       <div class="hold" aria-hidden="true"></div>
     </div>
@@ -431,7 +471,7 @@ const paragraphs = [
     align-items: stretch;
     margin: 0;
     font-family: Montserrat, sans-serif;
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 900;
     line-height: 1;
     text-align: center;
@@ -457,8 +497,8 @@ const paragraphs = [
   .subtitle {
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 16px;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 700;
     line-height: 1;
     letter-spacing: 0.04em;
   }
@@ -466,10 +506,10 @@ const paragraphs = [
   .message {
     display: flex;
     flex-direction: column;
-    gap: 44px;
+    gap: 48px;
     align-items: center;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
     text-align: center;
@@ -479,9 +519,13 @@ const paragraphs = [
   .paragraph {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
     margin: 0;
+  }
+
+  .paragraph.joined {
+    flex-direction: row;
   }
 
   .line {
@@ -489,23 +533,103 @@ const paragraphs = [
     white-space: nowrap;
   }
 
-  /* 締めの「“フロントエンドの未来の話をしよう”」だけ、Figma のとおり本文より大きくする（18px に対して 21px） */
-  .paragraph:last-child .line:last-child {
-    font-size: calc(21em / 18);
+  /*
+   * 開催概要。上下に罫線を引き、項目名の列（80px）と内容を2列のグリッドで並べる。
+   * 項目ごとの div は display: contents にして、dt・dd をそのままグリッドに並べる
+   */
+  .overview {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 12px 20px;
+    width: 100%;
+    max-width: 640px;
+    padding: 20px;
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    border-block: 2px solid var(--color-black);
+
+    /* foundation.css の text-autospace: normal だと「Web」の前後に隙間が入るので、Figma に合わせて切る */
+    text-autospace: no-autospace;
   }
 
-  /*
-   * モバイル: デザインはまだないので、メッセージは Figma の行のまま折り返さず、
-   * いちばん長い行（21文字 + 字間）が幅に収まるよう、画面幅に合わせて文字を小さくする（最大 16px）
-   */
-  @media (width <= 720px) {
+  .overviewItem {
+    display: contents;
+  }
+
+  .overview dd {
+    margin: 0;
+  }
+
+  /* リンクは set:html で入れるので、scoped の class が付かない。:global で当てる */
+  .overview dd :global(a) {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-position: from-font;
+  }
+
+  @media (hover: hover) {
+    .overview dd :global(a:hover) {
+      text-decoration: none;
+    }
+  }
+
+  /* タブレット以下: メッセージを小さくし、PC で1行につなげていた段落も2行に分ける。開催概要は幅 375px まで */
+  @media (width <= 1080px) {
     .content {
-      gap: 48px;
+      gap: 40px;
+    }
+
+    .subtitle {
+      font-size: 16px;
     }
 
     .message {
       gap: 32px;
-      font-size: min(16px, (100vw - 40px) / 22.5);
+      font-size: 14px;
+    }
+
+    .paragraph {
+      gap: 12px;
+    }
+
+    .paragraph.joined {
+      flex-direction: column;
+    }
+
+    .overview {
+      max-width: 375px;
+      border-block-width: 1px;
+    }
+  }
+
+  /*
+   * iPhone SE など幅や高さが小さい画面: 文字部分が1画面に収まるよう、メッセージと開催概要をさらに詰める。
+   * 開催概要は左右に 20px あけて横幅いっぱいに広げる
+   */
+  @media (width <= 375px), (width <= 1080px) and (height <= 750px) {
+    .content {
+      gap: 24px;
+    }
+
+    .message {
+      gap: 20px;
+      font-size: 12px;
+    }
+
+    .paragraph {
+      gap: 6px;
+    }
+
+    .overview {
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 8px 20px;
+      max-width: none;
+      padding: 12px;
+      font-size: 10px;
     }
   }
 </style>
