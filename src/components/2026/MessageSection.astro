@@ -41,6 +41,10 @@ const paragraphs = [
     }
     <div class="dissolve" aria-hidden="true"></div>
     {
+      /* ディゾルブの途中で About が入ってきても境目が出ないよう、面の下端を About の藍色に溶かしておく帯 */
+    }
+    <div class="dissolveEdge" aria-hidden="true"></div>
+    {
       /* 文字部分は画面の上下中央に固定し（JS が動くとき）、hold の分スクロールする間そのまま見せる */
     }
     <div class="pin">
@@ -88,11 +92,14 @@ const paragraphs = [
    * それより下にあったものは画面に入ったら、前の段落が出始めてから PARAGRAPH_STAGGER たつまで待ってから同じように出す。
    * 画面より上に過ぎた要素も出したことにする（アンカーリンクなどで飛ばしたときや、途中から開いたときのため）。
    *
-   * セクションの下端が画面の下端に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
+   * セクションの下端が、画面の下端から画面 FADE_END_SCREENS 枚分上に届くまでの画面 FADE_SCREENS 枚分のスクロールで（固定の終わり際から）、
    * 面を About の藍色にディゾルブさせ（--dissolve: 0 → 1）、同時に文字部分を透明にする。
-   * セクションの下端が画面に入る時点では、どちらも変わり切っていて、すぐ下に About の中身が続く。
+   * 変わり切るのを待たずに、ディゾルブの途中から下の About が画面に入ってくる。
    */
-  const FADE_SCREENS = 0.4;
+  const FADE_SCREENS = 0.6;
+
+  // ディゾルブが終わる位置。セクションの下端が、画面の下端からこの枚数分上に来たときに変わり切る
+  const FADE_END_SCREENS = 0.4;
 
   // 前の要素が出終わってから次の要素を出し始めるまでの間（ms）。マイナスなので、前の要素が出終わる前に重ねて出し始める
   const REVEAL_LAG = -100;
@@ -168,13 +175,14 @@ const paragraphs = [
           ready = true;
           reveal([...seen]);
         }
-        // セクションの下端が、画面の下端より FADE_SCREENS 枚分下にあるときに 0、画面の下端に届いたときに 1
+        // セクションの下端が、ディゾルブが終わる位置より FADE_SCREENS 枚分下にあるときに 0、その位置に届いたときに 1
         const progress = Math.min(
           1,
           Math.max(
             0,
             1 -
-              (body.getBoundingClientRect().bottom - innerHeight) /
+              (body.getBoundingClientRect().bottom -
+                innerHeight * (1 - FADE_END_SCREENS)) /
                 (innerHeight * FADE_SCREENS),
           ),
         );
@@ -302,6 +310,20 @@ const paragraphs = [
     opacity: var(--dissolve, 0);
   }
 
+  /*
+   * 面の下端の帯。--dissolve に関係なく、上は透明・下端は About と同じ藍色 + ノイズになるグラデーションで常に重ねておく。
+   * セクションの下端が画面に入るのはディゾルブの途中からなので、帯の濃いところがディゾルブ前のクリーム色の面に見えることはない
+   */
+  .dissolveEdge {
+    position: absolute;
+    inset: auto 0 0;
+    height: 40svh;
+    pointer-events: none;
+    background-color: var(--color-aizome);
+    background-image: var(--texture-noise-subtle);
+    mask-image: linear-gradient(transparent, black);
+  }
+
   /* 文字部分はディゾルブの面より手前に置く */
   .pin {
     position: relative;
@@ -323,7 +345,7 @@ const paragraphs = [
     }
 
     .hold {
-      height: 100svh;
+      height: 300svh;
     }
   }
 
