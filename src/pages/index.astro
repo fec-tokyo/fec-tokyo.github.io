@@ -8,11 +8,20 @@ import { PREVIEW } from "astro:env/server";
     <meta charset="UTF-8" />
     {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <meta name="viewport" content="width=device-width" />
-    <meta color-scheme="dark" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>Frontend Conference Tokyo</title>
     <meta http-equiv="refresh" content={`0;url=${Astro.site}2026`} />
+    <style>
+      /* リダイレクト中に白地が見えないよう、2026 のファーストビューと同じ赤にしておく */
+      html {
+        background-color: #ff1c00;
+      }
+      a {
+        color: #fff;
+      }
+    </style>
   </head>
   <body>
     <p><a href="/2026/">Frontend Conference Tokyo 2026</a></p>
