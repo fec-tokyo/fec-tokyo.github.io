@@ -75,7 +75,7 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
       }
       <Button
         href={TOP_URL}
-        variant="white"
+        variant="black"
         class="backButton"
         data-back-button
       >
@@ -239,10 +239,21 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
     max-width: 320px;
   }
 
+  /* 黒いボタンはホバーで黒い枠線が付くが、戻るボタンには出さない */
+  @media (hover: hover) {
+    .container .backButton:hover {
+      border-color: transparent;
+    }
+  }
+
   /* モバイル: 左右の余白を 20px にし、プロフィールは文章の下に写真を横幅いっぱいで置く */
   @media (width <= 720px) {
     .container {
       padding-inline: 20px;
+    }
+
+    .overviewText {
+      font-size: 18px;
     }
 
     .profile {

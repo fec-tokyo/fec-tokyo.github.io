@@ -205,10 +205,33 @@ const Tag = url ? "a" : "div";
     color: var(--color-gray);
   }
 
-  /* モバイル: 2列に並べて幅が狭くなるので、文字を少し小さくする */
+  /*
+   * モバイル: 2列に並べて幅が狭くなるので、名前と所属の下に横幅いっぱいの矢印のボタンを置く（Figma の SP 用のカード）。
+   * 矢印は帯の下端に寄せて、同じ段のカードで位置をそろえる
+   */
   @media (width <= 720px) {
-    .name {
-      font-size: 16px;
+    .info:not(.empty) {
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+      padding: 6px 10px;
+    }
+
+    .texts {
+      flex: none;
+      padding-bottom: 0;
+    }
+
+    .company {
+      line-height: 1.2;
+    }
+
+    .arrow {
+      width: auto;
+      height: auto;
+      /* Figma の上下の余白は 2px。ホバー用の透明な枠線（1px）の分を差し引いている */
+      padding-block: 1px;
+      margin-top: auto;
     }
 
     .comingSoon {
@@ -217,11 +240,6 @@ const Tag = url ? "a" : "div";
 
     .publishDate {
       font-size: 14px;
-    }
-
-    .arrow {
-      width: 32px;
-      height: 32px;
     }
   }
 </style>
