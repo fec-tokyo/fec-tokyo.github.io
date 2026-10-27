@@ -67,7 +67,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
     ],
     speakers: [
       {
-        name: "keita yamada",
+        name: "Keita Yamada",
         company: "Freelance Web Designer / Developer",
         image: KeitaYamadaImage,
         profile: "フリーランスで活動しているWebサイト制作者です。",
