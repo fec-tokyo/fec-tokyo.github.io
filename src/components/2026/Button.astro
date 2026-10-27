@@ -14,7 +14,7 @@ import type { HTMLAttributes } from "astro/types";
 type Props = Omit<HTMLAttributes<"a">, "href"> & {
   href?: string;
   size?: "large" | "medium";
-  variant?: "red" | "black";
+  variant?: "red" | "black" | "white";
   // 別タブで開く
   external?: boolean;
 };
@@ -136,6 +136,12 @@ const externalAttributes = external
     filter: drop-shadow(0 2px 2px rgb(0 0 0 / 25%));
   }
 
+  .white {
+    color: var(--color-black);
+    background-color: var(--color-white);
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 25%));
+  }
+
   /* 公開前のボタン */
   .disabled {
     color: #d4d4d4;
@@ -159,6 +165,12 @@ const externalAttributes = external
       color: var(--color-black);
       background-color: var(--color-off-white);
       border-color: var(--color-black);
+    }
+
+    .white:hover {
+      color: var(--color-off-white);
+      background-color: var(--color-black);
+      border-color: var(--color-off-white);
     }
   }
 </style>

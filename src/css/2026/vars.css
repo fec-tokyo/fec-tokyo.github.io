@@ -17,6 +17,8 @@
   --color-peach: #ffc19e;
   --color-coral: #ff9170;
   --color-cream: #fff2c9;
+  --color-gray: #949494;
+  --color-light-gray: #d4d4d4;
 
   /* 藍染の面の地の色。ノイズを重ねた平均の色が Figma の書き出し（#266e77）と合うように暗くしている */
   --color-aizome: #18656f;
@@ -42,4 +44,23 @@
 
   /* 藍染の面に重ねる薄いノイズ。--texture-noise の不透明度を 4 割程度にしたもの */
   --texture-noise-subtle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.2 -0.04'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /*
+   * --texture-noise-subtle を敷くときの大きさ（background-size に使う）。
+   * ノイズの粒は CSS の px 単位で描かれるので、高解像度の画面ではそのままだと粒が 2〜3 倍に拡大されて粗く見える。
+   * 画素密度に合わせてタイルを縮め、どの画面でも粒が実際の画素 1 つ分（等倍）になるようにする
+   */
+  --texture-noise-subtle-size: 200px;
+}
+
+@media (resolution >= 2x) {
+  :root {
+    --texture-noise-subtle-size: 100px;
+  }
+}
+
+@media (resolution >= 3x) {
+  :root {
+    --texture-noise-subtle-size: calc(200px / 3);
+  }
 }

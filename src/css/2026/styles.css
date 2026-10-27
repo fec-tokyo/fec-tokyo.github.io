@@ -46,6 +46,7 @@
 .background-aizome {
   background-color: var(--color-aizome);
   background-image: var(--texture-noise-subtle);
+  background-size: var(--texture-noise-subtle-size);
 }
 
 /*
@@ -57,6 +58,7 @@
   background-image:
     var(--texture-noise-subtle),
     linear-gradient(180deg, var(--color-aizome), var(--color-cream));
+  background-size: var(--texture-noise-subtle-size), auto;
 }
 
 /*
@@ -75,4 +77,5 @@
     ),
     url("../../assets/2026/seigaiha.svg");
   background-position: 0 0;
+  background-size: var(--texture-noise-subtle-size), auto, auto;
 }

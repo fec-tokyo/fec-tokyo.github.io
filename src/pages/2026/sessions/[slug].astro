@@ -1,0 +1,267 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
+import Button from "@/components/2026/Button.astro";
+import Footer from "@/components/2026/Footer.astro";
+import Head from "@/components/2026/Head.astro";
+import Header from "@/components/2026/Header.astro";
+import { GUEST_SESSIONS } from "@/data/2026/guestSpeakers";
+import { TOP_URL } from "@/data/2026/links";
+import "@/css/2026/styles.css";
+import "@/css/2026/vars.css";
+import Layout from "@/layouts/Layout.astro";
+
+// 概要が入っているセッションだけページを作る
+export const getStaticPaths = (() =>
+  GUEST_SESSIONS.flatMap(({ slug, overview, ogImage, speakers }) => {
+    if (!overview) return [];
+    return [{ params: { slug }, props: { overview, ogImage, speakers } }];
+  })) satisfies GetStaticPaths;
+
+const { overview, ogImage, speakers } = Astro.props;
+const speakerNames = speakers.map(({ name }) => name).join(" / ");
+const title = `${speakerNames} | フロントエンドカンファレンス東京 2026`;
+---
+
+<Layout
+  title={title}
+  description={overview.join("")}
+  ogImage={ogImage?.src ?? "ogp/ogp_2026.jpg"}
+>
+  <Head slot="head" />
+  <div class="max-width">
+    <Header />
+  </div>
+  <main class="background-aizome">
+    <article class="container" aria-labelledby="speaker-title">
+      <h1 id="speaker-title" class="title">Guest Speaker</h1>
+      <section class="overview" aria-labelledby="overview-title">
+        <h2 id="overview-title" class="overviewTitle">Overview</h2>
+        <div class="overviewText">
+          {overview.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </section>
+      {
+        /* ふたりで登壇するセッションは、プロフィールを縦に並べる */
+        speakers.map((speaker) => (
+          <section class="profile" aria-label={`${speaker.name}のプロフィール`}>
+            {speaker.image ? (
+              <Image
+                src={speaker.image}
+                alt=""
+                width={360}
+                class="photo"
+                loading="eager"
+              />
+            ) : (
+              <div class="photo noPhoto" />
+            )}
+            <div class="profileBody">
+              <div class="nameBlock">
+                <p class="name">{speaker.name}</p>
+                {speaker.company && <p class="company">{speaker.company}</p>}
+              </div>
+              <p class="profileText">{speaker.profile}</p>
+            </div>
+          </section>
+        ))
+      }
+      {
+        /*
+         * サイト内から来たときはブラウザの「戻る」と同じにする（下の script）。
+         * URL を直接開いたときなど、戻る先がサイトの外になるときは、トップページへ移る
+         */
+      }
+      <Button
+        href={TOP_URL}
+        variant="white"
+        class="backButton"
+        data-back-button
+      >
+        <ArrowCircleIcon slot="iconLeft" direction="left" />
+        前のページへ戻る
+      </Button>
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  // サイト内のページから来たときだけ、履歴を戻る
+  document
+    .querySelector<HTMLAnchorElement>("[data-back-button]")
+    ?.addEventListener("click", (event) => {
+      const referrer = document.referrer ? new URL(document.referrer) : null;
+      if (referrer?.origin !== location.origin || history.length <= 1) return;
+      event.preventDefault();
+      history.back();
+    });
+</script>
+
+<style>
+  /*
+   * ヘッダーは position: fixed で浮いているので、その分（上の余白 20px + 高さ 40px + 下の余白 20px）を空けてから本文を置く
+   */
+  main {
+    flex-grow: 1;
+    padding-top: 80px;
+  }
+
+  /*
+   * 本文が短くて画面の高さに足りないときも、フッターの下に余白を作らないよう、
+   * body を画面の高さいっぱいにして、足りない分は藍染の面（main）を伸ばす
+   */
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  .max-width {
+    max-width: var(--width-desktop);
+    margin-inline: auto;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    max-width: var(--width-tablet);
+    padding: 80px 40px;
+    margin-inline: auto;
+    color: var(--color-white);
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-off-white);
+    text-transform: uppercase;
+  }
+
+  .overview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .overviewTitle {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-box: trim-both cap alphabetic;
+  }
+
+  /* 段落のあいだは文字 1 つ分空ける */
+  .overviewText {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+
+  .overviewText p {
+    margin: 0;
+  }
+
+  .profile {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-white);
+  }
+
+  .photo {
+    display: block;
+    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  /* 写真がまだないスピーカーは、写真の位置にグレーの面を出す */
+  .photo.noPhoto {
+    background-color: var(--color-gray);
+  }
+
+  .profileBody {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 14px;
+    align-self: stretch;
+    justify-content: center;
+    min-width: 0;
+    padding-bottom: 8px;
+    font-family: "Noto Sans JP", sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .nameBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .name {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .company,
+  .profileText {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* 前のページへ戻るボタン。中央に置き、幅は最大 320px */
+  .backButton {
+    align-self: center;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* モバイル: 左右の余白を 20px にし、プロフィールは文章の下に写真を横幅いっぱいで置く */
+  @media (width <= 720px) {
+    .container {
+      padding-inline: 20px;
+    }
+
+    .profile {
+      flex-direction: column-reverse;
+      gap: 8px;
+    }
+
+    .photo {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .profileBody {
+      align-self: auto;
+    }
+
+    .backButton {
+      max-width: none;
+    }
+  }
+</style>

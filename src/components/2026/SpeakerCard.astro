@@ -1,0 +1,227 @@
+---
+import { Image } from "astro:assets";
+import ArrowRightIcon from "@/assets/icon/icon-arrow-right.svg";
+import type { GuestSpeaker } from "@/data/2026/guestSpeakers";
+
+/*
+ * ゲストスピーカーのカード。上に正方形の写真、下に名前と所属を置く。
+ * - speaker を渡さないときは、まだ公開していない枠として「coming soon...」と公開予定日を出す
+ * - url（セッションの詳細ページ）を渡したときは、カード全体をリンクにして、ホバーで下の帯を黒くする。
+ *   詳細ページがまだないスピーカーはリンクにせず、矢印も出さない
+ * - 写真がまだないスピーカーは、写真の位置にグレーの面を出す
+ */
+type Props =
+  | {
+      speaker: GuestSpeaker;
+      url?: string;
+    }
+  | {
+      speaker?: undefined;
+      publishDateText: string;
+    };
+
+const props = Astro.props;
+const speaker = props.speaker;
+const url = "url" in props ? props.url : undefined;
+const Tag = url ? "a" : "div";
+---
+
+{
+  speaker ? (
+    <Tag class:list={["card", { link: url }]} href={url}>
+      <div class:list={["photoFrame", { noPhoto: !speaker.image }]}>
+        {speaker.image && (
+          <Image src={speaker.image} alt="" width={480} class="photo" />
+        )}
+      </div>
+      <div class="info">
+        <div class="texts">
+          <p class="name">{speaker.name}</p>
+          {speaker.company && <p class="company">{speaker.company}</p>}
+        </div>
+        {url && (
+          <span class="arrow" aria-hidden="true">
+            <ArrowRightIcon />
+          </span>
+        )}
+      </div>
+    </Tag>
+  ) : (
+    <div class="card">
+      <div class="photoFrame empty">
+        <p class="comingSoon">coming soon...</p>
+      </div>
+      <div class="info empty">
+        <p class="publishDate">
+          {"publishDateText" in props && props.publishDateText}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+<style scoped>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  .photoFrame {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid var(--color-white);
+    border-radius: 16px 16px 0 0;
+    transition: border-color 200ms ease;
+  }
+
+  .photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 400ms var(--easing-out);
+  }
+
+  .photoFrame.noPhoto {
+    background-color: var(--color-gray);
+  }
+
+  .info {
+    display: flex;
+    flex-grow: 1;
+    gap: 8px;
+    align-items: center;
+    padding: 12px;
+    background-color: var(--color-white);
+    border-radius: 0 0 16px 16px;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .texts {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    padding-bottom: 8px;
+    font-family: "Noto Sans JP", sans-serif;
+    overflow-wrap: anywhere;
+  }
+
+  .name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .company {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .arrow {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var(--color-white);
+    background-color: var(--color-black);
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    transition: border-color 200ms ease;
+  }
+
+  .arrow :global(svg) {
+    display: block;
+  }
+
+  @media (hover: hover) {
+    .link:hover .photoFrame {
+      border-color: var(--color-black);
+    }
+
+    /* 写真は枠（overflow: hidden）の中で拡大するので、カードの大きさは変わらない */
+    .link:hover .photo {
+      scale: 1.2;
+    }
+
+    .link:hover .info {
+      color: var(--color-white);
+      background-color: var(--color-black);
+    }
+
+    .link:hover .arrow {
+      border-color: var(--color-white);
+    }
+  }
+
+  .link:focus-visible {
+    outline: 2px solid var(--color-off-white);
+    outline-offset: 4px;
+    border-radius: 16px;
+  }
+
+  /* まだ公開していない枠 */
+  .photoFrame.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray);
+  }
+
+  .comingSoon {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--color-light-gray);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .info.empty {
+    min-height: 66px;
+    padding: 12px 12px 16px;
+  }
+
+  .publishDate {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-gray);
+  }
+
+  /* モバイル: 2列に並べて幅が狭くなるので、文字を少し小さくする */
+  @media (width <= 720px) {
+    .name {
+      font-size: 16px;
+    }
+
+    .comingSoon {
+      font-size: 18px;
+    }
+
+    .publishDate {
+      font-size: 14px;
+    }
+
+    .arrow {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>

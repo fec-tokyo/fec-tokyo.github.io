@@ -2,6 +2,9 @@
 // プレビュー用ビルドでは base が /preview/ になるので BASE_URL を前に付ける
 export const TOP_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/2026/`;
 
+// セッションの詳細ページ（src/pages/2026/sessions/[slug]）
+export const sessionUrl = (slug: string) => `${TOP_URL}sessions/${slug}/`;
+
 // チケット販売ページ（fortee）
 export const TICKET_URL = "https://fortee.jp/fec-tokyo-2026/ticket-shop/index";
 
