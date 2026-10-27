@@ -114,8 +114,10 @@ const Tag = url ? "a" : "div";
     overflow-wrap: anywhere;
   }
 
+  /* 英語の名前は Montserrat、日本語の名前は Noto Sans JP（Montserrat にない文字は Noto Sans JP で出る） */
   .name {
     margin: 0;
+    font-family: Montserrat, "Noto Sans JP", sans-serif;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.2;
