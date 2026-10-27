@@ -1,0 +1,114 @@
+---
+import SpeakerCard from "@/components/2026/SpeakerCard.astro";
+import {
+  GUEST_SESSIONS,
+  GUEST_SPEAKERS_COMING_SOON,
+} from "@/data/2026/guestSpeakers";
+import { sessionUrl } from "@/data/2026/links";
+
+// ふたりで登壇するセッションも、カードはスピーカーごとに並べる（リンク先は同じセッションの詳細ページ）
+const cards = GUEST_SESSIONS.flatMap((session) =>
+  session.speakers.map((speaker) => ({
+    speaker,
+    url: session.overview ? sessionUrl(session.slug) : undefined,
+  })),
+);
+---
+
+<section
+  id="guest-speakers"
+  class="container"
+  aria-labelledby="guest-speakers-title"
+>
+  <hgroup class="heading">
+    <h2 id="guest-speakers-title" class="title">Guest Speakers</h2>
+    <p class="subtitle">注目のゲストスピーカー</p>
+  </hgroup>
+  <ul class="list">
+    {
+      cards.map(({ speaker, url }) => (
+        <li>
+          <SpeakerCard speaker={speaker} url={url} />
+        </li>
+      ))
+    }
+    {
+      GUEST_SPEAKERS_COMING_SOON.map(({ publishDateText }) => (
+        <li>
+          <SpeakerCard publishDateText={publishDateText} />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: var(--width-desktop);
+    padding: 80px 120px;
+    margin-inline: auto;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-off-white);
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-weight: inherit;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 20px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* タブレット */
+  @media (width <= 1080px) {
+    .container {
+      padding-inline: 40px;
+    }
+  }
+
+  /* モバイル: 4列だと小さすぎるので2列にする */
+  @media (width <= 720px) {
+    .container {
+      padding: 40px 20px;
+    }
+
+    .title {
+      font-size: 44px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+    }
+
+    .list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+</style>

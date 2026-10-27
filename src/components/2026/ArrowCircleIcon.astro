@@ -1,19 +1,30 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import ArrowIcon from "@/assets/icon/icon-arrow.svg";
+import ArrowRightIcon from "@/assets/icon/icon-arrow-right.svg";
 
 /*
- * 丸で囲んだ右上向きの矢印。別タブで開くリンク（ヘッダーの NEWS、リンクボタン）の右側に置く。
+ * 丸で囲んだ矢印。
+ * - direction="upRight"（既定）: 右上向き。別タブで開くリンク（ヘッダーの NEWS、リンクボタン）の右側に置く
+ * - direction="left": 左向き。前のページへ戻るボタンの左側に置く
  * 枠線と矢印は文字色（currentColor）で描くので、置いた場所の文字色やホバーの色にそのまま合う。
  */
-type Props = HTMLAttributes<"span">;
+type Props = HTMLAttributes<"span"> & {
+  direction?: "upRight" | "left";
+};
 
 // 親から渡した class のスコープ用の属性も入るので、要素にそのまま展開する
-const { class: className, ...rest } = Astro.props;
+const { class: className, direction = "upRight", ...rest } = Astro.props;
 ---
 
 <span class:list={["circle", className]} aria-hidden="true" {...rest}>
-  <ArrowIcon />
+  {
+    direction === "left" ? (
+      <ArrowRightIcon width={14} height={14} class="left" />
+    ) : (
+      <ArrowIcon />
+    )
+  }
 </span>
 
 <style scoped>
@@ -33,5 +44,10 @@ const { class: className, ...rest } = Astro.props;
 
   .circle :global(svg) {
     display: block;
+  }
+
+  /* 右向きの矢印を裏返して左向きにする */
+  .circle :global(.left) {
+    rotate: 180deg;
   }
 </style>
