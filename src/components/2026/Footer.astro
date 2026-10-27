@@ -137,8 +137,12 @@ const links = [
     }
   }
 
-  /* モバイル: リンクとコピーライトを縦に積む。左右の余白はタブレットと同じ 40px */
+  /* モバイル: リンクとコピーライトを縦に積む */
   @media (width <= 720px) {
+    .inner {
+      padding-inline: 20px;
+    }
+
     .bottom {
       flex-direction: column;
       gap: 24px;
