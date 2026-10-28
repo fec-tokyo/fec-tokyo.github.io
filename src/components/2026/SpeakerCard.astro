@@ -73,6 +73,8 @@ const Tag = url ? "a" : "div";
     position: relative;
     aspect-ratio: 1;
     overflow: hidden;
+    /* 透過のある写真（PNG）でもセクションの背景が透けないように、白を敷いておく */
+    background-color: var(--color-white);
     border: 2px solid var(--color-white);
     border-radius: 16px 16px 0 0;
     transition: border-color 200ms ease;

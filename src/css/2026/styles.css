@@ -15,6 +15,20 @@
  */
 
 /*
+ * #guest-speakers などのページ内リンクで飛んだとき、見出しが固定のヘッダー（Header.astro）に隠れないよう、
+ * ヘッダーの高さの分だけ下で止める。780px 以下はヘッダーが2段（News が下の段）になるので高くなる
+ */
+html {
+  scroll-padding-top: 60px;
+}
+
+@media (width <= 780px) {
+  html {
+    scroll-padding-top: 92px;
+  }
+}
+
+/*
  * 背景の面
  * 使う要素に class を付けるだけで敷けるようにしている。テクスチャ類は vars.css。
  */

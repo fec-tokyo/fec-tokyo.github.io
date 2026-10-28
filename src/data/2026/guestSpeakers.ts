@@ -1,21 +1,20 @@
+import Og0b5vrImage from "@/assets/2026/ogp/ogp_0b5vr.png";
+import AkihikoKigureOgImage from "@/assets/2026/ogp/ogp_akihikokigure.png";
+import AmagiOgImage from "@/assets/2026/ogp/ogp_amagi.png";
 import HirokiTaniOgImage from "@/assets/2026/ogp/ogp_hirokitani.png";
 import MasatoHondaOgImage from "@/assets/2026/ogp/ogp_hondamasato.png";
 import KeitaYamadaOgImage from "@/assets/2026/ogp/ogp_keitayamada.png";
 import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
 import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
 import HirokiTaniImage from "@/assets/2026/speaker-icons/tani_hiroki.jpg";
-// まだ公開していない登壇者のアイコンと OGP 画像。GUEST_SESSIONS のコメントを外すときに、あわせてコメントを外す
-// import Og0b5vrImage from "@/assets/2026/ogp/ogp_0b5vr.png";
-// import AkihikoKigureOgImage from "@/assets/2026/ogp/ogp_akihikokigure.png";
-// import AmagiOgImage from "@/assets/2026/ogp/ogp_amagi.png";
 // import KyouheiHorizumiOgImage from "@/assets/2026/ogp/ogp_horizumikyohei.png";
 // import KogisoOgImage from "@/assets/2026/ogp/ogp_kogiso.png";
 // import LacolacoOgImage from "@/assets/2026/ogp/ogp_lacolaco.png";
 // import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
 // import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
-// import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
-// import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
-// import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
+import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
+import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
+import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
 // import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
 // import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
 // import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
@@ -93,54 +92,55 @@ export const GUEST_SESSIONS: GuestSession[] = [
       },
     ],
   },
-  // {
-  //   // TODO: フォームの登壇概要が「1」だったので、概要が届いたら overview を入れる
-  //   slug: "amagi",
-  //   ogImage: AmagiOgImage,
-  //   overview: null,
-  //   speakers: [
-  //     {
-  //       name: "Amagi",
-  //       company: null,
-  //       image: AmagiImage,
-  //       profile:
-  //         "Webグラフィックスエンジニア。2021年より動画生成/編集サービスInVideoの開発に携わる。カナダ・バンクーバー在住。",
-  //       sns: "https://x.com/amagitakayosi",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "akihiko-kigure",
-  //   ogImage: AkihikoKigureOgImage,
-  //   overview: ["（仮）MDN Web Docs 翻訳コミュニティの活動紹介"],
-  //   speakers: [
-  //     {
-  //       name: "akihiko.KIgure a.k.a グレさん",
-  //       company: null,
-  //       image: AkihikoKigureImage,
-  //       profile:
-  //         "akihiko.KIgure a.k.a グレさん 渋谷とグンマー帝国の 2 拠点でフロントエンド開発をしています。",
-  //       sns: "https://x.com/ic_lifewood",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "0b5vr",
-  //   ogImage: Og0b5vrImage,
-  //   overview: [
-  //     "私は、数KB〜数十KBの単一HTMLファイルから映像と音楽をリアルタイム生成する作品をつくっています。その中では、普段のWeb開発ではあまり触れる機会のないブラウザAPIが活躍しています。本セッションでは、自作の作品を題材に、WebGLとWeb Audioを用いた映像・音楽生成、そしてDecompressionStreamや圧縮技術を駆使してHTMLファイルを極限まで小さくするテクニックを紹介します。デモシーン特有のブラウザ技術に触れて、刺激を受けていただければ幸いです。",
-  //   ],
-  //   speakers: [
-  //     {
-  //       name: "0b5vr",
-  //       company: null,
-  //       image: Image0b5vr,
-  //       profile:
-  //         "0b5vrは、日本を拠点に活動するデモシーナー。64KBや8KBといったサイズ制限のある単一のHTMLファイルから、映像と音楽をブラウザ上でリアルタイム生成する作品の制作を得意とする。",
-  //       sns: "https://x.com/0b5vr",
-  //     },
-  //   ],
-  // },
+  {
+    slug: "amagi",
+    ogImage: AmagiOgImage,
+    overview: [
+      "Rust/WebAssemblyで動画編集アプリを開発した知見"
+    ],
+    speakers: [
+      {
+        name: "Amagi",
+        company: null,
+        image: AmagiImage,
+        profile:
+          "Webグラフィックスエンジニア。2021年より動画生成/編集サービスInVideoの開発に携わる。カナダ・バンクーバー在住。",
+        sns: "https://x.com/amagitakayosi",
+      },
+    ],
+  },
+  {
+    slug: "akihiko-kigure",
+    ogImage: AkihikoKigureOgImage,
+    overview: ["（仮）MDN Web Docs 翻訳コミュニティの活動紹介"],
+    speakers: [
+      {
+        name: "akihiko.KIgure a.k.a グレさん",
+        company: null,
+        image: AkihikoKigureImage,
+        profile:
+          "akihiko.KIgure a.k.a グレさん 渋谷とグンマー帝国の 2 拠点でフロントエンド開発をしています。",
+        sns: "https://x.com/ic_lifewood",
+      },
+    ],
+  },
+  {
+    slug: "0b5vr",
+    ogImage: Og0b5vrImage,
+    overview: [
+      "私は、数KB〜数十KBの単一HTMLファイルから映像と音楽をリアルタイム生成する作品をつくっています。その中では、普段のWeb開発ではあまり触れる機会のないブラウザAPIが活躍しています。本セッションでは、自作の作品を題材に、WebGLとWeb Audioを用いた映像・音楽生成、そしてDecompressionStreamや圧縮技術を駆使してHTMLファイルを極限まで小さくするテクニックを紹介します。デモシーン特有のブラウザ技術に触れて、刺激を受けていただければ幸いです。",
+    ],
+    speakers: [
+      {
+        name: "0b5vr",
+        company: null,
+        image: Image0b5vr,
+        profile:
+          "0b5vrは、日本を拠点に活動するデモシーナー。64KBや8KBといったサイズ制限のある単一のHTMLファイルから、映像と音楽をブラウザ上でリアルタイム生成する作品の制作を得意とする。",
+        sns: "https://x.com/0b5vr",
+      },
+    ],
+  },
   // {
   //   // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる
   //   slug: "ricardo-cabello",
