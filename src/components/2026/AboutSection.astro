@@ -13,6 +13,7 @@ import XIcon from "@/assets/icon/icon-x.svg";
 import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
 import { TICKET_URL, X_URL } from "@/data/2026/links";
+import { TrackEvent, TrackLocation, TrackPlatform } from "@/data/tracking";
 
 // TODO: 過去のカンファレンスの写真が揃ったら差し替える。いまは Unsplash の写真を仮で並べている
 const photos = [
@@ -49,8 +50,8 @@ const photos = [
           href={TICKET_URL}
           class="action"
           external
-          data-track-event="ticket_click"
-          data-track-location="about"
+          data-track-event={TrackEvent.TicketClick}
+          data-track-location={TrackLocation.About}
         >
           チケットを購入する
           <ArrowCircleIcon slot="iconRight" />
@@ -60,9 +61,9 @@ const photos = [
           variant="black"
           class="action"
           external
-          data-track-event="sns_click"
-          data-track-platform="x"
-          data-track-location="about"
+          data-track-event={TrackEvent.SnsClick}
+          data-track-platform={TrackPlatform.X}
+          data-track-location={TrackLocation.About}
         >
           <XIcon slot="iconLeft" />
           @fec_tokyoをフォロー

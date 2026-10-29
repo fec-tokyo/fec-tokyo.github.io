@@ -1,6 +1,7 @@
 ---
 import ArrowCircleIcon from "@/components/2026/ArrowCircleIcon.astro";
 import Button from "@/components/2026/Button.astro";
+import type { TrackEventName, TrackLocationName } from "@/data/tracking";
 
 /*
  * タイムテーブル・プロポーザル・チケットのセクションで使う、見出し・説明・リンクボタンを縦に並べた枠。
@@ -13,11 +14,13 @@ type Props = {
   description: string | string[];
   label: string;
   href: string | null;
-  // クリックを GTM に送るイベント名
-  trackEvent: string;
+  // クリックを GTM に送るときのイベント名と、リンクを置いている場所
+  trackEvent: TrackEventName;
+  trackLocation: TrackLocationName;
 };
 
-const { id, title, description, label, href, trackEvent } = Astro.props;
+const { id, title, description, label, href, trackEvent, trackLocation } =
+  Astro.props;
 const titleId = `${id}-title`;
 const descriptionLines = Array.isArray(description)
   ? description
@@ -42,7 +45,7 @@ const descriptionLines = Array.isArray(description)
     class="action"
     external
     data-track-event={href ? trackEvent : undefined}
-    data-track-location={id}
+    data-track-location={href ? trackLocation : undefined}
   >
     {label}
     <ArrowCircleIcon slot="iconRight" />

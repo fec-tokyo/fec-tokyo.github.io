@@ -5,6 +5,7 @@ import Button from "@/components/2026/Button.astro";
 import HeaderMenuContent from "@/components/2026/HeaderMenuContent.astro";
 import { TICKET_URL, TOP_URL } from "@/data/2026/links";
 import { NEWS } from "@/data/2026/news";
+import { TrackEvent, TrackLocation } from "@/data/tracking";
 
 // 文字数に比例させて、本文の長さが変わっても流れる速さをおおよそ揃える
 const marqueeDuration = `${NEWS.text.length * 0.4}s`;
@@ -40,8 +41,8 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     size="medium"
     class="ticket"
     external
-    data-track-event="ticket_click"
-    data-track-location="header"
+    data-track-event={TrackEvent.TicketClick}
+    data-track-location={TrackLocation.Header}
   >
     チケットを購入する
   </Button>

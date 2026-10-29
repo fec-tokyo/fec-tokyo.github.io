@@ -17,6 +17,13 @@ import {
   TOP_URL,
   X_URL,
 } from "@/data/2026/links";
+import {
+  TrackEvent,
+  TrackLocation,
+  TrackPlatform,
+  type TrackEventName,
+  type TrackPlatformName,
+} from "@/data/tracking";
 
 // ハンバーガーメニューの中身（Header.astro の dialog の中に置く）
 type Link = {
@@ -24,10 +31,17 @@ type Link = {
   text: string;
   // 別タブで開く
   external?: boolean;
+  // クリックを計測するときのイベント名
+  trackEvent?: TrackEventName;
 };
 
 const proposalLinks: Link[] = [
-  { href: PROPOSAL_URL, text: "プロポーザルを応募する", external: true },
+  {
+    href: PROPOSAL_URL,
+    text: "プロポーザルを応募する",
+    external: true,
+    trackEvent: TrackEvent.ProposalClick,
+  },
   { href: PROPOSAL_LIST_URL, text: "プロポーザルをみる", external: true },
   {
     href: HIGHLIGHTS_URL,
@@ -44,10 +58,36 @@ const otherLinks: Link[] = [
 ];
 
 // X と note は白い角丸の中にアイコンを置く。GitHub のアイコンは角丸ごと描かれている
-const socialLinks = [
-  { href: X_URL, label: "X", icon: XIcon, framed: true },
-  { href: NOTE_URL, label: "note", icon: NoteIcon, framed: true },
-  { href: GITHUB_URL, label: "GitHub", icon: GitHubIcon, framed: false },
+type SocialLink = {
+  href: string;
+  label: string;
+  platform: TrackPlatformName;
+  icon: typeof XIcon;
+  framed: boolean;
+};
+
+const socialLinks: SocialLink[] = [
+  {
+    href: X_URL,
+    label: "X",
+    platform: TrackPlatform.X,
+    icon: XIcon,
+    framed: true,
+  },
+  {
+    href: NOTE_URL,
+    label: "note",
+    platform: TrackPlatform.Note,
+    icon: NoteIcon,
+    framed: true,
+  },
+  {
+    href: GITHUB_URL,
+    label: "GitHub",
+    platform: TrackPlatform.GitHub,
+    icon: GitHubIcon,
+    framed: false,
+  },
 ];
 
 const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
@@ -71,8 +111,8 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
         <a
           href={TICKET_EARLY_BIRD_URL}
           class="link"
-          data-track-event="ticket_click"
-          data-track-location="menu"
+          data-track-event={TrackEvent.TicketClick}
+          data-track-location={TrackLocation.Menu}
           {...externalAttributes}
         >
           アーリーバードチケットを購入する
@@ -88,6 +128,8 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
               <a
                 href={link.href}
                 class="link"
+                data-track-event={link.trackEvent}
+                data-track-location={link.trackEvent && TrackLocation.Menu}
                 {...(link.external && externalAttributes)}
               >
                 {link.text}
@@ -105,15 +147,15 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
       <h2 id="menu-social-title" class="title">Social Media</h2>
       <ul class="socialLinks">
         {
-          socialLinks.map(({ href, label, icon: Icon, framed }) => (
+          socialLinks.map(({ href, label, platform, icon: Icon, framed }) => (
             <li>
               <a
                 href={href}
                 class:list={["socialLink", { framed }]}
                 aria-label={label}
-                data-track-event="sns_click"
-                data-track-platform={label.toLowerCase()}
-                data-track-location="menu"
+                data-track-event={TrackEvent.SnsClick}
+                data-track-platform={platform}
+                data-track-location={TrackLocation.Menu}
                 {...externalAttributes}
               >
                 <Icon aria-hidden="true" />
