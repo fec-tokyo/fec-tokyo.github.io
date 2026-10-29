@@ -197,7 +197,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
     overview: null,
     speakers: [
       {
-        name: "Ricardo Cabello",
+        name: "Ricardo Cabello / mrdoob",
         company: "Google",
         image: RicardoCabelloImage,
         profile:
