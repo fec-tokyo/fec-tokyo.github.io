@@ -3,23 +3,23 @@ import AkihikoKigureOgImage from "@/assets/2026/ogp/ogp_akihikokigure.png";
 import AmagiOgImage from "@/assets/2026/ogp/ogp_amagi.png";
 import HirokiTaniOgImage from "@/assets/2026/ogp/ogp_hirokitani.png";
 import MasatoHondaOgImage from "@/assets/2026/ogp/ogp_hondamasato.png";
+import KyouheiHorizumiOgImage from "@/assets/2026/ogp/ogp_horizumikyohei.png";
 import KeitaYamadaOgImage from "@/assets/2026/ogp/ogp_keitayamada.png";
+import KogisoOgImage from "@/assets/2026/ogp/ogp_kogiso.png";
+import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
 import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
 import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
 import HirokiTaniImage from "@/assets/2026/speaker-icons/tani_hiroki.jpg";
-// import KyouheiHorizumiOgImage from "@/assets/2026/ogp/ogp_horizumikyohei.png";
-// import KogisoOgImage from "@/assets/2026/ogp/ogp_kogiso.png";
 // import LacolacoOgImage from "@/assets/2026/ogp/ogp_lacolaco.png";
 // import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
-// import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
 import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
 import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
 import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
-// import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
-// import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
+import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
+import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
 // import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
 // import RicardoCabelloImage from "@/assets/2026/speaker-icons/ricardo_cabello.jpg";
-// import TetsuharuOhzekiImage from "@/assets/2026/speaker-icons/tetsuharu_ohzeki.jpg";
+import TetsuharuOhzekiImage from "@/assets/2026/speaker-icons/tetsuharu_ohzeki.jpg";
 import type { ImageMetadata } from "astro";
 
 export type GuestSpeaker = {
@@ -141,6 +141,54 @@ export const GUEST_SESSIONS: GuestSession[] = [
       },
     ],
   },
+  {
+    slug: "tetsuharu-ohzeki",
+    ogImage: TetsuharuOhzekiOgImage,
+    overview: [
+      "DOM binding - JSの世界とC++で実装されたDOMはどのように統合されて動くのか",
+    ],
+    speakers: [
+      {
+        name: "Tetsuharu Ohzeki",
+        company: null,
+        image: TetsuharuOhzekiImage,
+        profile: "Open Source Software Engineer",
+        sns: "https://github.com/tetsuharuohzeki",
+      },
+    ],
+  },
+  {
+    slug: "kgsi",
+    ogImage: KogisoOgImage,
+    overview: [
+      "コードとデザイン（仮）",
+      "今年起こったデジタルにおけるデザイン界隈の変化と、デザインとコードの今後の在り方についてお話します。",
+    ],
+    speakers: [
+      {
+        name: "こぎそ",
+        company: "株式会社Lumilinks",
+        image: KogisoImage,
+        profile:
+          "株式会社Lumilinks 代表取締役/デザイナー。受託制作会社やインターネットインフラ企業でデザイン、アプリケーション開発などに携わったのち、SaaS企業でプロダクトデザイン、デザインシステムの構築を担当。生成AIベンチャーやスタートアップを経て株式会社Lumilinksを設立。デザインを軸に、組織支援、AIワークフロー構築、広報支援などを行う。共著に『ちいさくはじめるデザインシステム』（BNN）。",
+        sns: "https://x.com/kgsi",
+      },
+    ],
+  },
+  {
+    slug: "kyouhei-horizumi",
+    ogImage: KyouheiHorizumiOgImage,
+    overview: ["サポート詐欺の魔手を断て！"],
+    speakers: [
+      {
+        name: "堀住 恭平",
+        company: "FOURIER Inc.",
+        image: KyouheiHorizumiImage,
+        profile: "Windows Meに育てられました / FOURIER Inc.",
+        sns: "https://x.com/KyouheiHorizumi",
+      },
+    ],
+  },
   // {
   //   // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる
   //   slug: "ricardo-cabello",
@@ -154,20 +202,6 @@ export const GUEST_SESSIONS: GuestSession[] = [
   //       profile:
   //         "Ricardo Cabello (Mr.doob) is a Tokyo-based software engineer at Google and the creator of Three.js. Since 2010, he has maintained the open-source 3D web graphics library and led its global community of developers and artists.",
   //       sns: "https://x.com/mrdoob",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "kyouhei-horizumi",
-  //   ogImage: KyouheiHorizumiOgImage,
-  //   overview: ["サポート詐欺の魔手を断て！"],
-  //   speakers: [
-  //     {
-  //       name: "堀住 恭平",
-  //       company: "FOURIER Inc.",
-  //       image: KyouheiHorizumiImage,
-  //       profile: "Windows Meに育てられました / FOURIER Inc.",
-  //       sns: "https://x.com/KyouheiHorizumi",
   //     },
   //   ],
   // },
@@ -195,40 +229,6 @@ export const GUEST_SESSIONS: GuestSession[] = [
   //       profile:
   //         "TypeScript歴13年。20万行超の大規模アプリケーション設計を得意とする。2026年7月から、タイムリープ株式会社の技術顧問。商業書籍の執筆、カンファレンス登壇、イベント運営など。",
   //       sns: "https://x.com/okunokentaro",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "kgsi",
-  //   ogImage: KogisoOgImage,
-  //   overview: [
-  //     "コードとデザイン（仮）",
-  //     "今年起こったデジタルにおけるデザイン界隈の変化と、デザインとコードの今後の在り方についてお話します。",
-  //   ],
-  //   speakers: [
-  //     {
-  //       name: "こぎそ",
-  //       company: "株式会社Lumilinks",
-  //       image: KogisoImage,
-  //       profile:
-  //         "株式会社Lumilinks 代表取締役/デザイナー。受託制作会社やインターネットインフラ企業でデザイン、アプリケーション開発などに携わったのち、SaaS企業でプロダクトデザイン、デザインシステムの構築を担当。生成AIベンチャーやスタートアップを経て株式会社Lumilinksを設立。デザインを軸に、組織支援、AIワークフロー構築、広報支援などを行う。共著に『ちいさくはじめるデザインシステム』（BNN）。",
-  //       sns: "https://x.com/kgsi",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "tetsuharu-ohzeki",
-  //   ogImage: TetsuharuOhzekiOgImage,
-  //   overview: [
-  //     "DOM binding - JSの世界とC++で実装されたDOMはどのように統合されて動くのか",
-  //   ],
-  //   speakers: [
-  //     {
-  //       name: "Tetsuharu Ohzeki",
-  //       company: null,
-  //       image: TetsuharuOhzekiImage,
-  //       profile: "Open Source Software Engineer",
-  //       sns: "https://github.com/tetsuharuohzeki",
   //     },
   //   ],
   // },
