@@ -404,6 +404,9 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     background-color: transparent;
     border: none;
     isolation: isolate;
+
+    /* パネルは ::before を clip-path で切り抜いていて box-shadow が付かないので、dialog ごと filter で影を落とす */
+    filter: drop-shadow(0 4px 16px var(--color-shadow));
   }
 
   .drawer::before {
