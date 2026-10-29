@@ -6,13 +6,11 @@ import {
 } from "@/data/2026/guestSpeakers";
 import { sessionUrl } from "@/data/2026/links";
 
-// ふたりで登壇するセッションも、カードはスピーカーごとに並べる（リンク先は同じセッションの詳細ページ）
-const cards = GUEST_SESSIONS.flatMap((session) =>
-  session.speakers.map((speaker) => ({
-    speaker,
-    url: session.overview ? sessionUrl(session.slug) : undefined,
-  })),
-);
+// カードはセッションごとに 1 枚。ふたりで登壇するセッションは、2 列分の幅のカードにふたりの写真を並べる
+const cards = GUEST_SESSIONS.map((session) => ({
+  speakers: session.speakers,
+  url: session.overview ? sessionUrl(session.slug) : undefined,
+}));
 ---
 
 <section
@@ -26,9 +24,9 @@ const cards = GUEST_SESSIONS.flatMap((session) =>
   </hgroup>
   <ul class="list">
     {
-      cards.map(({ speaker, url }) => (
-        <li>
-          <SpeakerCard speaker={speaker} url={url} />
+      cards.map(({ speakers, url }) => (
+        <li class:list={{ duo: speakers.length > 1 }}>
+          <SpeakerCard speakers={speakers} url={url} />
         </li>
       ))
     }
@@ -83,6 +81,10 @@ const cards = GUEST_SESSIONS.flatMap((session) =>
     padding: 0;
     margin: 0;
     list-style: none;
+  }
+
+  .duo {
+    grid-column: span 2;
   }
 
   /* タブレット */
