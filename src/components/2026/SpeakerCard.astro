@@ -5,39 +5,51 @@ import type { GuestSpeaker } from "@/data/2026/guestSpeakers";
 
 /*
  * ゲストスピーカーのカード。上に正方形の写真、下に名前と所属を置く。
- * - speaker を渡さないときは、まだ公開していない枠として「coming soon...」と公開予定日を出す
- * - url（セッションの詳細ページ）を渡したときは、カード全体をリンクにして、ホバーで下の帯を黒くする。
+ * - speakers を渡さないときは、まだ公開していない枠として「coming soon...」と公開予定日を出す
+ * - ふたりで登壇するセッションは、カードをひとつにして写真を横に並べる（Figma の duo）。
+ *   名前と所属はまとめて 1 行ずつ出す
+ * - url（セッションの詳細ページ）を渡したときは、カード全体をリンクにして、ホバーでカードを黒くする。
  *   詳細ページがまだないスピーカーはリンクにせず、矢印も出さない
  * - 写真がまだないスピーカーは、写真の位置にグレーの面を出す
  */
 type Props =
   | {
-      speaker: GuestSpeaker;
+      speakers: GuestSpeaker[];
       url?: string;
     }
   | {
-      speaker?: undefined;
+      speakers?: undefined;
       publishDateText: string;
     };
 
 const props = Astro.props;
-const speaker = props.speaker;
+const speakers = props.speakers;
 const url = "url" in props ? props.url : undefined;
 const Tag = url ? "a" : "div";
+const isDuo = speakers !== undefined && speakers.length > 1;
+const name = speakers?.map((speaker) => speaker.name).join(" & ");
+// 同じ会社のふたりなら所属は 1 回だけ出す
+const company = [
+  ...new Set(speakers?.flatMap(({ company }) => company ?? [])),
+].join(" / ");
 ---
 
 {
-  speaker ? (
+  speakers ? (
     <Tag class:list={["card", { link: url }]} href={url}>
-      <div class:list={["photoFrame", { noPhoto: !speaker.image }]}>
-        {speaker.image && (
-          <Image src={speaker.image} alt="" width={480} class="photo" />
-        )}
+      <div class:list={["photoFrame", { duo: isDuo }]}>
+        {speakers.map((speaker) => (
+          <div class:list={["photoCell", { noPhoto: !speaker.image }]}>
+            {speaker.image && (
+              <Image src={speaker.image} alt="" width={480} class="photo" />
+            )}
+          </div>
+        ))}
       </div>
       <div class="info">
         <div class="texts">
-          <p class="name">{speaker.name}</p>
-          {speaker.company && <p class="company">{speaker.company}</p>}
+          <p class="name">{name}</p>
+          {company && <p class="company">{company}</p>}
         </div>
         {url && (
           <span class="arrow" aria-hidden="true">
@@ -65,13 +77,20 @@ const Tag = url ? "a" : "div";
     display: flex;
     flex-direction: column;
     height: 100%;
+    /* ふたり用のカードで、写真の高さを 1 列分のカードにそろえるために使う */
+    container-type: inline-size;
+    overflow: hidden;
     color: var(--color-black);
     text-decoration: none;
+    background-color: var(--color-white);
+    border-radius: 16px;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
   }
 
   .photoFrame {
-    position: relative;
-    aspect-ratio: 1;
+    display: flex;
     overflow: hidden;
     /* 透過のある写真（PNG）でもセクションの背景が透けないように、白を敷いておく */
     background-color: var(--color-white);
@@ -80,7 +99,21 @@ const Tag = url ? "a" : "div";
     transition: border-color 200ms ease;
   }
 
+  .photoCell {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .photoCell.noPhoto {
+    background-color: var(--color-gray);
+  }
+
   .photo {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -88,8 +121,17 @@ const Tag = url ? "a" : "div";
     transition: scale 400ms var(--easing-out);
   }
 
-  .photoFrame.noPhoto {
-    background-color: var(--color-gray);
+  /*
+   * ふたり用のカードは 2 列分の幅になる。写真を正方形のままにすると隣のカードより背が高くなるので、
+   * 写真の高さは 1 列分のカードの写真（カードの幅から列の間の 20px を引いた半分）にそろえ、写真は切り抜いて出す
+   */
+  .photoFrame.duo {
+    flex-grow: 1;
+    min-height: calc(50cqi - 10px);
+  }
+
+  .photoFrame.duo .photoCell {
+    aspect-ratio: auto;
   }
 
   .info {
@@ -98,11 +140,10 @@ const Tag = url ? "a" : "div";
     gap: 8px;
     align-items: center;
     padding: 12px;
-    background-color: var(--color-white);
-    border-radius: 0 0 16px 16px;
-    transition:
-      color 200ms ease,
-      background-color 200ms ease;
+  }
+
+  .photoFrame.duo + .info {
+    flex-grow: 0;
   }
 
   .texts {
@@ -116,10 +157,8 @@ const Tag = url ? "a" : "div";
     overflow-wrap: anywhere;
   }
 
-  /* 英語の名前は Montserrat、日本語の名前は Noto Sans JP（Montserrat にない文字は Noto Sans JP で出る） */
   .name {
     margin: 0;
-    font-family: Montserrat, "Noto Sans JP", sans-serif;
     font-size: 18px;
     font-weight: 700;
     line-height: 1.2;
@@ -129,7 +168,7 @@ const Tag = url ? "a" : "div";
     margin: 0;
     font-size: 12px;
     font-weight: 400;
-    line-height: 1.4;
+    line-height: 1;
   }
 
   .arrow {
@@ -151,6 +190,11 @@ const Tag = url ? "a" : "div";
   }
 
   @media (hover: hover) {
+    .link:hover {
+      color: var(--color-white);
+      background-color: var(--color-black);
+    }
+
     .link:hover .photoFrame {
       border-color: var(--color-black);
     }
@@ -158,11 +202,6 @@ const Tag = url ? "a" : "div";
     /* 写真は枠（overflow: hidden）の中で拡大するので、カードの大きさは変わらない */
     .link:hover .photo {
       scale: 1.2;
-    }
-
-    .link:hover .info {
-      color: var(--color-white);
-      background-color: var(--color-black);
     }
 
     .link:hover .arrow {
@@ -173,14 +212,13 @@ const Tag = url ? "a" : "div";
   .link:focus-visible {
     outline: 2px solid var(--color-off-white);
     outline-offset: 4px;
-    border-radius: 16px;
   }
 
   /* まだ公開していない枠 */
   .photoFrame.empty {
-    display: flex;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 1;
     background-color: var(--color-gray);
   }
 
@@ -218,7 +256,7 @@ const Tag = url ? "a" : "div";
       flex-direction: column;
       gap: 12px;
       align-items: stretch;
-      padding: 6px 10px;
+      padding: 10px;
     }
 
     .texts {
@@ -236,6 +274,16 @@ const Tag = url ? "a" : "div";
       /* Figma の上下の余白は 2px。ホバー用の透明な枠線（1px）の分を差し引いている */
       padding-block: 1px;
       margin-top: auto;
+    }
+
+    /* ふたり用のカードは 1 段まるごと使うので、写真は正方形のまま並べる */
+    .photoFrame.duo {
+      flex-grow: 0;
+      min-height: 0;
+    }
+
+    .photoFrame.duo .photoCell {
+      aspect-ratio: 1;
     }
 
     .comingSoon {
