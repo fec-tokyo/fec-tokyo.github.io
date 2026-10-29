@@ -25,6 +25,7 @@ npm run dev
 | `src/components/2025/`、`src/components/2026/` | 年別の表示部品 |
 | `src/data/2025/` | 2025年のセッション、タイムテーブル、スポンサーなどのデータ |
 | `src/data/2026/` | 2026年のお知らせとリンク先。チケットなどのURLは`links.ts`で管理 |
+| `src/data/tracking.ts` | GTMのコンテナIDと、クリック計測のイベント名・設置場所・SNSの種類 |
 | `src/css/`、`src/assets/` | スタイルと画像・SVG |
 | `public/` | faviconやOG画像など、そのまま配信するファイル |
 

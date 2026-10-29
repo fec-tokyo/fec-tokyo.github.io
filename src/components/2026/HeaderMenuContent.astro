@@ -129,7 +129,9 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
                 href={link.href}
                 class="link"
                 data-track-event={link.trackEvent}
-                data-track-location={link.trackEvent && TrackLocation.Menu}
+                data-track-location={
+                  link.trackEvent ? TrackLocation.Menu : undefined
+                }
                 {...(link.external && externalAttributes)}
               >
                 {link.text}

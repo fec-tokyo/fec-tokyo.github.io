@@ -83,13 +83,13 @@ const canonicalURL = new URL(Astro.url, Astro.site);
         const trackEvent: string | undefined = element.dataset.trackEvent;
         const trackLocation: string | undefined = element.dataset.trackLocation;
         const trackPlatform: string | undefined = element.dataset.trackPlatform;
-        const entries: [string, string | undefined][] = [
+        const trackParamEntries: [string, string | undefined][] = [
           ["event", trackEvent],
           ["link_location", trackLocation],
           ["platform", trackPlatform],
         ];
         const params: Record<string, string> = Object.fromEntries(
-          entries.filter(
+          trackParamEntries.filter(
             (entry): entry is [string, string] => entry[1] !== undefined,
           ),
         );

@@ -1,4 +1,3 @@
-// GTM のコンテナ ID
 export const GTM_CONTAINER_ID: string = "GTM-KHH5F9LR";
 
 // GTM のカスタムイベントのトリガーと一致させるイベント名
