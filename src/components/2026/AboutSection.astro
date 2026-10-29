@@ -45,11 +45,25 @@ const photos = [
         登壇やAMA、他の参加者との議論を通じて知識と繋がりを深め、これまでに築いたフロントエンドの技術と文化を未来へ伝えるためのカンファレンスです。
       </p>
       <div class="actions">
-        <Button href={TICKET_URL} class="action" external>
+        <Button
+          href={TICKET_URL}
+          class="action"
+          external
+          data-track-event="ticket_click"
+          data-track-location="about"
+        >
           チケットを購入する
           <ArrowCircleIcon slot="iconRight" />
         </Button>
-        <Button href={X_URL} variant="black" class="action" external>
+        <Button
+          href={X_URL}
+          variant="black"
+          class="action"
+          external
+          data-track-event="sns_click"
+          data-track-platform="x"
+          data-track-location="about"
+        >
           <XIcon slot="iconLeft" />
           @fec_tokyoをフォロー
           <ArrowCircleIcon slot="iconRight" />

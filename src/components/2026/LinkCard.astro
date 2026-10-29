@@ -13,9 +13,11 @@ type Props = {
   description: string | string[];
   label: string;
   href: string | null;
+  // クリックを GTM に送るイベント名
+  trackEvent: string;
 };
 
-const { id, title, description, label, href } = Astro.props;
+const { id, title, description, label, href, trackEvent } = Astro.props;
 const titleId = `${id}-title`;
 const descriptionLines = Array.isArray(description)
   ? description
@@ -35,7 +37,13 @@ const descriptionLines = Array.isArray(description)
       ))
     }
   </p>
-  <Button href={href ?? undefined} class="action" external>
+  <Button
+    href={href ?? undefined}
+    class="action"
+    external
+    data-track-event={href ? trackEvent : undefined}
+    data-track-location={id}
+  >
     {label}
     <ArrowCircleIcon slot="iconRight" />
   </Button>

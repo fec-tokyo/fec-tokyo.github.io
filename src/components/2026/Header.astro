@@ -35,7 +35,14 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
     </span>
     <ArrowCircleIcon class="newsArrow" />
   </a>
-  <Button href={TICKET_URL} size="medium" class="ticket" external>
+  <Button
+    href={TICKET_URL}
+    size="medium"
+    class="ticket"
+    external
+    data-track-event="ticket_click"
+    data-track-location="header"
+  >
     チケットを購入する
   </Button>
   <button

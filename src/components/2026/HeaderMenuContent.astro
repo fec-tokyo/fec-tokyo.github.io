@@ -68,7 +68,13 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
         /* flex の子にすると block になって下線の位置が他のリンクとずれるので、包んで inline のままにする */
       }
       <p class="ticketLink">
-        <a href={TICKET_EARLY_BIRD_URL} class="link" {...externalAttributes}>
+        <a
+          href={TICKET_EARLY_BIRD_URL}
+          class="link"
+          data-track-event="ticket_click"
+          data-track-location="menu"
+          {...externalAttributes}
+        >
           アーリーバードチケットを購入する
         </a>
       </p>
@@ -105,6 +111,9 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
                 href={href}
                 class:list={["socialLink", { framed }]}
                 aria-label={label}
+                data-track-event="sns_click"
+                data-track-platform={label.toLowerCase()}
+                data-track-location="menu"
                 {...externalAttributes}
               >
                 <Icon aria-hidden="true" />
