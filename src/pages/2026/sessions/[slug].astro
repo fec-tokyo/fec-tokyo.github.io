@@ -12,12 +12,12 @@ import "@/css/2026/styles.css";
 import "@/css/2026/vars.css";
 import Layout from "@/layouts/Layout.astro";
 
-// 概要が入っているセッションだけページを作る
+// 概要がまだないセッションもページを作り、Overview の欄だけ出さない
 export const getStaticPaths = (() =>
-  GUEST_SESSIONS.flatMap(({ slug, overview, ogImage, speakers }) => {
-    if (!overview) return [];
-    return [{ params: { slug }, props: { overview, ogImage, speakers } }];
-  })) satisfies GetStaticPaths;
+  GUEST_SESSIONS.map(({ slug, overview, ogImage, speakers }) => ({
+    params: { slug },
+    props: { overview, ogImage, speakers },
+  }))) satisfies GetStaticPaths;
 
 const { overview, ogImage, speakers } = Astro.props;
 const speakerNames = speakers.map(({ name }) => name).join(" / ");
@@ -26,7 +26,7 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
 
 <Layout
   title={title}
-  description={overview.join("")}
+  description={overview?.join("")}
   ogImage={ogImage?.src ?? "ogp/ogp_2026.png"}
 >
   <Head slot="head" />
@@ -36,12 +36,20 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
   <main class="background-aizome">
     <article class="container" aria-labelledby="speaker-title">
       <h1 id="speaker-title" class="title">Guest Speaker</h1>
-      <section class="overview" aria-labelledby="overview-title">
-        <h2 id="overview-title" class="overviewTitle">Overview</h2>
-        <div class="overviewText">
-          {overview.map((paragraph) => <p>{paragraph}</p>)}
-        </div>
-      </section>
+      {
+        overview && (
+          <section class="overview" aria-labelledby="overview-title">
+            <h2 id="overview-title" class="overviewTitle">
+              Overview
+            </h2>
+            <div class="overviewText">
+              {overview.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          </section>
+        )
+      }
       {
         /* ふたりで登壇するセッションは、プロフィールを縦に並べる */
         speakers.map((speaker) => (

@@ -18,6 +18,7 @@ import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
 import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
 import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
 import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
+import OkunokentaroImage from "@/assets/2026/speaker-icons/okunokentaro.jpg";
 import RicardoCabelloImage from "@/assets/2026/speaker-icons/ricardo_cabello.jpg";
 import TetsuharuOhzekiImage from "@/assets/2026/speaker-icons/tetsuharu_ohzeki.jpg";
 import type { ImageMetadata } from "astro";
@@ -25,8 +26,7 @@ import type { ImageMetadata } from "astro";
 export type GuestSpeaker = {
   name: string;
   company: string | null;
-  // 写真がまだないスピーカーは null（カードではグレーの面を出す）
-  image: ImageMetadata | null;
+  image: ImageMetadata;
   profile: string;
   sns: string | null;
 };
@@ -191,7 +191,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
     ],
   },
   {
-    // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる
+    // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる（それまで詳細ページに Overview は出さない）
     slug: "ricardo-cabello",
     ogImage: RicardoCabelloOgImage,
     overview: null,
@@ -225,8 +225,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
       {
         name: "okunokentaro",
         company: null,
-        // TODO: speaker-icons にアイコンがまだない
-        image: null,
+        image: OkunokentaroImage,
         profile:
           "TypeScript歴13年。20万行超の大規模アプリケーション設計を得意とする。2026年7月から、タイムリープ株式会社の技術顧問。商業書籍の執筆、カンファレンス登壇、イベント運営など。",
         sns: "https://x.com/okunokentaro",

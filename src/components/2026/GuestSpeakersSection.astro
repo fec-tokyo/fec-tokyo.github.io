@@ -9,7 +9,7 @@ import { sessionUrl } from "@/data/2026/links";
 // カードはセッションごとに 1 枚。ふたりで登壇するセッションは、2 列分の幅のカードにふたりの写真を並べる
 const cards = GUEST_SESSIONS.map((session) => ({
   speakers: session.speakers,
-  url: session.overview ? sessionUrl(session.slug) : undefined,
+  url: sessionUrl(session.slug),
 }));
 ---
 
