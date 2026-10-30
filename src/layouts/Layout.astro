@@ -1,6 +1,17 @@
 ---
 import { PREVIEW } from "astro:env/server";
 import "@/css/foundation.css";
+import { GTM_CONTAINER_ID } from "@/data/tracking";
+
+const GTM_SNIPPET: string = `((w, d, s, l, i) => {
+  w[l] = w[l] || [];
+  w[l].push({ "gtm.start": Date.now(), event: "gtm.js" });
+  const f = d.getElementsByTagName(s)[0];
+  const j = d.createElement(s);
+  j.async = true;
+  j.src = \`https://www.googletagmanager.com/gtm.js?id=\${i}\`;
+  f.parentNode.insertBefore(j, f);
+})(window, document, "script", "dataLayer", "${GTM_CONTAINER_ID}");`;
 
 interface Props {
   title?: string;
@@ -23,6 +34,8 @@ const canonicalURL = new URL(Astro.url, Astro.site);
 <html lang="ja">
   <head prefix="og: https://ogp.me/ns#">
     <meta charset="UTF-8" />
+    {/* プレビュー用ビルド（noindex）のアクセスを本番の計測に混ぜない */}
+    {!PREVIEW && <script is:inline set:html={GTM_SNIPPET} />}
     <slot name="head" />
     <meta name="viewport" content="width=device-width" />
     <meta name="color-scheme" content="dark" />
@@ -47,6 +60,42 @@ const canonicalURL = new URL(Astro.url, Astro.site);
     <meta name="twitter:site" content="@fec_tokyo" />
   </head>
   <body>
+    {
+      !PREVIEW && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+          />
+        </noscript>
+      )
+    }
     <slot />
+    <script>
+      // data-track-event を持つ要素のクリックを GTM の dataLayer に送る
+      document.addEventListener("click", (event: MouseEvent): void => {
+        const target: EventTarget | null = event.target;
+        if (!(target instanceof Element)) return;
+        const element: Element | null = target.closest("[data-track-event]");
+        if (!(element instanceof HTMLElement)) return;
+        const trackEvent: string | undefined = element.dataset.trackEvent;
+        const trackLocation: string | undefined = element.dataset.trackLocation;
+        const trackPlatform: string | undefined = element.dataset.trackPlatform;
+        const trackParamEntries: [string, string | undefined][] = [
+          ["event", trackEvent],
+          ["link_location", trackLocation],
+          ["platform", trackPlatform],
+        ];
+        const params: Record<string, string> = Object.fromEntries(
+          trackParamEntries.filter(
+            (entry): entry is [string, string] => entry[1] !== undefined,
+          ),
+        );
+        // dataLayer は GTM が push を差し替えるので、配列を作り直さず push する
+        window.dataLayer?.push(params);
+      });
+    </script>
   </body>
 </html>

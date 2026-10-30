@@ -1,6 +1,7 @@
 ---
 import LinkCard from "@/components/2026/LinkCard.astro";
 import { PROPOSAL_URL } from "@/data/2026/links";
+import { TrackEvent, TrackLocation } from "@/data/tracking";
 ---
 
 <LinkCard
@@ -13,4 +14,6 @@ import { PROPOSAL_URL } from "@/data/2026/links";
   ]}
   label="プロポーザルを応募する"
   href={PROPOSAL_URL}
+  trackEvent={TrackEvent.ProposalClick}
+  trackLocation={TrackLocation.Proposals}
 />

@@ -1,6 +1,7 @@
 ---
 import LinkCard from "@/components/2026/LinkCard.astro";
 import { TIMETABLE_URL } from "@/data/2026/links";
+import { TrackEvent, TrackLocation } from "@/data/tracking";
 ---
 
 <LinkCard
@@ -9,4 +10,6 @@ import { TIMETABLE_URL } from "@/data/2026/links";
   description="近日中に公開予定です"
   label="タイムテーブルを見る"
   href={TIMETABLE_URL}
+  trackEvent={TrackEvent.TimetableClick}
+  trackLocation={TrackLocation.Timetable}
 />

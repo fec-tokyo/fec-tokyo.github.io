@@ -1,6 +1,7 @@
 ---
 import LinkCard from "@/components/2026/LinkCard.astro";
 import { TICKET_URL } from "@/data/2026/links";
+import { TrackEvent, TrackLocation } from "@/data/tracking";
 ---
 
 <LinkCard
@@ -9,4 +10,6 @@ import { TICKET_URL } from "@/data/2026/links";
   description="アーリーバードチケットを販売中！"
   label="チケットを購入する"
   href={TICKET_URL}
+  trackEvent={TrackEvent.TicketClick}
+  trackLocation={TrackLocation.Tickets}
 />
