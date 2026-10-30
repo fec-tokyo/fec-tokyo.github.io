@@ -248,10 +248,10 @@ const company = [
   }
 
   /*
-   * モバイル: 2列に並べて幅が狭くなるので、名前と所属の下に横幅いっぱいの矢印のボタンを置く（Figma の SP 用のカード）。
+   * タブレット以下: カードの幅が狭くなるので、名前と所属の下に横幅いっぱいの矢印のボタンを置く（Figma の SP 用のカード）。
    * 矢印は帯の下端に寄せて、同じ段のカードで位置をそろえる
    */
-  @media (width <= 720px) {
+  @media (width <= 1080px) {
     .info:not(.empty) {
       flex-direction: column;
       gap: 12px;
@@ -276,7 +276,17 @@ const company = [
       margin-top: auto;
     }
 
-    /* ふたり用のカードは 1 段まるごと使うので、写真は正方形のまま並べる */
+    .comingSoon {
+      font-size: 18px;
+    }
+
+    .publishDate {
+      font-size: 14px;
+    }
+  }
+
+  /* モバイル: 2 列なので、ふたり用のカードは 1 段まるごと使う。写真は正方形のまま並べる */
+  @media (width <= 720px) {
     .photoFrame.duo {
       flex-grow: 0;
       min-height: 0;
@@ -284,14 +294,6 @@ const company = [
 
     .photoFrame.duo .photoCell {
       aspect-ratio: 1;
-    }
-
-    .comingSoon {
-      font-size: 18px;
-    }
-
-    .publishDate {
-      font-size: 14px;
     }
   }
 </style>

@@ -10,15 +10,16 @@ import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
 import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
 import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
 import HirokiTaniImage from "@/assets/2026/speaker-icons/tani_hiroki.jpg";
-// import LacolacoOgImage from "@/assets/2026/ogp/ogp_lacolaco.png";
-// import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
+import LacolacoOgImage from "@/assets/2026/ogp/ogp_lacolaco.png";
+import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
 import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
 import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
 import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
 import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
 import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
-// import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
-// import RicardoCabelloImage from "@/assets/2026/speaker-icons/ricardo_cabello.jpg";
+import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
+import OkunokentaroImage from "@/assets/2026/speaker-icons/okunokentaro.jpg";
+import RicardoCabelloImage from "@/assets/2026/speaker-icons/ricardo_cabello.jpg";
 import TetsuharuOhzekiImage from "@/assets/2026/speaker-icons/tetsuharu_ohzeki.jpg";
 import type { ImageMetadata } from "astro";
 
@@ -189,49 +190,48 @@ export const GUEST_SESSIONS: GuestSession[] = [
       },
     ],
   },
-  // {
-  //   // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる
-  //   slug: "ricardo-cabello",
-  //   ogImage: RicardoCabelloOgImage,
-  //   overview: null,
-  //   speakers: [
-  //     {
-  //       name: "Ricardo Cabello",
-  //       company: "Google",
-  //       image: RicardoCabelloImage,
-  //       profile:
-  //         "Ricardo Cabello (Mr.doob) is a Tokyo-based software engineer at Google and the creator of Three.js. Since 2010, he has maintained the open-source 3D web graphics library and led its global community of developers and artists.",
-  //       sns: "https://x.com/mrdoob",
-  //     },
-  //   ],
-  // },
-  // {
-  //   slug: "lacolaco-okunokentaro",
-  //   // OGP 画像は lacolaco と okunokentaro の 2 枚あるが、ページはひとつなので lacolaco の方を使う
-  //   ogImage: LacolacoOgImage,
-  //   overview: [
-  //     "リファラジのふたりがそれぞれの2026年のリファクタリングを振り返る公開収録",
-  //   ],
-  //   speakers: [
-  //     {
-  //       name: "lacolaco",
-  //       company: null,
-  //       image: LacolacoImage,
-  //       profile:
-  //         "Google Developers Expert for Angular。Angularを中心にWeb周辺のオープンソースコミュニティでコントリビューションや翻訳、登壇、イベント主催などの活動をしています。ポッドキャスト「リファクタリングとともに生きるラジオ」でも活動中。",
-  //       sns: "https://x.com/laco2net",
-  //     },
-  //     {
-  //       name: "okunokentaro",
-  //       company: null,
-  //       // TODO: speaker-icons にアイコンがまだない
-  //       image: null,
-  //       profile:
-  //         "TypeScript歴13年。20万行超の大規模アプリケーション設計を得意とする。2026年7月から、タイムリープ株式会社の技術顧問。商業書籍の執筆、カンファレンス登壇、イベント運営など。",
-  //       sns: "https://x.com/okunokentaro",
-  //     },
-  //   ],
-  // },
+  {
+    // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる（それまで詳細ページに Overview は出さない）
+    slug: "ricardo-cabello",
+    ogImage: RicardoCabelloOgImage,
+    overview: null,
+    speakers: [
+      {
+        name: "Ricardo Cabello / mrdoob",
+        company: "Google",
+        image: RicardoCabelloImage,
+        profile:
+          "Ricardo Cabello (Mr.doob) is a Tokyo-based software engineer at Google and the creator of Three.js. Since 2010, he has maintained the open-source 3D web graphics library and led its global community of developers and artists.",
+        sns: "https://x.com/mrdoob",
+      },
+    ],
+  },
+  {
+    slug: "lacolaco-okunokentaro",
+    // OGP 画像は lacolaco と okunokentaro の 2 枚あるが、ページはひとつなので lacolaco の方を使う
+    ogImage: LacolacoOgImage,
+    overview: [
+      "リファラジのふたりがそれぞれの2026年のリファクタリングを振り返る公開収録",
+    ],
+    speakers: [
+      {
+        name: "lacolaco",
+        company: null,
+        image: LacolacoImage,
+        profile:
+          "Google Developers Expert for Angular。Angularを中心にWeb周辺のオープンソースコミュニティでコントリビューションや翻訳、登壇、イベント主催などの活動をしています。ポッドキャスト「リファクタリングとともに生きるラジオ」でも活動中。",
+        sns: "https://x.com/laco2net",
+      },
+      {
+        name: "okunokentaro",
+        company: null,
+        image: OkunokentaroImage,
+        profile:
+          "TypeScript歴13年。20万行超の大規模アプリケーション設計を得意とする。2026年7月から、タイムリープ株式会社の技術顧問。商業書籍の執筆、カンファレンス登壇、イベント運営など。",
+        sns: "https://x.com/okunokentaro",
+      },
+    ],
+  },
 ];
 
 // ゲストスピーカーの枠の数（Figma では 4 列 × 3 段）
