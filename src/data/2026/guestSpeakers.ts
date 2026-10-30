@@ -6,20 +6,20 @@ import MasatoHondaOgImage from "@/assets/2026/ogp/ogp_hondamasato.png";
 import KyouheiHorizumiOgImage from "@/assets/2026/ogp/ogp_horizumikyohei.png";
 import KeitaYamadaOgImage from "@/assets/2026/ogp/ogp_keitayamada.png";
 import KogisoOgImage from "@/assets/2026/ogp/ogp_kogiso.png";
-import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
-import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
-import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
-import HirokiTaniImage from "@/assets/2026/speaker-icons/tani_hiroki.jpg";
-import LacolacoOgImage from "@/assets/2026/ogp/ogp_lacolaco.png";
+import LacolacoAndOkunoKentaroOgImage from "@/assets/2026/ogp/ogp_lacolaco_okunokentaro.png";
 import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
+import TetsuharuOhzekiOgImage from "@/assets/2026/ogp/ogp_tetsuharuohzeki.png";
 import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
 import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
 import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
+import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
+import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
 import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
 import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
 import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
 import OkunokentaroImage from "@/assets/2026/speaker-icons/okunokentaro.jpg";
 import RicardoCabelloImage from "@/assets/2026/speaker-icons/ricardo_cabello.jpg";
+import HirokiTaniImage from "@/assets/2026/speaker-icons/tani_hiroki.jpg";
 import TetsuharuOhzekiImage from "@/assets/2026/speaker-icons/tetsuharu_ohzeki.jpg";
 import type { ImageMetadata } from "astro";
 
@@ -208,8 +208,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "lacolaco-okunokentaro",
-    // OGP 画像は lacolaco と okunokentaro の 2 枚あるが、ページはひとつなので lacolaco の方を使う
-    ogImage: LacolacoOgImage,
+    ogImage: LacolacoAndOkunoKentaroOgImage,
     overview: [
       "リファラジのふたりがそれぞれの2026年のリファクタリングを振り返る公開収録",
     ],
