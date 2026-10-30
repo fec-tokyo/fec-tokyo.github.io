@@ -191,10 +191,9 @@ export const GUEST_SESSIONS: GuestSession[] = [
     ],
   },
   {
-    // TODO: フォームの登壇概要が空欄だったので、概要が届いたら overview を入れる（それまで詳細ページに Overview は出さない）
     slug: "ricardo-cabello",
     ogImage: RicardoCabelloOgImage,
-    overview: null,
+    overview: ["TBD"],
     speakers: [
       {
         name: "Ricardo Cabello / mrdoob",
