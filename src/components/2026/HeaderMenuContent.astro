@@ -162,8 +162,9 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
 
 <style scoped>
   /*
-   * PC: 左右2列。上から「Proposals・Guest Speakers」「Ticket・Social Media」の2段を同じ高さで並べ、
-   * 一番下に Other Links を横幅いっぱいに置く。パネルの高さが足りないときは中身をスクロールさせる。
+   * PC: 左右2列。上から「Proposals・Guest Speakers」「Ticket・Social Media」の2段を並べ、
+   * 一番下に Other Links を横幅いっぱいに置く。1段目は中身の高さで、2段目がパネルの残りの高さに合わせて伸び縮みする。
+   * パネルの高さが足りないときは中身をスクロールさせる。
    * 縦長の画面では1列に積む（下のメディアクエリ）。
    */
   .content {
@@ -197,9 +198,9 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
       "proposals guests"
       "ticket social"
       "other other";
-    grid-template-rows: 1fr 1fr auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px 20px;
+    gap: 20px;
     padding-inline: 30px;
   }
 
