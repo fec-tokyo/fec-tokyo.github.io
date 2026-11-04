@@ -16,21 +16,19 @@ const {
   ogImage = "ogp/og-image.png",
 } = Astro.props;
 
+const faviconURL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.ico`;
 const canonicalURL = new URL(Astro.url, Astro.site);
 ---
 
 <!doctype html>
 <html lang="ja">
-  <head prefix="og: https://ogp.me/ns#">
+  <head>
     <meta charset="UTF-8" />
     <slot name="head" />
     <meta name="viewport" content="width=device-width" />
     <meta name="color-scheme" content="dark" />
     {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
-    <link
-      rel="icon"
-      href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.ico`}
-    />
+    <link rel="icon" href={faviconURL} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
