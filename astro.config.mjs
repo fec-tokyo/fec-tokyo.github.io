@@ -6,6 +6,8 @@ const isPreview = process.env.PREVIEW === "true";
 
 // https://astro.build/config
 export default defineConfig({
+	// Astro 7 でも従来のインライン要素間の空白を維持する。
+	compressHTML: true,
 	site: import.meta.env.PROD ? "https://fec-tokyo.github.io" : "http://localhost:3000",
 	base: isPreview ? "/preview/" : undefined,
 	env: {
