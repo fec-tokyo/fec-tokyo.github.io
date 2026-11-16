@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import PhotoMaskImage from "@/assets/2026/about-photo-mask.svg";
-import KasumiLargeImage from "@/assets/2026/sections/about/kasumi-large.svg";
-import KasumiSmall1Image from "@/assets/2026/sections/about/kasumi-small-1.svg";
-import KasumiSmall2Image from "@/assets/2026/sections/about/kasumi-small-2.svg";
-import KasumiImage from "@/assets/2026/sections/about/kasumi.svg";
+import KasumiLarge from "@/assets/2026/sections/about/kasumi-large.svg";
+import KasumiSmall1 from "@/assets/2026/sections/about/kasumi-small-1.svg";
+import KasumiSmall2 from "@/assets/2026/sections/about/kasumi-small-2.svg";
+import Kasumi from "@/assets/2026/sections/about/kasumi.svg";
 import Photo1Image from "@/assets/2026/sections/about/photo-1.jpg";
 import Photo2Image from "@/assets/2026/sections/about/photo-2.jpg";
 import Photo3Image from "@/assets/2026/sections/about/photo-3.jpg";
@@ -64,20 +64,8 @@ const photos = [
        */
     }
     <div class="visual">
-      <img
-        src={KasumiSmall1Image.src}
-        alt=""
-        width={KasumiSmall1Image.width}
-        height={KasumiSmall1Image.height}
-        class="kasumi kasumiSmall1"
-      />
-      <img
-        src={KasumiSmall2Image.src}
-        alt=""
-        width={KasumiSmall2Image.width}
-        height={KasumiSmall2Image.height}
-        class="kasumi kasumiSmall2"
-      />
+      <KasumiSmall1 class="kasumi kasumiSmall1" aria-hidden="true" />
+      <KasumiSmall2 class="kasumi kasumiSmall2" aria-hidden="true" />
       <div
         class="carousel"
         role="region"
@@ -105,20 +93,8 @@ const photos = [
           }
         </div>
       </div>
-      <img
-        src={KasumiImage.src}
-        alt=""
-        width={KasumiImage.width}
-        height={KasumiImage.height}
-        class="kasumi kasumiTop"
-      />
-      <img
-        src={KasumiLargeImage.src}
-        alt=""
-        width={KasumiLargeImage.width}
-        height={KasumiLargeImage.height}
-        class="kasumi kasumiLarge"
-      />
+      <Kasumi class="kasumi kasumiTop" aria-hidden="true" />
+      <KasumiLarge class="kasumi kasumiLarge" aria-hidden="true" />
     </div>
   </div>
 </section>
@@ -295,7 +271,8 @@ const photos = [
   /*
    * 霞は、霞の形を白と黒の青海波の柄で塗った SVG。Figma では柄を「加算（plus-lighter）」で重ねていて、
    * 黒は下の色に何も足さないので透け、白い柄だけが見える。
-   * SVG の中の指定は画像の中だけで閉じてしまうので、画像そのものにも同じ重ね方を指定する。
+   * img で表示すると柄がにじんで粗く見えるので、SVG を HTML に直接埋め込んでいる。
+   * SVG の中の重ね方は SVG の中だけで閉じてしまうので、svg 要素そのものにも同じ重ね方を指定する。
    * Figma の配置（592×560）の大きさに合わせ、高さは SVG の縦横比で決まる（height: auto）。
    */
   .kasumi {
