@@ -1,6 +1,9 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="189" height="60" viewBox="0 0 189 60" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
-<path d="M189 50C189 55.5228 184.523 60 179 60H54C48.4771 60 44 55.5228 44 50C44 44.4772 48.4772 40 54 40H57.5C63.0228 40 67.5 35.5228 67.5 30C67.5 24.4772 63.0228 20 57.5 20H10C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0H121.5C127.023 0 131.5 4.47715 131.5 10C131.5 15.5228 127.023 20 121.5 20H97.5C91.9772 20 87.5 24.4772 87.5 30C87.5 35.5228 91.9772 40 97.5 40H179C184.523 40 189 44.4772 189 50Z" fill="url(#pattern0_0_11)" style="mix-blend-mode:plus-lighter"/>
+<mask id="pattern0_0_11_mask" maskUnits="userSpaceOnUse" x="0" y="0" width="189" height="60">
+<path d="M189 50C189 55.5228 184.523 60 179 60H54C48.4771 60 44 55.5228 44 50C44 44.4772 48.4772 40 54 40H57.5C63.0228 40 67.5 35.5228 67.5 30C67.5 24.4772 63.0228 20 57.5 20H10C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0H121.5C127.023 0 131.5 4.47715 131.5 10C131.5 15.5228 127.023 20 121.5 20H97.5C91.9772 20 87.5 24.4772 87.5 30C87.5 35.5228 91.9772 40 97.5 40H179C184.523 40 189 44.4772 189 50Z" fill="url(#pattern0_0_11)"/>
+</mask>
+<rect width="189" height="60" fill="white" mask="url(#pattern0_0_11_mask)"/>
 </g>
 <defs>
 <pattern id="pattern0_0_11" patternUnits="userSpaceOnUse" patternTransform="matrix(55.776, 0, 0, 34.4, 61.3, 0)" preserveAspectRatio="none" viewBox="0 0 69.72 43" width="1" height="1">
