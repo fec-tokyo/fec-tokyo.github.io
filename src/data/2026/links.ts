@@ -8,9 +8,9 @@ export const sessionUrl = (slug: string) => `${TOP_URL}sessions/${slug}/`;
 // チケット販売ページ（fortee）
 export const TICKET_URL = "https://fortee.jp/fec-tokyo-2026/ticket-shop/index";
 
-// アーリーバードチケットの販売ページ（fortee）
-export const TICKET_EARLY_BIRD_URL =
-  "https://fortee.jp/fec-tokyo-2026/ticket-shop/index/e89cacf2-5a76-4671-92b1-a878e27da802";
+// 一般チケットの販売ページ（fortee）
+export const TICKET_GENERAL_URL =
+  "https://fortee.jp/fec-tokyo-2026/ticket-shop/index/2812bafe-10f6-4b29-a5f4-2111a47c591a";
 
 export const X_URL = "https://x.com/fec_tokyo";
 
