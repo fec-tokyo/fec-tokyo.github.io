@@ -60,7 +60,7 @@ html {
 .background-aizome {
   background-color: var(--color-aizome);
   background-image: var(--texture-noise-subtle);
-  background-size: var(--texture-noise-subtle-size);
+  background-size: var(--texture-noise-aizome-size);
 }
 
 /*

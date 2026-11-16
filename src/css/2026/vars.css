@@ -51,6 +51,9 @@
    * 画素密度に合わせてタイルを縮め、どの画面でも粒が実際の画素 1 つ分（等倍）になるようにする
    */
   --texture-noise-subtle-size: 200px;
+
+  /* 藍染の面（.background-aizome とそのディゾルブ）のノイズの大きさ。粒を 2 倍の粗さにするため、タイルを 2 倍にする */
+  --texture-noise-aizome-size: calc(var(--texture-noise-subtle-size) * 2);
 }
 
 @media (resolution >= 2x) {
