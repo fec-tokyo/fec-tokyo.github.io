@@ -33,6 +33,8 @@ export type GuestSpeaker = {
 
 type GuestSession = {
   slug: string;
+  // セッションのタイトル。まだ決まっていないものは null
+  title: string | null;
   overview: string[] | null;
   ogImage: ImageMetadata;
   speakers: GuestSpeaker[];
@@ -41,6 +43,7 @@ type GuestSession = {
 export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "hiroki-tani",
+    title: "コードを素材に、みんなでデザインする",
     ogImage: HirokiTaniOgImage,
     overview: [
       "Figmaはデザイナー向けのUIデザインツールと思われがちですが、実はユーザーの約3分の1が開発者です。キャンバス上でコードを扱えるようになり、AIエージェントも開発プロセスに加わる今、デザイナーとエンジニアの協働にはどのような可能性が広がっているのでしょうか。本セッションでは、進化するFigmaを通して、エンジニアもデザインに参加し、職種を越えて一緒に考え、つくることの価値をお話しします。",
@@ -58,6 +61,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "keita-yamada",
+    title: null,
     ogImage: KeitaYamadaOgImage,
     overview: [
       "デジタルユーザーインターフェースにおける「自己帰属感」をテーマに、AI時代のUI設計について考えます。",
@@ -77,6 +81,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "masato-honda",
+    title: null,
     ogImage: MasatoHondaOgImage,
     overview: [
       "AIエージェントを活用した開発が広がる中で、デザイナーとエンジニアの職域の境界が曖昧になりつつあります。",
@@ -95,10 +100,9 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "amagi",
+    title: null,
     ogImage: AmagiOgImage,
-    overview: [
-      "Rust/WebAssemblyで動画編集アプリを開発した知見"
-    ],
+    overview: ["Rust/WebAssemblyで動画編集アプリを開発した知見"],
     speakers: [
       {
         name: "Amagi",
@@ -112,6 +116,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "akihiko-kigure",
+    title: null,
     ogImage: AkihikoKigureOgImage,
     overview: ["（仮）MDN Web Docs 翻訳コミュニティの活動紹介"],
     speakers: [
@@ -127,6 +132,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "0b5vr",
+    title: null,
     ogImage: Og0b5vrImage,
     overview: [
       "私は、数KB〜数十KBの単一HTMLファイルから映像と音楽をリアルタイム生成する作品をつくっています。その中では、普段のWeb開発ではあまり触れる機会のないブラウザAPIが活躍しています。本セッションでは、自作の作品を題材に、WebGLとWeb Audioを用いた映像・音楽生成、そしてDecompressionStreamや圧縮技術を駆使してHTMLファイルを極限まで小さくするテクニックを紹介します。デモシーン特有のブラウザ技術に触れて、刺激を受けていただければ幸いです。",
@@ -144,6 +150,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "tetsuharu-ohzeki",
+    title: null,
     ogImage: TetsuharuOhzekiOgImage,
     overview: [
       "DOM binding - JSの世界とC++で実装されたDOMはどのように統合されて動くのか",
@@ -160,6 +167,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "kgsi",
+    title: null,
     ogImage: KogisoOgImage,
     overview: [
       "コードとデザイン（仮）",
@@ -178,6 +186,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "kyouhei-horizumi",
+    title: null,
     ogImage: KyouheiHorizumiOgImage,
     overview: ["サポート詐欺の魔手を断て！"],
     speakers: [
@@ -192,6 +201,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "ricardo-cabello",
+    title: null,
     ogImage: RicardoCabelloOgImage,
     overview: ["TBD"],
     speakers: [
@@ -207,6 +217,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
   {
     slug: "lacolaco-okunokentaro",
+    title: null,
     ogImage: LacolacoAndOkunoKentaroOgImage,
     overview: [
       "リファラジのふたりがそれぞれの2026年のリファクタリングを振り返る公開収録",

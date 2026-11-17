@@ -14,14 +14,16 @@ import Layout from "@/layouts/Layout.astro";
 
 // 概要がまだないセッションもページを作り、Overview の欄だけ出さない
 export const getStaticPaths = (() =>
-  GUEST_SESSIONS.map(({ slug, overview, ogImage, speakers }) => ({
+  GUEST_SESSIONS.map(({ slug, title, overview, ogImage, speakers }) => ({
     params: { slug },
-    props: { overview, ogImage, speakers },
+    props: { sessionTitle: title, overview, ogImage, speakers },
   }))) satisfies GetStaticPaths;
 
-const { overview, ogImage, speakers } = Astro.props;
+const { sessionTitle, overview, ogImage, speakers } = Astro.props;
 const speakerNames = speakers.map(({ name }) => name).join(" / ");
-const title = `${speakerNames} | フロントエンドカンファレンス東京 2026`;
+const title = sessionTitle
+  ? `${sessionTitle} - ${speakerNames} | フロントエンドカンファレンス東京 2026`
+  : `${speakerNames} | フロントエンドカンファレンス東京 2026`;
 ---
 
 <Layout
@@ -35,19 +37,19 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
   </div>
   <main class="background-aizome">
     <article class="container" aria-labelledby="speaker-title">
-      <h1 id="speaker-title" class="title">Guest Speaker</h1>
+      {
+        /* セッションのタイトルがまだ決まっていないときは「Guest Speaker」を出す */
+      }
+      <h1 id="speaker-title" class="title">
+        {sessionTitle ?? "Guest Speaker"}
+      </h1>
       {
         overview && (
-          <section class="overview" aria-labelledby="overview-title">
-            <h2 id="overview-title" class="overviewTitle">
-              Overview
-            </h2>
-            <div class="overviewText">
-              {overview.map((paragraph) => (
-                <p>{paragraph}</p>
-              ))}
-            </div>
-          </section>
+          <div class="overview">
+            {overview.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
         )
       }
       {
@@ -141,62 +143,46 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
     color: var(--color-white);
   }
 
+  /* 日本語のタイトルは Montserrat にない文字なので Noto Sans JP で出る */
   .title {
     margin: 0;
-    font-family: Montserrat, sans-serif;
-    font-size: 64px;
+    font-family: Montserrat, "Noto Sans JP", sans-serif;
+    font-size: 48px;
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.2;
     color: var(--color-off-white);
     text-transform: uppercase;
   }
 
-  .overview {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .overviewTitle {
-    margin: 0;
-    font-family: Montserrat, sans-serif;
-    font-size: 36px;
-    font-weight: 900;
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    text-box: trim-both cap alphabetic;
-  }
-
   /* 段落のあいだは文字 1 つ分空ける */
-  .overviewText {
+  .overview {
     display: flex;
     flex-direction: column;
     gap: 1em;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.8;
     letter-spacing: 0.02em;
   }
 
-  .overviewText p {
+  .overview p {
     margin: 0;
   }
 
   .profile {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     align-items: flex-start;
-    padding-top: 20px;
+    padding-top: 24px;
     border-top: 1px solid var(--color-white);
   }
 
   .photo {
     display: block;
     flex-shrink: 0;
-    width: 180px;
-    height: 180px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     /* 透過のある写真（PNG）でもページの背景が透けないように、白を敷いておく */
     background-color: var(--color-white);
@@ -212,7 +198,7 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 14px;
+    gap: 8px;
     align-self: stretch;
     justify-content: center;
     min-width: 0;
@@ -224,14 +210,12 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
   .nameBlock {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
-  /* 英語の名前は Montserrat、日本語の名前は Noto Sans JP（Montserrat にない文字は Noto Sans JP で出る） */
   .name {
     margin: 0;
-    font-family: Montserrat, "Noto Sans JP", sans-serif;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 900;
     line-height: 1.2;
   }
@@ -239,7 +223,7 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
   .company,
   .profileText {
     margin: 0;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1.4;
   }
@@ -251,14 +235,21 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
     max-width: 320px;
   }
 
+  /* タブレット: タイトルの行間を詰め、写真と文章のあいだを広げる */
+  @media (width <= 1080px) {
+    .title {
+      line-height: 1.1;
+    }
+
+    .profile {
+      gap: 20px;
+    }
+  }
+
   /* モバイル: 左右の余白を 20px にし、プロフィールは文章の下に写真を横幅いっぱいで置く */
   @media (width <= 720px) {
     .container {
       padding-inline: 20px;
-    }
-
-    .overviewText {
-      font-size: 18px;
     }
 
     .profile {
