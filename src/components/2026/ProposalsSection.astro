@@ -1,8 +1,8 @@
 ---
 import LinkCard from "@/components/2026/LinkCard.astro";
-import { PROPOSAL_URL } from "@/data/2026/links";
 ---
 
+{/* プロポーザルの募集は終了したので、ボタンは無効にして表示する */}
 <LinkCard
   id="proposals"
   title="Proposals"
@@ -12,5 +12,5 @@ import { PROPOSAL_URL } from "@/data/2026/links";
     "初登壇も大歓迎！",
   ]}
   label="プロポーザルを応募する"
-  href={PROPOSAL_URL}
+  href={null}
 />

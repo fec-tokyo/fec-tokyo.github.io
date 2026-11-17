@@ -18,10 +18,6 @@ export const NOTE_URL = "https://note.com/fec_tokyo";
 
 export const GITHUB_URL = "https://github.com/fec-tokyo";
 
-// プロポーザル（登壇の応募）を受け付ける fortee のページ
-export const PROPOSAL_URL =
-  "https://fortee.jp/fec-tokyo-2026/speaker/proposal/cfp";
-
 // 応募されたプロポーザルの一覧（fortee）
 export const PROPOSAL_LIST_URL =
   "https://fortee.jp/fec-tokyo-2026/proposal/all";
