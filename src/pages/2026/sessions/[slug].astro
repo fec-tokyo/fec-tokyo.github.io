@@ -147,6 +147,8 @@ const title = `${sessionTitle ?? speakerNames} | フロントエンドカンフ�
     font-weight: 900;
     line-height: 1.2;
     color: var(--color-off-white);
+    /* サイト共通の見出しの balance をやめ、Figma と同じく行末まで詰めて折り返す */
+    text-wrap: wrap;
     overflow-wrap: anywhere;
   }
 
@@ -231,21 +233,21 @@ const title = `${sessionTitle ?? speakerNames} | フロントエンドカンフ�
     max-width: 320px;
   }
 
-  /* タブレット: タイトルの行間を詰め、写真と文章のあいだを広げる */
+  /* タブレット: 写真と文章のあいだを広げる */
   @media (width <= 1080px) {
-    .title {
-      line-height: 1.1;
-    }
-
     .profile {
       gap: 20px;
     }
   }
 
-  /* モバイル: 左右の余白を 20px にし、プロフィールは文章の下に写真を横幅いっぱいで置く */
+  /* モバイル: 左右の余白を 20px、タイトルを 32px にし、プロフィールは文章の下に写真を横幅いっぱいで置く */
   @media (width <= 720px) {
     .container {
       padding-inline: 20px;
+    }
+
+    .title {
+      font-size: 32px;
     }
 
     .profile {
