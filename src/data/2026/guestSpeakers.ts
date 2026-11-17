@@ -218,8 +218,10 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "ricardo-cabello",
     ogImage: RicardoCabelloOgImage,
-    title: null,
-    overview: ["TBD"],
+    title: "Adventures in Agentic Coding",
+    overview: [
+      "What happens when you hand the keyboard to AI agents to build 3D web projects? In this talk I will share recent Three.js experiments built with agentic coding workflows, from daily creative sketches to large-scale procedural worlds that feel like a new kind of opensource. We will look at the actual process, what works, where agents fail, and how this shift turns creative developers into directors.",
+    ],
     speakers: [
       {
         name: "Ricardo Cabello / mrdoob",
