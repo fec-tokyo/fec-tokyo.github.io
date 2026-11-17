@@ -14,16 +14,14 @@ import Layout from "@/layouts/Layout.astro";
 
 // 概要がまだないセッションもページを作り、Overview の欄だけ出さない
 export const getStaticPaths = (() =>
-  GUEST_SESSIONS.map(({ slug, title, overview, ogImage, speakers }) => ({
+  GUEST_SESSIONS.map(({ slug, overview, ogImage, speakers }) => ({
     params: { slug },
-    props: { sessionTitle: title, overview, ogImage, speakers },
+    props: { overview, ogImage, speakers },
   }))) satisfies GetStaticPaths;
 
-const { sessionTitle, overview, ogImage, speakers } = Astro.props;
+const { overview, ogImage, speakers } = Astro.props;
 const speakerNames = speakers.map(({ name }) => name).join(" / ");
-const title = sessionTitle
-  ? `${sessionTitle} - ${speakerNames} | フロントエンドカンファレンス東京 2026`
-  : `${speakerNames} | フロントエンドカンファレンス東京 2026`;
+const title = `${speakerNames} | フロントエンドカンファレンス東京 2026`;
 ---
 
 <Layout
@@ -37,12 +35,7 @@ const title = sessionTitle
   </div>
   <main class="background-aizome">
     <article class="container" aria-labelledby="speaker-title">
-      {
-        /* セッションのタイトルがまだ決まっていないときは「Guest Speaker」を出す */
-      }
-      <h1 id="speaker-title" class="title">
-        {sessionTitle ?? "Guest Speaker"}
-      </h1>
+      <h1 id="speaker-title" class="title">Guest Speaker</h1>
       {
         overview && (
           <div class="overview">
@@ -143,10 +136,9 @@ const title = sessionTitle
     color: var(--color-white);
   }
 
-  /* 日本語のタイトルは Montserrat にない文字なので Noto Sans JP で出る */
   .title {
     margin: 0;
-    font-family: Montserrat, "Noto Sans JP", sans-serif;
+    font-family: Montserrat, sans-serif;
     font-size: 48px;
     font-weight: 900;
     line-height: 1.2;
