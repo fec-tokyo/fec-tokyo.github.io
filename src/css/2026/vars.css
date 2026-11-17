@@ -52,8 +52,8 @@
    */
   --texture-noise-subtle-size: 200px;
 
-  /* 藍染の面（.background-aizome とそのディゾルブ）のノイズの大きさ。粒を 2 倍の粗さにするため、タイルを 2 倍にする */
-  --texture-noise-aizome-size: calc(var(--texture-noise-subtle-size) * 2);
+  /* 藍染の面（.background-aizome とそのディゾルブ）のノイズの大きさ。いまは他の面と同じ粗さ（等倍）にしている */
+  --texture-noise-aizome-size: var(--texture-noise-subtle-size);
 }
 
 @media (resolution >= 2x) {
