@@ -158,7 +158,7 @@ const title = `${sessionTitle ?? speakerNames} | フロントエンドカンフ�
     flex-direction: column;
     gap: 1em;
     font-family: "Noto Sans JP", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.8;
     letter-spacing: 0.02em;
@@ -196,34 +196,37 @@ const title = `${sessionTitle ?? speakerNames} | フロントエンドカンフ�
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 8px;
-    align-self: stretch;
-    justify-content: center;
+    gap: 16px;
     min-width: 0;
-    padding-bottom: 8px;
     font-family: "Noto Sans JP", sans-serif;
-    letter-spacing: 0.02em;
   }
 
   .nameBlock {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
   }
 
+  /* 文字間隔は em で親に書くと親の文字サイズで px に変わって受け継がれるので、文字サイズの違う要素ごとに書く */
   .name {
     margin: 0;
     font-size: 24px;
     font-weight: 900;
-    line-height: 1.2;
+    line-height: 1;
+    letter-spacing: 0.02em;
   }
 
   .company,
   .profileText {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  .company {
+    line-height: 1;
   }
 
   /* 前のページへ戻るボタン。中央に置き、幅は最大 320px */
@@ -245,17 +248,12 @@ const title = `${sessionTitle ?? speakerNames} | フロントエンドカンフ�
 
     .profile {
       flex-direction: column-reverse;
-      gap: 8px;
     }
 
     .photo {
       width: 100%;
       height: auto;
       aspect-ratio: 1;
-    }
-
-    .profileBody {
-      align-self: auto;
     }
 
     .backButton {
