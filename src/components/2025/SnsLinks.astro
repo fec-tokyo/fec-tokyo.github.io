@@ -13,33 +13,26 @@ type Props = {
   size?: "small" | "large";
 };
 
-const {
-  xId,
-  githubId,
-  website,
-  hasNote = false,
-  noteId,
-  size = "small",
-}: Props = Astro.props;
+const { xId, githubId, website, noteId, size = "small" }: Props = Astro.props;
 ---
 
 <ul class:list={["list", size === "small" ? "small" : "large"]}>
   {
     (
       [
-        { icon: <XLogoImage />, url: xId && `https://x.com/${xId}` },
+        { Icon: XLogoImage, url: xId && `https://x.com/${xId}` },
         {
-          icon: <NoteLogoImage />,
+          Icon: NoteLogoImage,
           url: noteId && `https://note.com/${noteId}`,
         },
         {
-          icon: <GitHubLogoImage />,
+          Icon: GitHubLogoImage,
           url: githubId && `https://github.com/${githubId}`,
         },
-        { icon: <WebsiteLogoImage />, url: website },
+        { Icon: WebsiteLogoImage, url: website },
       ] as const
     ).map(
-      ({ icon, url }) =>
+      ({ Icon, url }) =>
         url != null && (
           <li>
             <a
@@ -56,7 +49,7 @@ const {
                 size === "small" ? "small" : "large",
               ]}
             >
-              {icon}
+              <Icon />
             </a>
           </li>
         ),

@@ -1567,6 +1567,8 @@ const optimize = async (
     quality: 80,
   });
   return {
+    width: src.width,
+    height: src.height,
     src: image.src,
     srcset: image.srcSet.attribute,
     sizes: sizesFor(parts, targetFrames),
@@ -1619,19 +1621,21 @@ const cranes = await Promise.all(
     }),
   ),
 );
-const mists: { part: PartName; src: string }[] = [
-  { part: "mist1", src: Mist1.src },
-  { part: "mist2", src: Mist2.src },
-  { part: "mist3", src: Mist3.src },
-  { part: "mist3Flip", src: Mist3.src },
-  { part: "mist4", src: Mist4.src },
-];
+const mists = [
+  { part: "mist1", ...Mist1 },
+  { part: "mist2", ...Mist2 },
+  { part: "mist3", ...Mist3 },
+  { part: "mist3Flip", ...Mist3 },
+  { part: "mist4", ...Mist4 },
+] as const;
 ---
 
 <section id="kv" class="container">
   <Fragment set:html={`<style>${frameStyles}</style>`} />
   <img
     src={BackgroundLogo.src}
+    width={BackgroundLogo.width}
+    height={BackgroundLogo.height}
     alt=""
     class="part"
     data-part="backgroundLogo"
@@ -1646,6 +1650,8 @@ const mists: { part: PartName; src: string }[] = [
         />
         <img
           src={wide.src}
+          width={wide.width}
+          height={wide.height}
           srcset={wide.srcset}
           sizes={wide.sizes}
           alt=""
@@ -1655,12 +1661,28 @@ const mists: { part: PartName; src: string }[] = [
       </picture>
     ))
   }
-  <img src={Cloud.src} alt="" class="part" data-part="cloudLeft" />
-  <img src={Cloud.src} alt="" class="part" data-part="cloudRight" />
+  <img
+    src={Cloud.src}
+    width={Cloud.width}
+    height={Cloud.height}
+    alt=""
+    class="part"
+    data-part="cloudLeft"
+  />
+  <img
+    src={Cloud.src}
+    width={Cloud.width}
+    height={Cloud.height}
+    alt=""
+    class="part"
+    data-part="cloudRight"
+  />
   {
     cranes.map((crane) => (
       <img
         src={crane.src}
+        width={crane.width}
+        height={crane.height}
         srcset={crane.srcset}
         sizes={crane.sizes}
         alt=""
@@ -1677,6 +1699,8 @@ const mists: { part: PartName; src: string }[] = [
     />
     <img
       src={sun.src}
+      width={sun.width}
+      height={sun.height}
       srcset={sun.srcset}
       sizes={sun.sizes}
       alt="フロントエンドカンファレンス東京 二〇二六 大師走祭 12.05 ABEMA TOWERS"
@@ -1687,6 +1711,8 @@ const mists: { part: PartName; src: string }[] = [
   </picture>
   <img
     src={daruma.src}
+    width={daruma.width}
+    height={daruma.height}
     srcset={daruma.srcset}
     sizes={daruma.sizes}
     alt=""
@@ -1698,7 +1724,14 @@ const mists: { part: PartName; src: string }[] = [
   </div>
   {
     mists.map((mist) => (
-      <img src={mist.src} alt="" class="part" data-part={mist.part} />
+      <img
+        src={mist.src}
+        width={mist.width}
+        height={mist.height}
+        alt=""
+        class="part"
+        data-part={mist.part}
+      />
     ))
   }
 </section>

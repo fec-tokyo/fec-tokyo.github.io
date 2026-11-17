@@ -14,14 +14,15 @@ import Layout from "@/layouts/Layout.astro";
 
 // 概要がまだないセッションもページを作り、Overview の欄だけ出さない
 export const getStaticPaths = (() =>
-  GUEST_SESSIONS.map(({ slug, overview, ogImage, speakers }) => ({
+  GUEST_SESSIONS.map(({ slug, title, overview, ogImage, speakers }) => ({
     params: { slug },
-    props: { overview, ogImage, speakers },
+    props: { sessionTitle: title, overview, ogImage, speakers },
   }))) satisfies GetStaticPaths;
 
-const { overview, ogImage, speakers } = Astro.props;
+const { sessionTitle, overview, ogImage, speakers } = Astro.props;
 const speakerNames = speakers.map(({ name }) => name).join(" / ");
-const title = `${speakerNames} | フロントエンドカンファレンス東京 2026`;
+// タイトルが決まっていないセッションは、ページのタイトルにスピーカー名を入れる
+const title = `${sessionTitle ?? speakerNames} | フロントエンドカンファレンス東京 2026`;
 ---
 
 <Layout
@@ -35,7 +36,9 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
   </div>
   <main class="background-aizome">
     <article class="container" aria-labelledby="speaker-title">
-      <h1 id="speaker-title" class="title">Guest Speaker</h1>
+      <h1 id="speaker-title" class="title">
+        {sessionTitle ?? "Guest Speaker"}
+      </h1>
       {
         overview && (
           <div class="overview">
@@ -136,14 +139,15 @@ const title = `${speakerNames} | フロントエンドカンファレンス東�
     color: var(--color-white);
   }
 
+  /* セッションタイトルは日本語で長くなることがあるので、折り返して読める大きさと行間にする */
   .title {
     margin: 0;
-    font-family: Montserrat, sans-serif;
+    font-family: Montserrat, "Noto Sans JP", sans-serif;
     font-size: 48px;
     font-weight: 900;
     line-height: 1.2;
     color: var(--color-off-white);
-    text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
   /* 段落のあいだは文字 1 つ分空ける */

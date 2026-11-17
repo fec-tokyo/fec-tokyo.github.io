@@ -33,6 +33,8 @@ export type GuestSpeaker = {
 
 type GuestSession = {
   slug: string;
+  // セッションのタイトル。まだ決まっていないときは null
+  title: string | null;
   overview: string[] | null;
   ogImage: ImageMetadata;
   speakers: GuestSpeaker[];
@@ -42,6 +44,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "hiroki-tani",
     ogImage: HirokiTaniOgImage,
+    title: "コードを素材に、みんなでデザインする",
     overview: [
       "Figmaはデザイナー向けのUIデザインツールと思われがちですが、実はユーザーの約3分の1が開発者です。キャンバス上でコードを扱えるようになり、AIエージェントも開発プロセスに加わる今、デザイナーとエンジニアの協働にはどのような可能性が広がっているのでしょうか。本セッションでは、進化するFigmaを通して、エンジニアもデザインに参加し、職種を越えて一緒に考え、つくることの価値をお話しします。",
     ],
@@ -59,6 +62,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "keita-yamada",
     ogImage: KeitaYamadaOgImage,
+    title: "AIにUIを作らせる前に知っておきたい「自己帰属感」の話",
     overview: [
       "デジタルユーザーインターフェースにおける「自己帰属感」をテーマに、AI時代のUI設計について考えます。",
       "生成AIによって、自然言語で指示するだけでUIを実装できるようになりました。しかし、AIにコードを書かせることができても、どのようなUIを作るべきかを判断するための知識や指針は、依然として人間側に求められます。",
@@ -78,9 +82,11 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "masato-honda",
     ogImage: MasatoHondaOgImage,
+    title: "融けていく職域の中で、再定義されるデザインという行為の実態について",
     overview: [
-      "AIエージェントを活用した開発が広がる中で、デザイナーとエンジニアの職域の境界が曖昧になりつつあります。",
-      "そうしたAgenticな開発フローの中で、デザイナーはどのような役割を担い、専門性を発揮していくのか。実際の開発で起きている変化を踏まえながら、従来の役割分担にとらわれない協働のあり方や、職域の境界が融けた先のプロダクト開発についてお話ししたいと考えています。",
+      "AIの台頭によりあらゆる行為の価値が変わりました。制作過程は省略され、再現のための思考や試行錯誤は誰でも手軽にできるものになりました。これまでデザインの価値の多くは「正しく作る過程」にあり、中間成果物がゴールでした。それが企業の目指す状態に不可欠だったからです。",
+      "しかし、デザインの本質は過程や手段ではありません。どんなアウトカムを生み、どんな市場インパクトをもたらすか。そこにあります。デザイナーがコードというユーザーに届く実体に踏み込むのはこれまでも必然でした。今やデザインは良いものづくりのためなら何でも行い、責任を持つ職へと本質回帰しています。",
+      "同じ目的に向かうなら、職種を問わず誰もがデザイナーの職域に立ちます。違うのは責任と軸足の置き場所だけです。本セッションでは、融けゆく職域の中でデザインが担う実態と、フロントエンドに携わる私たちの役割、それを支える組織や仕組みについて語ります。",
     ],
     speakers: [
       {
@@ -96,8 +102,10 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "amagi",
     ogImage: AmagiOgImage,
+    title: "拡大するフロントエンド / Extend the Frontend",
     overview: [
-      "Rust/WebAssemblyで動画編集アプリを開発した知見"
+      "Webブラウザの進化によって、Webフロントエンドで扱える技術は大幅に増えました。また、AIによって実装のスピードが急激に向上した結果、一人ひとりの開発者がカバーすべき領域も拡大を続けています。",
+      "この発表では、Rust/WebAssemblyで書かれた動画編集アプリの実例を通じて、フロントエンドの領域がどこまで拡大していけるのかを論じます。特に、DOMの管理から外れた領域でのWeb開発について、WebGL、動画処理、テキストレンダリングなどを絡めて考えてます。",
     ],
     speakers: [
       {
@@ -113,7 +121,10 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "akihiko-kigure",
     ogImage: AkihikoKigureOgImage,
-    overview: ["（仮）MDN Web Docs 翻訳コミュニティの活動紹介"],
+    title: "MDN Web Docs 歴史と活動の紹介",
+    overview: [
+      "MDN Web Docs の誕生と歴史をブラウザの歴史と関連付けて紹介します。翻訳活動と翻訳手順を紹介します。",
+    ],
     speakers: [
       {
         name: "akihiko.KIgure a.k.a グレさん",
@@ -128,8 +139,9 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "0b5vr",
     ogImage: Og0b5vrImage,
+    title: "DemosceneにおけるWeb APIと圧縮技術",
     overview: [
-      "私は、数KB〜数十KBの単一HTMLファイルから映像と音楽をリアルタイム生成する作品をつくっています。その中では、普段のWeb開発ではあまり触れる機会のないブラウザAPIが活躍しています。本セッションでは、自作の作品を題材に、WebGLとWeb Audioを用いた映像・音楽生成、そしてDecompressionStreamや圧縮技術を駆使してHTMLファイルを極限まで小さくするテクニックを紹介します。デモシーン特有のブラウザ技術に触れて、刺激を受けていただければ幸いです。",
+      "私は、数KB〜数十KBの単一HTMLファイルから映像と音楽をリアルタイム生成する作品をつくっています。その中では、普段のWeb開発ではあまり触れる機会のないブラウザAPIが活躍しています。本セッションでは、私の作品を題材に、WebGLとWeb Audioを用いた映像・音楽生成、そしてDecompressionStreamや圧縮技術を駆使してHTMLファイルを極限まで小さくするテクニックを紹介します。デモシーン特有のブラウザ技術に触れて、刺激を受けていただければ幸いです。",
     ],
     speakers: [
       {
@@ -145,8 +157,12 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "tetsuharu-ohzeki",
     ogImage: TetsuharuOhzekiOgImage,
+    title:
+      "How to handle DOM object lifetime? Web EngineにおけるJSとC++の協調的メモリ管理",
     overview: [
-      "DOM binding - JSの世界とC++で実装されたDOMはどのように統合されて動くのか",
+      "JavaScriptを書いていてメモリ管理を気にしたことがありますか？　多くの方は無縁なことと思います。C++やRustを書いていてメモリ管理を気にしたことがありますか？　多くの方は苦労なさっていると思います。",
+      "では、JSから操作されるDOMの裏側はどうなっているでしょうか。主要なWeb EngineのDOMはC++で実装されています。つまり、メモリ管理を殆ど気にしなくてよい世界から、メモリ管理を厳格に気にする世界が直接操作されています。少し扱いを間違えるだけでクラッシュや脆弱性・メモリリークの温床になります。とても面倒くさそうですね。",
+      "本セッションでは、3大Web Engineがどのようにこの厄介さに取り組んでいるのかについての概説を通じて、Web Engineの面白さについてお伝えできればと思います。",
     ],
     speakers: [
       {
@@ -161,9 +177,11 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "kgsi",
     ogImage: KogisoOgImage,
+    title: "デザインエージェントの未来。",
     overview: [
-      "コードとデザイン（仮）",
-      "今年起こったデジタルにおけるデザイン界隈の変化と、デザインとコードの今後の在り方についてお話します。",
+      "AIやエージェントにより開発速度は上がったものの、価値提供の速度は変わっていません。合意形成や、とりわけデザイン・使いやすさの「品質判断」が人の速さのまま留まっているためです。判断が遅れればスロップ（粗悪品）が出回り、迷えば手戻りが増えます。",
+      "2026年、デザイン領域においてもDESIGN.mdやAgentic Design System、デザインハーネスなど判断基準を渡す仕組みは進みましたが、検証は依然として人頼みです。ソフトウェアファクトリーなどの概念が発達し、生成量が急増する中で、人だけの確認だけでは限界を迎えます。いま求められるのは、判断基準をもとに確認から修正まで自律的に担うデザインエージェントの登場です。",
+      "本セッションでは2026年のデザイン組織の変化を振り返り、デザインエージェントについてと、2027年に向け、組織が備えるべき実践をお話しします。",
     ],
     speakers: [
       {
@@ -179,7 +197,14 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "kyouhei-horizumi",
     ogImage: KyouheiHorizumiOgImage,
-    overview: ["サポート詐欺の魔手を断て！"],
+    title:
+      "サポート詐欺の魔手を断て！ 〜Chromiumへの修正と、問題に挑み続ける理由〜",
+    overview: [
+      "日本国内だけでも2025年に約14.9億円の被害が確認されたサポート詐欺は、海外でも深刻な問題となっています。その手口の一つに、ブラクラを使ってブラウザを閉じたり、前のページに戻ったりする操作を妨害し、ユーザーをその場に留めようとするものがあります。こうした問題をきっかけに、ブラウザ内部の挙動を調査し、Chromiumへの修正を目標に取り組んできました。",
+      "本セッションでは、問題に関心を持ったきっかけから、調査、修正提案、コードレビューまでの取り組みを紹介します。",
+      "さらに、なぜ仕事でもない問題に取り組むのか、どうすれば挑戦を始め、継続できるのかについても、自身の経験を交えてお話しします。",
+      "最後に、次の挑戦として取り組んでいるWeb標準「FormRequest API」の仕様提案を紹介します。まだ提案段階だからこそ、皆さんの率直な感想や意見をお聞きできればと思います。",
+    ],
     speakers: [
       {
         name: "堀住 恭平",
@@ -193,6 +218,7 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "ricardo-cabello",
     ogImage: RicardoCabelloOgImage,
+    title: null,
     overview: ["TBD"],
     speakers: [
       {
@@ -208,8 +234,9 @@ export const GUEST_SESSIONS: GuestSession[] = [
   {
     slug: "lacolaco-okunokentaro",
     ogImage: LacolacoAndOkunoKentaroOgImage,
+    title: "2026年のリファクタリングをふりかえる",
     overview: [
-      "リファラジのふたりがそれぞれの2026年のリファクタリングを振り返る公開収録",
+      "ポッドキャスト「リファクタリングとともに生きるラジオ」の公開収録として、会場のみなさんと一緒に2026年のリファクタリングをふりかえります。1年間で変わったこと、変わらなかったこと、これから変わりそうなことについてゆるく楽しく雑談します。",
     ],
     speakers: [
       {

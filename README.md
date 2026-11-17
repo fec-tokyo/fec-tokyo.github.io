@@ -7,7 +7,7 @@
 
 ## 開発環境
 
-Node.js 24（`.node-version`および`package.json`のVolta設定では24.5.0）とnpmを使用します。
+Node.js 24（`.node-version`および`package.json`のVolta設定では24.22.1）とnpmを使用します。
 
 ```sh
 npm ci
@@ -90,3 +90,7 @@ Husky v9が標準生成しないフックなので、`prepare`で専用の起動
 `HUSKY=0`・`core.hooksPath`変更などによる意図的な無効化までは防げません。
 送信自体を強制的に拒否するにはサーバー側のsecret push protectionや受信フックが必要です。
 パターンに一致しない秘密は検出できないため、検査は漏洩防止の補助です。
+
+## 依存パッケージの脆弱性対応
+
+更新方針、画像素材の取り扱い、残る advisory の判断は [依存パッケージの脆弱性対応記録](docs/dependency-security.md) を参照してください。

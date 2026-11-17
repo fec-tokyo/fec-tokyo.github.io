@@ -5,7 +5,6 @@ import did0es from "@/assets/2025/coreMembers/did0es.jpg";
 
 import E_Chanoknan from "@/assets/2025/speaker/EC-9624.jpg";
 import hal from "@/assets/2025/speaker/Hal.jpg";
-import hiroppy from "@/assets/2025/speaker/hiroppy.webp";
 import jp_knj from "@/assets/2025/speaker/jp-knj.jpg";
 import jxck from "@/assets/2025/speaker/jxck.png";
 import KyouheiHorizumi from "@/assets/2025/speaker/KyouheiHorizumi.jpg";
@@ -27,7 +26,6 @@ import yuta_ike from "@/assets/2025/speaker/Selria1.jpg";
 import saku from "@/assets/2025/speaker/saku.jpg";
 import ssssota from "@/assets/2025/speaker/ssssotaro.png";
 import syumai from "@/assets/2025/speaker/syumai.jpg";
-import takashi_onda from "@/assets/2025/speaker/takashi_onda.jpg";
 import tetsuwo from "@/assets/2025/speaker/tetsuwo0717.jpg";
 import toshi__toma from "@/assets/2025/speaker/toshi__toma.jpg";
 
@@ -250,7 +248,7 @@ export const TIMETABLE_ROWS: TimeTableRow[] = [
       {
         id: "13",
         roomType: "B",
-        title: '"フロントエンドの技術"を移行する技術',
+        title: "\"フロントエンドの技術\"を移行する技術",
         isEmphasized: false,
         speakerName: "外松 俊尚",
         xId: "toshi__toma",

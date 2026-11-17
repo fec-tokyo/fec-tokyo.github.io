@@ -172,6 +172,12 @@ const marqueeDuration = `${NEWS.text.length * 0.4}s`;
       button.setAttribute("aria-expanded", "false");
       button.focus();
     });
+
+    // メニューを開いたままリンク（登壇者など）で移ると、ブラウザの「戻る」で bfcache から開いたまま復元されるので、
+    // ページを離れるときにアニメーションなしで閉じておく
+    window.addEventListener("pagehide", () => {
+      if (drawer.open) drawer.close();
+    });
   }
 </script>
 
