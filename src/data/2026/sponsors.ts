@@ -27,28 +27,28 @@ export const SPONSORS: Sponsors = {
       image: cyberagent,
     },
   ],
-  // ロゴの表記のアルファベット順に並べる
+  // 法人格を除いた社名のよみの五十音順に並べる
   general: [
-    { name: "ちょっと株式会社", url: "https://chot-inc.com/", image: chot },
-    {
-      name: "株式会社Gaji-Labo",
-      url: "https://www.gaji.jp/",
-      image: gajiLabo,
-    },
     {
       name: "株式会社カケハシ",
       url: "https://recruit.kakehashi.life/",
       image: kakehashi,
     },
     {
-      name: "LINEヤフー株式会社",
-      url: "https://www.lycorp.co.jp/ja/technology-design/",
-      image: lyCorporation,
+      name: "株式会社Gaji-Labo",
+      url: "https://www.gaji.jp/",
+      image: gajiLabo,
     },
     {
       name: "株式会社クロステック・マネジメント（京都芸術大学）",
       url: "https://xtm.jp/",
       image: null,
+    },
+    { name: "ちょっと株式会社", url: "https://chot-inc.com/", image: chot },
+    {
+      name: "LINEヤフー株式会社",
+      url: "https://www.lycorp.co.jp/ja/technology-design/",
+      image: lyCorporation,
     },
   ],
 };
