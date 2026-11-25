@@ -4,7 +4,6 @@ import AmagiOgImage from "@/assets/2026/ogp/ogp_amagi.png";
 import HirokiTaniOgImage from "@/assets/2026/ogp/ogp_hirokitani.png";
 import MasatoHondaOgImage from "@/assets/2026/ogp/ogp_hondamasato.png";
 import KyouheiHorizumiOgImage from "@/assets/2026/ogp/ogp_horizumikyohei.png";
-import KeitaYamadaOgImage from "@/assets/2026/ogp/ogp_keitayamada.png";
 import KogisoOgImage from "@/assets/2026/ogp/ogp_kogiso.png";
 import LacolacoAndOkunoKentaroOgImage from "@/assets/2026/ogp/ogp_lacolaco_okunokentaro.png";
 import RicardoCabelloOgImage from "@/assets/2026/ogp/ogp_ricardocabello.png";
@@ -13,7 +12,6 @@ import Image0b5vr from "@/assets/2026/speaker-icons/0b5vr.png";
 import AkihikoKigureImage from "@/assets/2026/speaker-icons/akihiko_kigure.png";
 import AmagiImage from "@/assets/2026/speaker-icons/amagi.jpg";
 import MasatoHondaImage from "@/assets/2026/speaker-icons/honda_masato.jpg";
-import KeitaYamadaImage from "@/assets/2026/speaker-icons/keita_yamada.png";
 import KogisoImage from "@/assets/2026/speaker-icons/kogiso.jpg";
 import KyouheiHorizumiImage from "@/assets/2026/speaker-icons/kyouhei_horizumi.png";
 import LacolacoImage from "@/assets/2026/speaker-icons/lacolaco.jpg";
@@ -56,26 +54,6 @@ export const GUEST_SESSIONS: GuestSession[] = [
         profile:
           "Figma Japan株式会社デザイナーアドボケート。中小企業向けのSaaS、フリーランスでの受託、起業やスタートアップでの開発チーム立ち上げを経験。Webのフロントエンド開発や、UI・UX設計をおこなう。現在はFigma Japanでイベント登壇やコンテンツ設計に取り組んでいる。",
         sns: "https://x.com/hiloki",
-      },
-    ],
-  },
-  {
-    slug: "keita-yamada",
-    ogImage: KeitaYamadaOgImage,
-    title: "AIにUIを作らせる前に知っておきたい「自己帰属感」の話",
-    overview: [
-      "デジタルユーザーインターフェースにおける「自己帰属感」をテーマに、AI時代のUI設計について考えます。",
-      "生成AIによって、自然言語で指示するだけでUIを実装できるようになりました。しかし、AIにコードを書かせることができても、どのようなUIを作るべきかを判断するための知識や指針は、依然として人間側に求められます。",
-      "本セッションでは、ユーザーが自分の操作やその結果を「自分が引き起こしたもの」と感じられる自己帰属感に着目します。具体的なUIを題材に、一般的なプロンプトでAIに実装させた場合と、自己帰属感を考慮した指示を与えた場合とで、生成されるUIにどのような違いが生まれるのかを比較します。",
-      "AIにUIを作らせる時代だからこそ、人間がUIの原理を理解しておくことの重要性を、実例を交えながらお話しします。",
-    ],
-    speakers: [
-      {
-        name: "Keita Yamada",
-        company: "Freelance Web Designer / Developer",
-        image: KeitaYamadaImage,
-        profile: "フリーランスで活動しているWebサイト制作者です。",
-        sns: "https://x.com/P5_keita",
       },
     ],
   },
@@ -261,8 +239,8 @@ export const GUEST_SESSIONS: GuestSession[] = [
   },
 ];
 
-// ゲストスピーカーの枠の数（Figma では 4 列 × 3 段）
-const GUEST_SPEAKER_SLOTS = 12;
+// ゲストスピーカーの枠の数（Figma では 4 列 × 3 段）。登壇をキャンセルした 1 名の分を減らしている
+const GUEST_SPEAKER_SLOTS = 11;
 
 /*
  * まだ公開していない枠の公開予定日。3 枠ずつ 1 日ごとに公開する。
