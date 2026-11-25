@@ -1,5 +1,202 @@
 ---
-import ComingSoonSection from "@/components/2026/ComingSoonSection.astro";
+import { Image } from "astro:assets";
+import { SPONSORS } from "@/data/2026/sponsors";
+
+const groups = [
+  { key: "venue", title: "Venue Sponsor", sponsors: SPONSORS.venue },
+  {
+    key: "general",
+    title: "General Sponsors",
+    note: "※ロゴ表記アルファベット順",
+    sponsors: SPONSORS.general,
+  },
+] as const;
 ---
 
-<ComingSoonSection id="sponsors" title="Sponsors" />
+<section id="sponsors" class="container" aria-labelledby="sponsors-title">
+  <hgroup class="heading">
+    <h2 id="sponsors-title" class="title">Sponsors</h2>
+    <p class="subtitle">スポンサーのみなさま</p>
+  </hgroup>
+  {
+    groups.map(({ key, title, sponsors, ...rest }) => (
+      <section class:list={["group", key]} aria-label={title}>
+        <div class="groupHeading">
+          <h3 class="groupTitle">{title}</h3>
+          {"note" in rest && <p class="note">{rest.note}</p>}
+        </div>
+        <ul class="list">
+          {sponsors.map(({ name, url, image }) => (
+            <li>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="logo"
+              >
+                {image ? (
+                  <Image src={image} alt={name} width={640} class="image" />
+                ) : (
+                  <span class="name">{name}</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</section>
+
+<style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: var(--width-desktop);
+    padding: 80px 120px;
+    margin-inline: auto;
+    color: var(--color-off-white);
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-weight: inherit;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .venue {
+    gap: 12px;
+  }
+
+  .groupHeading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .groupTitle {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .note {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  /* ロゴの箱は横に並べ、入りきらない分は中央寄せで次の行に送る */
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .list li {
+    width: 320px;
+  }
+
+  .venue .list li {
+    width: 560px;
+  }
+
+  /* 箱は 8:5。ロゴごとに余白の取り方が違うので、箱の内側に余白をとって収まる大きさで置く */
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 8 / 5;
+    padding: 12%;
+    color: var(--color-black);
+    text-decoration: none;
+    background-color: var(--color-white);
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .name {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    /* 長い社名を語の途中で折り返さない */
+    word-break: auto-phrase;
+  }
+
+  /* タブレット */
+  @media (width <= 1080px) {
+    .container {
+      padding-inline: 40px;
+    }
+  }
+
+  /* モバイル: ロゴの箱を横幅いっぱいにして縦に積む */
+  @media (width <= 720px) {
+    .container {
+      padding: 40px 20px;
+    }
+
+    .title {
+      font-size: 44px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+    }
+
+    .groupTitle {
+      font-size: 24px;
+    }
+
+    .list {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .list li,
+    .venue .list li {
+      width: 100%;
+    }
+  }
+</style>
