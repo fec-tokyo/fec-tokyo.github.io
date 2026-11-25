@@ -1,5 +1,7 @@
 ---
 import { PREVIEW } from "astro:env/server";
+
+const redirectUrl = `${Astro.site}2026`;
 ---
 
 <!doctype html>
@@ -12,9 +14,12 @@ import { PREVIEW } from "astro:env/server";
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>Frontend Conference Tokyo</title>
-    <meta http-equiv="refresh" content={`0;url=${Astro.site}2026`} />
+    <script is:inline define:vars={{ redirectUrl }}>
+      window.location.replace(redirectUrl);
+    </script>
+    <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
   </head>
   <body>
-    <p><a href="/2026/">Frontend Conference Tokyo 2026</a></p>
+    <noscript><a href="/2026/">Frontend Conference Tokyo 2026</a></noscript>
   </body>
 </html>
