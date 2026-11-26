@@ -8,7 +8,6 @@ import KeyVisualPartsSection from "@/components/2026/KeyVisualPartsSection.astro
 import MessageSection from "@/components/2026/MessageSection.astro";
 import NotesSection from "@/components/2026/NotesSection.astro";
 import OpeningAnimation from "@/components/2026/OpeningAnimation.astro";
-import OrganizersSection from "@/components/2026/OrganizersSection.astro";
 import ProposalsSection from "@/components/2026/ProposalsSection.astro";
 import SponsorsSection from "@/components/2026/SponsorsSection.astro";
 import TicketsSection from "@/components/2026/TicketsSection.astro";
@@ -18,7 +17,10 @@ import "@/css/2026/vars.css";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout ogTitle="フロントエンドカンファレンス東京 2026" ogImage="ogp/ogp_2026.png">
+<Layout
+  ogTitle="フロントエンドカンファレンス東京 2026"
+  ogImage="ogp/ogp_2026.png"
+>
   <Head slot="head" />
   <OpeningAnimation />
   <div class="max-width">
@@ -26,9 +28,7 @@ import Layout from "@/layouts/Layout.astro";
   </div>
   <main>
     <div class="background-shippo page-top">
-      {
-        /* KV は画面いっぱいに表示するので、.max-width で囲まない */
-      }
+      {/* KV は画面いっぱいに表示するので、.max-width で囲まない */}
       <KeyVisualPartsSection />
       {
         /* KV は画面上部に sticky で残し、MessageSection がその上に重なって流れてくる。KV が残るのはこの div の中だけ */
@@ -46,10 +46,10 @@ import Layout from "@/layouts/Layout.astro";
         <TicketsSection />
       </div>
       <GuestSpeakersSection />
-      <SponsorsSection />
-      <OrganizersSection />
     </div>
-    <div class="background-twilight">
+    {/* スポンサーと注意事項は、Figma と同じく明るい面にまとめて続けて置く */}
+    <div class="page-bottom">
+      <SponsorsSection />
       <NotesSection />
     </div>
   </main>
@@ -68,6 +68,11 @@ import Layout from "@/layouts/Layout.astro";
       var(--color-coral) calc(1024px * 0.0865),
       var(--color-red) 1024px
     );
+  }
+
+  .page-bottom {
+    color: var(--color-black);
+    background-color: var(--color-off-white);
   }
 
   /*
