@@ -14,6 +14,7 @@ import {
   PRIVACY_POLICY_URL,
   PROPOSAL_LIST_URL,
   SPECIFIED_COMMERCIAL_TRANSACTIONS_ACT_URL,
+  SPONSORS_URL,
   TICKET_GENERAL_URL,
   sessionUrl,
   TOP_URL,
@@ -28,13 +29,14 @@ type Link = {
   external?: boolean;
 };
 
-const proposalLinks: Link[] = [
+const siteLinks: Link[] = [
   { href: PROPOSAL_LIST_URL, text: "プロポーザルをみる", external: true },
   {
     href: HIGHLIGHTS_URL,
     text: "フロカン東京2026の見どころを知る",
     external: true,
   },
+  { href: SPONSORS_URL, text: "スポンサーはこちら" },
 ];
 
 const otherLinks: Link[] = [
@@ -70,22 +72,11 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     <LogomarkOnetone aria-hidden="true" />
   </a>
   <nav class="sections" aria-label="サイト内のリンク">
-    <section class="section ticket" aria-labelledby="menu-ticket-title">
-      <h2 id="menu-ticket-title" class="title">Ticket</h2>
-      {
-        /* flex の子にすると block になって下線の位置が他のリンクとずれるので、包んで inline のままにする */
-      }
-      <p class="ticketLink">
-        <a href={TICKET_GENERAL_URL} class="link" {...externalAttributes}>
-          一般チケットを購入する
-        </a>
-      </p>
-    </section>
-    <section class="section proposals" aria-labelledby="menu-proposals-title">
-      <h2 id="menu-proposals-title" class="title">Proposals</h2>
+    <section class="section siteLinks" aria-labelledby="menu-links-title">
+      <h2 id="menu-links-title" class="title">Links</h2>
       <ul class="links">
         {
-          proposalLinks.map((link) => (
+          siteLinks.map((link) => (
             <li>
               <a
                 href={link.href}
@@ -98,6 +89,17 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
           ))
         }
       </ul>
+    </section>
+    <section class="section ticket" aria-labelledby="menu-ticket-title">
+      <h2 id="menu-ticket-title" class="title">Ticket</h2>
+      {
+        /* flex の子にすると block になって下線の位置が他のリンクとずれるので、包んで inline のままにする */
+      }
+      <p class="ticketLink">
+        <a href={TICKET_GENERAL_URL} class="link" {...externalAttributes}>
+          一般チケットを購入する
+        </a>
+      </p>
     </section>
     <section class="section guests" aria-labelledby="menu-guests-title">
       <h2 id="menu-guests-title" class="title">Guest Speakers</h2>
@@ -160,7 +162,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
 
 <style scoped>
   /*
-   * PC: 左右2列。上から「Proposals・Guest Speakers」「Ticket・Social Media」の2段を並べ、
+   * PC: 左右2列。上から「Links・Guest Speakers」「Ticket・Social Media」の2段を並べ、
    * 一番下に Other Links を横幅いっぱいに置く。1段目は中身の高さで、2段目がパネルの残りの高さに合わせて伸び縮みする。
    * パネルの高さが足りないときは中身をスクロールさせる。
    * 縦長の画面では1列に積む（下のメディアクエリ）。
@@ -193,7 +195,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     display: grid;
     flex: 1 0 auto;
     grid-template-areas:
-      "proposals guests"
+      "siteLinks guests"
       "ticket social"
       "other other";
     grid-template-rows: auto 1fr auto;
@@ -206,8 +208,8 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     grid-area: ticket;
   }
 
-  .proposals {
-    grid-area: proposals;
+  .siteLinks {
+    grid-area: siteLinks;
   }
 
   .guests {
@@ -223,7 +225,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
   }
 
   .ticket,
-  .proposals,
+  .siteLinks,
   .guests,
   .social {
     display: flex;
@@ -405,7 +407,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
     transform: translateY(16px);
   }
 
-  .proposals {
+  .siteLinks {
     --index: 1;
   }
 
@@ -449,7 +451,7 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
   }
 
   /*
-   * 縦長の画面（モバイル、縦向きのタブレット）: HTML の順（Ticket、Proposals、Guest Speakers、Social Media、Other Links）に1列に積む
+   * 縦長の画面（モバイル、縦向きのタブレット）: HTML の順（Links、Ticket、Guest Speakers、Social Media、Other Links）に1列に積む
    */
   @media (width <= 720px), (orientation: portrait) {
     .logoLink {
@@ -471,11 +473,11 @@ const externalAttributes = { target: "_blank", rel: "noopener noreferrer" };
       font-size: 14px;
     }
 
-    .ticket {
+    .siteLinks {
       --index: 1;
     }
 
-    .proposals {
+    .ticket {
       --index: 2;
     }
 
