@@ -4,6 +4,7 @@ import chot from "@/assets/2026/sponsors/chot Inc_logo_black.svg";
 import cyberagent from "@/assets/2026/sponsors/logo_CyberAgent_01_RGB.png";
 import gajiLabo from "@/assets/2026/sponsors/Gaji-Labo-logotype-horizontal_1200_600.png";
 import kakehashi from "@/assets/2026/sponsors/logo_kakehashi_vertical_white.png";
+import kua from "@/assets/2026/sponsors/KUA_with_X-tech_Management.png";
 import lyCorporation from "@/assets/2026/sponsors/LY_Corporation_Wordmark_Black_RGB.png";
 
 // 社名と URL は fortee のスポンサー一覧（https://fortee.jp/fec-tokyo-2026/api/sponsors）から
@@ -42,7 +43,7 @@ export const SPONSORS: Sponsors = {
     {
       name: "株式会社クロステック・マネジメント（京都芸術大学）",
       url: "https://xtm.jp/",
-      image: null,
+      image: kua,
     },
     { name: "ちょっと株式会社", url: "https://chot-inc.com/", image: chot },
     {

@@ -1,92 +1,87 @@
 ---
-import TitleImage from "@/assets/2026/sections/notes/title.svg";
 import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
 ---
 
 <section id="notes" class="container" aria-labelledby="notes-title">
-  <div class="card background-seigaiha">
-    <h2 id="notes-title" class="title">
-      <img
-        src={TitleImage.src}
-        alt="注意事項"
-        width={TitleImage.width}
-        height={TitleImage.height}
-        class="titleImage"
-      />
-    </h2>
-    <ul class="list">
-      <li>
-        20歳未満の懇親会への入場には身分証確認が必要です。顔写真付きの身分証をご持参ください（コピーや画像は不可）
-      </li>
-      <li>
-        本イベントの開催時刻・終了時刻・タイムスケジュールは目安で、状況により変更する場合がございますのであらかじめご了承ください
-      </li>
-      <li>
-        主催者の判断により、参加登録者の承諾を得ることなく、また参加登録者への事前の告知を行うことなく、本イベントの全部または一部を変更または中止する場合があります
-      </li>
-      <li>
-        本イベントの内容および期間は、実行委員会の判断により予告なく変更する場合があります
-      </li>
-      <li>
-        体調不良の方（少しでも違和感のある方・微熱がある方）の参加はご遠慮ください
-      </li>
-      <li>
-        イベント中に撮影が行われる場合、お客さまが写り込む可能性があります
-      </li>
-      <li>
-        <a
-          href={ANTI_HARASSMENT_POLICY_URL}
-          class="link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          フロントエンドカンファレンス東京のアンチハラスメントポリシー
-        </a>
-        を遵守にご協力ください
-      </li>
-    </ul>
-  </div>
+  <hgroup class="heading">
+    <h2 id="notes-title" class="title">Notice</h2>
+    <p class="subtitle">注意事項</p>
+  </hgroup>
+  <ul class="list">
+    <li>
+      20歳未満の懇親会への入場には身分証確認が必要です。顔写真付きの身分証をご持参ください（コピーや画像は不可）
+    </li>
+    <li>
+      本イベントの開催時刻・終了時刻・タイムスケジュールは目安で、状況により変更する場合がございますのであらかじめご了承ください
+    </li>
+    <li>
+      主催者の判断により、参加登録者の承諾を得ることなく、また参加登録者への事前の告知を行うことなく、本イベントの全部または一部を変更または中止する場合があります
+    </li>
+    <li>
+      本イベントの内容および期間は、実行委員会の判断により予告なく変更する場合があります
+    </li>
+    <li>
+      体調不良の方（少しでも違和感のある方・微熱がある方）の参加はご遠慮ください
+    </li>
+    <li>イベント中に撮影が行われる場合、お客さまが写り込む可能性があります</li>
+    <li>
+      <a
+        href={ANTI_HARASSMENT_POLICY_URL}
+        class="link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        フロントエンドカンファレンス東京のアンチハラスメントポリシー
+      </a>
+      を遵守にご協力ください
+    </li>
+  </ul>
 </section>
 
 <style scoped>
+  /* 明るい面はページ側（index.astro の .page-bottom）で敷いている。上の余白はスポンサーとの間隔 */
   .container {
     display: flex;
-    justify-content: center;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
     max-width: var(--width-desktop);
-    padding: 80px 120px;
+    padding: 120px 0 80px 120px;
     margin-inline: auto;
   }
 
-  .card {
+  .heading {
     display: flex;
-    flex: 0 1 960px;
-    gap: 40px;
-    align-items: center;
-    min-width: 0;
-    padding: 40px 80px;
-    color: var(--color-off-white);
-    border: 2px solid var(--color-off-white);
-    border-radius: 24px;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .title {
-    flex-shrink: 0;
     margin: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-weight: inherit;
   }
 
-  .titleImage {
-    display: block;
-    width: 79px;
-    height: auto;
+  .subtitle {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 18px;
   }
 
+  /* 右の列はスポンサーのロゴの面と同じ幅・同じ内側の余白にして、文字の左端をそろえる */
   .list {
     display: flex;
-    flex: 1 1 0;
+    flex: 0 1 880px;
     flex-direction: column;
     gap: 8px;
     min-width: 0;
-    padding-left: 21px;
+    padding: 60px 80px 60px calc(80px + 21px);
     margin: 0;
     font-family: "Noto Sans JP", sans-serif;
     font-size: 14px;
@@ -107,36 +102,24 @@ import { ANTI_HARASSMENT_POLICY_URL } from "@/data/2026/links";
     }
   }
 
-  /* タブレット: 見出しとリストは横に並べたまま、余白と間隔を詰める */
+  /* タブレット: 見出しの下にリストを置く */
   @media (width <= 1080px) {
     .container {
-      padding-inline: 40px;
+      flex-direction: column;
+      padding: 80px 40px;
     }
 
-    .card {
-      gap: 20px;
-      padding: 40px;
+    .list {
+      flex-basis: auto;
+      align-self: stretch;
+      padding: 0 0 0 21px;
     }
   }
 
-  /* モバイル: リストだけを置き、余白を詰める */
+  /* モバイル: 余白を詰める */
   @media (width <= 720px) {
     .container {
-      padding: 20px;
-    }
-
-    .card {
-      padding: 20px;
-    }
-
-    /* モバイルのデザインには見出しの画像がないので、見た目からは消して読み上げには残す */
-    .title {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      white-space: nowrap;
-      clip-path: inset(50%);
+      padding-inline: 20px;
     }
   }
 </style>

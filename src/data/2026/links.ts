@@ -26,6 +26,9 @@ export const PROPOSAL_LIST_URL =
 export const HIGHLIGHTS_URL =
   "https://docs.google.com/presentation/d/1T1mqR4m1UWguHyM2kRPvFcrchqtq_FiOX8Rwo2siW3I/edit?usp=sharing";
 
+// ページ内のスポンサーのセクション（SponsorsSection.astro）
+export const SPONSORS_URL = `${TOP_URL}#sponsors`;
+
 // ページ内の注意事項のセクション（NotesSection.astro）
 export const NOTES_URL = `${TOP_URL}#notes`;
 

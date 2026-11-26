@@ -64,18 +64,6 @@ html {
 }
 
 /*
- * 藍色から下に向かってクリーム色になる面（注意事項）。
- * Figma の塗りは「藍色 → クリーム色のグラデーション + ノイズ」。上の藍染の面と色がつながるよう、上端は同じ藍色にしている。
- */
-.background-twilight {
-  background-color: var(--color-cream);
-  background-image:
-    var(--texture-noise-subtle),
-    linear-gradient(180deg, var(--color-aizome), var(--color-cream));
-  background-size: var(--texture-noise-subtle-size), auto;
-}
-
-/*
  * 青海波の面（開催概要・タイムテーブル・チケットの枠）
  * Figma の塗りは「藍染（青緑 + ノイズ）」の上に、白い青海波のタイル（68×40）を不透明度 8%・比較（明）で重ねたもの。
  * 白は地より必ず明るいので、比較（明）は普通の重ね方と同じ結果になる。

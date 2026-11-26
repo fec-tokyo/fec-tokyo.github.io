@@ -1,65 +1,90 @@
 ---
 import { Image } from "astro:assets";
+import SeigaihaImage from "@/assets/2026/seigaiha.svg";
 import { SPONSORS } from "@/data/2026/sponsors";
 
 const groups = [
   { key: "venue", title: "Venue Sponsor", sponsors: SPONSORS.venue },
-  {
-    key: "general",
-    title: "General Sponsors",
-    note: "※ロゴ表記アルファベット順",
-    sponsors: SPONSORS.general,
-  },
+  { key: "general", title: "General Sponsor", sponsors: SPONSORS.general },
 ] as const;
 ---
 
-<section id="sponsors" class="container" aria-labelledby="sponsors-title">
-  <hgroup class="heading">
-    <h2 id="sponsors-title" class="title">Sponsors</h2>
-    <p class="subtitle">スポンサーのみなさま</p>
-  </hgroup>
-  {
-    groups.map(({ key, title, sponsors, ...rest }) => (
-      <section class:list={["group", key]} aria-label={title}>
-        <div class="groupHeading">
-          <h3 class="groupTitle">{title}</h3>
-          {"note" in rest && <p class="note">{rest.note}</p>}
-        </div>
-        <ul class="list">
-          {sponsors.map(({ name, url, image }) => (
-            <li>
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="logo"
-              >
-                {image ? (
-                  <Image src={image} alt={name} width={640} class="image" />
-                ) : (
-                  <span class="name">{name}</span>
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+<section
+  id="sponsors"
+  class="container"
+  aria-labelledby="sponsors-title"
+  style={`--seigaiha-image: url(${SeigaihaImage.src})`}
+>
+  <div class="inner">
+    <div class="heading">
+      <hgroup class="titleGroup">
+        <h2 id="sponsors-title" class="title">Sponsors</h2>
+        <p class="subtitle">スポンサーのみなさま</p>
+      </hgroup>
+      <p class="note">※カナ読み五十音順です（法人格を除く）</p>
+    </div>
+    <div class="panel">
+      {
+        groups.map(({ key, title, sponsors }) => (
+          <section class:list={["group", key]} aria-label={title}>
+            <h3 class="groupTitle">{title}</h3>
+            <ul class="list">
+              {sponsors.map(({ name, url, image }) => (
+                <li>
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="logo"
+                  >
+                    {image ? (
+                      <Image src={image} alt={name} width={640} class="image" />
+                    ) : (
+                      <span class="name">{name}</span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
 </section>
 
 <style scoped>
+  /*
+   * 明るい面はページ側（index.astro の .page-bottom）で敷いている。
+   * ロゴの面は右端を画面の端までつなげるので、1440px より広い画面ではその分（--bleed）だけ右にはみ出させる
+   */
   .container {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    max-width: var(--width-desktop);
-    padding: 80px 120px;
-    margin-inline: auto;
-    color: var(--color-off-white);
+    --bleed: max(0px, (100vw - var(--width-desktop)) / 2);
+
+    overflow-x: clip;
   }
 
+  .inner {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: var(--width-desktop);
+    padding: 160px 0 0 120px;
+    margin-inline: auto;
+  }
+
+  /* 見出しはスクロールしても残す。固定ヘッダーに重ならない位置で止める */
   .heading {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .titleGroup {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -82,67 +107,72 @@ const groups = [
     font-size: 18px;
   }
 
+  .note {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  /* 塗りは MessageSection の面と同じく、地の色に白い青海波を 40% だけ透かして重ねる */
+  .panel {
+    --color-panel-base: #f6eedd;
+
+    display: flex;
+    flex: 0 1 calc(880px + var(--bleed));
+    flex-direction: column;
+    gap: 40px;
+    min-width: 0;
+    padding: 60px calc(80px + var(--bleed)) 80px 80px;
+    margin-top: 60px;
+    margin-right: calc(-1 * var(--bleed));
+    background-color: var(--color-panel-base);
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--color-panel-base) 60%, transparent),
+        color-mix(in srgb, var(--color-panel-base) 60%, transparent)
+      ),
+      var(--seigaiha-image);
+    border-radius: 40px 0 0 40px;
+  }
+
   .group {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    align-items: center;
-  }
-
-  .venue {
-    gap: 12px;
-  }
-
-  .groupHeading {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: center;
+    max-width: 720px;
   }
 
   .groupTitle {
     margin: 0;
     font-family: Montserrat, sans-serif;
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1;
-  }
-
-  .note {
-    margin: 0;
-    font-family: "Noto Sans JP", sans-serif;
-    font-size: 12px;
+    font-size: 24px;
     font-weight: 500;
     line-height: 1;
   }
 
-  /* ロゴの箱は横に並べ、入りきらない分は中央寄せで次の行に送る */
   .list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
-  .list li {
-    width: 320px;
+  .venue .list {
+    grid-template-columns: 1fr;
   }
 
-  .venue .list li {
-    width: 560px;
-  }
-
-  /* 箱は 8:5。ロゴごとに余白の取り方が違うので、箱の内側に余白をとって収まる大きさで置く */
+  /* ロゴの画像はそれぞれ上下の余白を含んでいるので、箱の高さいっぱいに収まる大きさで置く */
   .logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 8 / 5;
-    padding: 12%;
+    aspect-ratio: 679 / 381.9375;
+    padding-inline: 60px;
     color: var(--color-black);
     text-decoration: none;
     background-color: var(--color-white);
@@ -150,7 +180,9 @@ const groups = [
 
   .image {
     width: 100%;
+    max-width: 560px;
     height: 100%;
+    max-height: 315px;
     object-fit: contain;
   }
 
@@ -164,39 +196,36 @@ const groups = [
     word-break: auto-phrase;
   }
 
-  /* タブレット */
+  /* タブレット: 見出しの下にロゴの面を置き、面は右端までつなげる */
   @media (width <= 1080px) {
-    .container {
-      padding-inline: 40px;
+    .inner {
+      flex-direction: column;
+      padding: 120px 0 0 40px;
+    }
+
+    .heading {
+      position: static;
+    }
+
+    .panel {
+      flex-basis: auto;
+      align-self: stretch;
+      margin-top: 0;
     }
   }
 
-  /* モバイル: ロゴの箱を横幅いっぱいにして縦に積む */
+  /* モバイル: ロゴの箱を縦に積み、余白を詰める */
   @media (width <= 720px) {
-    .container {
-      padding: 40px 20px;
+    .inner {
+      padding-left: 20px;
     }
 
-    .title {
-      font-size: 44px;
-    }
-
-    .subtitle {
-      font-size: 16px;
-    }
-
-    .groupTitle {
-      font-size: 24px;
+    .panel {
+      padding: 40px 20px 80px;
     }
 
     .list {
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .list li,
-    .venue .list li {
-      width: 100%;
+      grid-template-columns: 1fr;
     }
   }
 </style>
